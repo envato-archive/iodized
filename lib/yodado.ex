@@ -1,0 +1,2 @@
+defmodule Yodado do
+end
