@@ -4,7 +4,7 @@ defmodule Yodado.Web.HelloWorldHandler do
   end
 
   def handle(req, state) do
-    {:ok, req} = :cowboy_req.reply(200, [], "Hello world!", req)
+    {:ok, req} = :cowboy_req.reply(200, [], "Hello world!\n", req)
     {:ok, req, state}
   end
 
