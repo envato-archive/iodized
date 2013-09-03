@@ -1,5 +1,14 @@
 # Yodado
 
+## Getting Started
+
+- Install Erlang/Elixir [using these
+instructions](http://elixir-lang.org/getting_started/1.html)
+- Run `mix deps.get`
+- Run `mix compile`
+- Start app with `iex -S mix`
+- **PROFIT!**
+
 ## overview
 app sends key/value pairs:
 - `toggled on for session`
