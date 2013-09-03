@@ -1,1 +1,47 @@
-<p>This is the partial for View.</p>
+<div class="feature block row-fluid well" ng-repeat="feature in features">
+  <div class="status block span2 offset1">
+    <h3>Status</h3>
+    <span 
+        class="label indicator" 
+        ng:class="{true: 'label-success', false: 'label-important'}[feature.state==true]"
+    >
+      {{ {true: 'ON', false: 'OFF'}[feature.state==true] }}
+    </span>
+  </div>
+
+  <div class="details block span4">
+    <div>
+      <h3>Title</h3>
+      <span class="title text">{{feature.title}}</span>
+    </div>
+    <div>
+      <h3>Description</h3>
+      <span class="description text">{{feature.description}}</span>
+    </div>
+  </div>
+
+  <div class="settings block span2">
+    <h3>Settings</h3>
+    <a class="btn btn-primary" href="#/edit">
+      <i class="icon-cog icon-white"></i> Edit Feature
+    </a>
+  </div>
+
+  <div class="master block span2">
+    <h3>Master Switch</h2>
+    <div class="btn-group">
+      <button 
+          class="btn" 
+          ng:class="{true: 'disabled', false:'btn-success'}[feature.master_switch_state==true]"
+      >
+        On
+      </button>
+      <button 
+        class="btn"
+        ng:class="{true: 'disabled', false:'btn-danger'}[feature.master_switch_state==false]"
+      >
+        Off
+      </button>
+    </div>
+  </div>
+</div>
