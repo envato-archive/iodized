@@ -7,6 +7,7 @@ defmodule Yodado.Web do
   def start(_type, _args) do
     routes = [
       {"/", :cowboy_static, [ directory: {:priv_dir, :yodado, ["static"]}, file: "index.html" ]},
+      {"/feature/[:feature_id]", Yodado.Web.FeatureStatusHandler, []},
       {"/hello/", Yodado.Web.HelloWorldHandler, []},
       {"/static/[...]", :cowboy_static, [ directory: {:priv_dir, :yodado, "static"}]}
     ]
