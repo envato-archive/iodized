@@ -3,7 +3,7 @@ defmodule Yodado.Model.Feature do
   defrecordp :any, options: []
   defrecordp :all, options: []
   defrecordp :included_in, name: nil, allowed_values: []
-  defrecordp :is, name: nil, allowed_value: true
+  defrecordp :is, name: nil, allowed_value: "true"
   
   def do?(feature_id, state) do
     d = definition(feature_id)
@@ -34,7 +34,7 @@ defmodule Yodado.Model.Feature do
     Enum.member?(allowed_values, value)
   end
 
-  defp handle_definition(is(name: name), state) do
-    !!state[name]
+  defp handle_definition(is(name: name, allowed_value: allowed_value), state) do
+    state[name] == allowed_value
   end
 end
