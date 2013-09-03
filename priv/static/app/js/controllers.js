@@ -14,13 +14,13 @@ angular.module('myApp.controllers', []).
       ,{
          "title"                : "engage_hyper_drive"
         ,"description"          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
-        ,"state"                : true
+        ,"state"                : false
         ,"master_switch_state"  : false
       }
       ,{
          "title"                : "open_the_blast_doors"
         ,"description"          : "Close the blast doors! Open the blast doors! Open the blast doors!"
-        ,"state"                : false
+        ,"state"                : true
         ,"master_switch_state"  : true
       }
     ];

@@ -2,8 +2,8 @@
   <div class="status block span2 offset1">
     <h3>Status</h3>
     <span 
-        class="label indicator" 
-        ng:class="{true: 'label-success', false: 'label-important'}[feature.state==true]"
+        class="indicator" 
+        ng:class="{true: 'indicator-on', false: 'indicator-off'}[feature.state==true]"
     >
       {{ {true: 'ON', false: 'OFF'}[feature.state==true] }}
     </span>
@@ -32,13 +32,13 @@
     <div class="btn-group">
       <button 
           class="btn" 
-          ng:class="{true: 'disabled', false:'btn-success'}[feature.master_switch_state==true]"
+          ng:class="{true: 'disabled', false:''}[feature.master_switch_state==true]"
       >
         On
       </button>
       <button 
         class="btn"
-        ng:class="{true: 'disabled', false:'btn-danger'}[feature.master_switch_state==false]"
+        ng:class="{true: 'disabled', false:''}[feature.master_switch_state==false]"
       >
         Off
       </button>

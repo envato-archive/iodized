@@ -6,3 +6,16 @@
   line-height: 90px;
   font-size: 50px;
 }
+
+.indicator-on {
+  color: #468847;
+}
+
+.indicator-off {
+  color: #b94a48;
+}
+
+.yoda {
+  bottom: 0px;
+  float: right;
+}
