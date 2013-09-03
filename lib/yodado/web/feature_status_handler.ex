@@ -20,12 +20,14 @@ defmodule Yodado.Web.FeatureStatusHandler do
   end
 
   def render_feature_state(req, state) do
-    body = """
-    {
-      "state" : true
-    }
-    """
+    {params, req} = :cowboy_req.qs_vals(req)
+
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
+    {feature_id, req} = :cowboy_req.binding(:feature_id, req)
+
+    {:ok, state} = Yodado.Model.Feature.do?(feature_id, params)
+    {:ok, body} = [state: state] |> JSEX.encode
+
     {body, req, state}
   end
 
