@@ -1,30 +1,21 @@
-/* app css stylesheet */
-
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.block {
+  padding: 10px;
 }
 
-.menu:before {
-  content: "[";
+.indicator {
+  line-height: 90px;
+  font-size: 50px;
 }
 
-.menu:after {
-  content: "]";
+.indicator-on {
+  color: #468847;
 }
 
-.menu > li {
-  display: inline;
+.indicator-off {
+  color: #b94a48;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+.yoda {
+  bottom: 0px;
+  float: right;
 }
