@@ -6,10 +6,17 @@ defmodule Yodado.Web do
 
   def start(_type, _args) do
     routes = [
-      {"/", :cowboy_static, [ directory: {:priv_dir, :yodado, ["static"]}, file: "index.html" ]},
+      {"/", :cowboy_static, [ 
+        directory: {:priv_dir, :yodado, ["static"]},
+        file: "index.html",
+        mimetypes: {&:mimetypes.path_to_mimes/2, :default}
+      ]},
       {"/feature/[:feature_id]", Yodado.Web.FeatureStatusHandler, []},
       {"/hello/", Yodado.Web.HelloWorldHandler, []},
-      {"/static/[...]", :cowboy_static, [ directory: {:priv_dir, :yodado, "static"}]}
+      {"/static/[...]", :cowboy_static, [ 
+        directory: {:priv_dir, :yodado, "static"},
+        mimetypes: {&:mimetypes.path_to_mimes/2, :default}
+      ]}
     ]
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
