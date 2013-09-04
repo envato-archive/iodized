@@ -2,13 +2,13 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
-  controller('YodadoCtrl', ['$scope', function(sc) {
-    sc.view_state = {
+angular.module('myApp.controllers', [])
+  .controller('YodadoCtrl', ['$scope', '$dialog', function($scope, $dialog) {
+    $scope.view_state = {
       "new_visible" : false
     };
 
-    sc.features = [
+    $scope.features = [
       {
          "title"                : "droids_were_looking_for"
         ,"description"          : "You can go about your business. Move along"
@@ -39,11 +39,26 @@ angular.module('myApp.controllers', []).
       }
     ];
 
-    sc.new_feature=function() {
-      sc.view_state.new_visible = !sc.view_state.new_visible;
+    $scope.edit_feature = function(feature) {
+      var feature_to_edit = feature;
+
+      // begin black magic
+      $dialog.dialog(
+        angular.extend(
+          { controller: 'EditCtrl', templateUrl: 'partials/edit.html' }, 
+          { resolve: { feature: function() { return angular.copy(feature_to_edit) } } }
+        )
+      )
+      .open()
+      .then(function(result) {
+        if(result) {
+          angular.copy(result, feature_to_edit);
+        }
+        feature_to_edit = undefined;
+      });
     };
 
-    sc.indicator_for=function(feature) {
+    $scope.indicator_for = function(feature) {
       switch(feature.view.master_switch) {
         case "ON":
           return "indicator-on";
@@ -55,5 +70,26 @@ angular.module('myApp.controllers', []).
           return "indicator-off";
         break;
       }
+    };
+  }])
+  .controller('EditCtrl', ['$scope', 'feature', 'dialog', function($scope, feature, dialog) {
+    $scope.feature = feature;
+    $scope.any_all = 'any';
+
+    $scope.comparisons = ['is', 'contains', 'any', 'all'];
+
+    $scope.params = [
+      "host_name"
+      ,"session_id"
+      ,"client_id"
+    ];
+
+    
+    $scope.save = function() {
+      dialog.close($scope.feature);
+    };
+
+    $scope.close = function() {
+      dialog.close(undefined);
     };
   }]);

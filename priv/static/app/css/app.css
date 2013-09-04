@@ -23,3 +23,12 @@
   bottom: 0px;
   float: right;
 }
+
+.modal {
+  width: 83%;
+  margin-left: -41%;
+}
+
+.ruled {
+  border-bottom: 1px solid #333333;
+}
