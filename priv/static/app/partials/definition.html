@@ -22,8 +22,9 @@
         <i class="icon-plus"></i>
       </a>
     </div>
-
   </div>
+
+
   <div ng-switch on="definition.conditions.length &gt; 0">
     <div ng-switch-when="true">
       <div class="block" ng-include="'partials/definition.html'" ng-init="conditions = definition.conditions;"></div>
