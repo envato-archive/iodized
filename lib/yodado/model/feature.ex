@@ -4,6 +4,7 @@ defmodule Yodado.Model.Feature do
   defrecord All, options: []
   defrecord IncludedIn, name: nil, allowed_values: []
   defrecord Is, name: nil, allowed_value: "true"
+
   
   def do?(feature_id, state) do
     d = definition(feature_id)
@@ -19,6 +20,12 @@ defmodule Yodado.Model.Feature do
       Is[name: "session_on"],
       IncludedIn[name: "role", allowed_values: ["developer"]]
     ]]
+  end
+
+  defprotocol Definition do
+    def definitition_matches?(d, state)
+    def to_json(d)
+    def from_json(definition_json)
   end
 
   defp handle_definition(Any[options: options], state) do
