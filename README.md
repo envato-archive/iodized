@@ -64,3 +64,10 @@ without affecting prod response.
 - more backends than just Redis
 - app sends notifications of errors/timeouts/slowness on a feature. Automatically toggles it off
   if they get too high
+
+## TODO
+- endpoint for list of features
+- endpoint for list of known params
+- feature name/description/global state
+- feature created if new one requested in do?
+- param names stored when passed in do? request
