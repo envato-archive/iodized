@@ -15,7 +15,20 @@
   color: #b94a48;
 }
 
+.indicator-logic {
+  color: #f89406;
+}
+
 .yoda {
   bottom: 0px;
   float: right;
+}
+
+.modal {
+  width: 83%;
+  margin-left: -41%;
+}
+
+.ruled {
+  border-bottom: 1px solid #333333;
 }

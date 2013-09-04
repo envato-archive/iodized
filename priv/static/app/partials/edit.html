@@ -1,5 +1,75 @@
-<p>This is the partial for Edit.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<!-- new feature form -->
+<div>
+  <div class="feature block row-fluid">
+    <div class="span4 offset1">
+      <h3>Title</h3>
+      <input type="text" placeholder="Feature name..." ng-model="feature.title"/>
+    </div>
+
+    <div class="details block span4">
+      <h3>Description</h3>
+      <textarea rows="3" ng-model="feature.description"></textarea>
+    </div>
+
+    <div class="details block span2">
+      <h3>Actions</h3>
+      <a class="btn btn-primary" ng-click="save()">
+        <i class="icon-ok icon-white"></i> Save
+      </a>
+      <br/><br/>
+      <a class="btn btn-primary" ng-click="close()">
+        <i class="icon-remove icon-white"></i> Cancel
+      </a>
+    </div>
+  </div>
+
+  <div class="block row-fluid ruled">
+    <div class="offset1">
+      Match
+      <div class="btn-group">
+        <button 
+            type="button" 
+            class="btn" 
+            ng-model="any_all" 
+            btn-radio="'any'"
+        >
+          Any
+        </button>
+        <button 
+            type="button" 
+            class="btn" 
+            ng-model="any_all" 
+            btn-radio="'all'"
+        >
+          All
+        </button>
+      </div>
+      of the current rules for <strong>{{feature.title}}</strong>
+    </div>
+  </div>
+
+  <div class="block row-fluid">
+    <div class="span3 offset1">
+      <select title="Select one...">
+        <option ng-repeat="param in params">{{param}}</option>
+        <option>New param</option>
+      </select>
+    </div>
+
+    <div class="span3">
+      <select title="Select one...">
+        <option ng-repeat="comparison in comparisons">{{comparison}}</option>
+      </select>
+    </div>
+
+    <div class="span3">
+      <input type="text" placeholder="Value here..." />
+    </div>
+
+    <div class="span1">
+      <a class="btn" ng-click="new_feature()">
+        <i class="icon-plus"></i>
+      </a>
+    </div>
+  </div>
+</div>

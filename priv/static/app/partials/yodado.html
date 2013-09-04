@@ -1,0 +1,82 @@
+<div class="row-fluid">
+  <div class="span10 offset1">
+    
+    <!-- heading -->
+    <div class="row-fluid block">
+      <div class="span8 offset1">
+        <h1>Do, or do not.</h1>
+      </div>
+      <div class="span2">
+        <a class="btn btn-large btn-primary" ng-click="new_feature()">
+          <i class="icon-plus icon-white"></i> New
+        </a>
+      </div>
+    </div>
+
+    <!-- list of features -->
+    <div class="feature block row-fluid well" ng-repeat="feature in features">
+      <div class="details block span4 offset1">
+        <div>
+          <h3>Title</h3>
+          <span class="title text">{{feature.title}}</span>
+        </div>
+        <div>
+          <h3>Description</h3>
+          <span class="description text">{{feature.description}}</span>
+        </div>
+      </div>
+
+      <div class="master block span2">
+        <h3>Master Switch</h2>
+        <div class="btn-group">
+            <button 
+                type="button" 
+                class="btn" 
+                ng-model="feature.view.master_switch" 
+                btn-radio="'ON'"
+            >
+              On
+            </button>
+            <button 
+                type="button" 
+                class="btn" 
+                ng-model="feature.view.master_switch" 
+                btn-radio="'LOGIC'"
+            >
+              Logic
+            </button>
+            <button 
+                type="button" 
+                class="btn" 
+                ng-model="feature.view.master_switch" 
+                btn-radio="'OFF'"
+            >
+              Off
+          </button>
+        </div>
+      </div>
+
+      <div class="settings block span2">
+        <h3>Settings</h3>
+        <a class="btn btn-primary" ng-click="edit_feature(feature)">
+          <i class="icon-cog icon-white"></i> Edit
+        </a>
+      </div>
+      
+      <div class="status block span2">
+        <h3>Status</h3>
+        <span 
+            class="indicator" 
+            ng:class="indicator_for(feature)"
+        >
+          {{ feature.view.master_switch }}
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div>
+  <img class="yoda" alt="Yodadontknow" src="http://networkingnerd.files.wordpress.com/2012/12/yoda_portait.png?w=584" />
+</div>
