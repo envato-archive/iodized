@@ -25,8 +25,8 @@ defmodule Yodado.Web.FeatureStatusHandler do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
 
-    {:ok, state} = Yodado.Model.Feature.do?(feature_id, params)
-    {:ok, body} = [state: state] |> JSEX.encode
+    {:ok, result} = Yodado.Feature.do?(feature_id, params)
+    body = [state: result] |> JSEX.encode!
 
     {body, req, state}
   end
