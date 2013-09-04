@@ -1,0 +1,32 @@
+<div ng-repeat="definition in conditions">
+  <div class="row-fluid">
+    <div class="span3 offset1">
+      <select title="Select one..." ng-model="definition.param" ng-disabled="definition.operand == 'all' || definition.operand == 'any'">
+        <option ng-repeat="param in params">{{param}}</option>
+        <option>New param...</option>
+      </select>
+    </div>
+
+    <div class="span3">
+      <select title="Select one..." ng-model="definition.operand">
+        <option ng-repeat="comparison in comparisons">{{comparison}}</option>
+      </select>
+    </div>
+
+    <div class="span3">
+      <input type="text" placeholder="Value here..." ng-model="definition.value" ng-disabled="definition.operand == 'all' || definition.operand == 'any'"/>
+    </div>
+
+    <div class="span1">
+      <a class="btn" ng-click="new_feature()">
+        <i class="icon-plus"></i>
+      </a>
+    </div>
+
+  </div>
+  <div ng-switch on="definition.conditions.length &gt; 0">
+    <div ng-switch-when="true">
+      <div class="block" ng-include="'partials/definition.html'" ng-init="conditions = definition.conditions;"></div>
+    </div>
+  </div>
+</div>

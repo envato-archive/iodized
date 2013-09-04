@@ -4,37 +4,50 @@
 
 angular.module('myApp.controllers', [])
   .controller('YodadoCtrl', ['$scope', '$dialog', function($scope, $dialog) {
-    $scope.view_state = {
-      "new_visible" : false
-    };
 
     $scope.features = [
       {
-         "title"                : "droids_were_looking_for"
-        ,"description"          : "You can go about your business. Move along"
-        ,"state"                : true
-        ,"master_switch_state"  : true
-        ,"view" : {
-          "master_switch" : "ON"
+         title                : "droids_were_looking_for"
+        ,description          : "You can go about your business. Move along"
+        ,state                : true
+        ,master_switch_state  : true
+        ,view : {
+         master_switch : "ON"
         }
       }
       ,{
-         "title"                : "engage_hyper_drive"
-        ,"description"          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
-        ,"state"                : false
-        ,"master_switch_state"  : false
-        ,"conditions"           : []
-        ,"view" : {
-          "master_switch" : "LOGIC"
+         title                : "engage_hyper_drive"
+        ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
+        ,state                : false
+        ,master_switch_state  : false
+        ,conditions           : [
+          { operand: "any", conditions: [
+              { operand: "all", conditions: 
+                [
+                  { param: "host_name", operand: "is", value: "death star"},
+                  { param: "username", operand: "is", value: "darth vader"}
+                ]
+              },
+              { operand: "all", conditions: 
+                [
+                  { param: "username", operand: "included_in", value: "luke, obi wan, yoda" },
+                  { param: "user_role", operand: "is", value: "jedi" }
+                ]
+              }
+            ]
+          }
+        ]
+        ,view : {
+          master_switch : "LOGIC"
         }
       }
       ,{
-         "title"                : "open_the_blast_doors"
-        ,"description"          : "Close the blast doors! Open the blast doors! Open the blast doors!"
-        ,"state"                : false
-        ,"master_switch_state"  : false
-        ,"view" : {
-          "master_switch" : "OFF"
+         title                : "open_the_blast_doors"
+        ,description          : "Close the blast doors! Open the blast doors! Open the blast doors!"
+        ,state                : false
+        ,master_switch_state  : false
+        ,view : {
+          master_switch : "OFF"
         }
       }
     ];
@@ -52,7 +65,12 @@ angular.module('myApp.controllers', [])
       .open()
       .then(function(result) {
         if(result) {
-          angular.copy(result, feature_to_edit);
+          if(feature_to_edit) {
+            angular.copy(result, feature_to_edit);
+          }
+          else {
+            $scope.features[$scope.features.length] = result
+          }
         }
         feature_to_edit = undefined;
       });
@@ -76,12 +94,14 @@ angular.module('myApp.controllers', [])
     $scope.feature = feature;
     $scope.any_all = 'any';
 
-    $scope.comparisons = ['is', 'contains', 'any', 'all'];
+    $scope.comparisons = ['is', 'included_in', 'any', 'all'];
 
     $scope.params = [
       "host_name"
       ,"session_id"
       ,"client_id"
+      ,"username"
+      ,"user_role"
     ];
 
     

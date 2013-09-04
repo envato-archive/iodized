@@ -1,3 +1,8 @@
+.block ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
 .block {
   padding: 10px;
 }
@@ -31,4 +36,8 @@
 
 .ruled {
   border-bottom: 1px solid #333333;
+}
+
+.details textarea {
+  width: 100%;
 }

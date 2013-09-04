@@ -8,7 +8,7 @@
 
     <div class="details block span4">
       <h3>Description</h3>
-      <textarea rows="3" ng-model="feature.description"></textarea>
+      <textarea rows="3" cols="10" ng-model="feature.description"></textarea>
     </div>
 
     <div class="details block span2">
@@ -72,4 +72,6 @@
       </a>
     </div>
   </div>
+
+  <div class="block" ng-include="'partials/definition.html'" ng-init="conditions = feature.conditions;"></div>
 </div>
