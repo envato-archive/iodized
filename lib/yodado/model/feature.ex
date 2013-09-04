@@ -37,4 +37,20 @@ defmodule Yodado.Model.Feature do
   defp handle_definition(is(name: name, allowed_value: allowed_value), state) do
     state[name] == allowed_value
   end
+
+  def to_json(any(options: options)) do
+    [any: [options: Enum.map(options, &to_json/1)]]
+  end
+
+  def to_json(all(options: options)) do
+    [all: [options: Enum.map(options, &to_json/1)]]
+  end
+
+  def to_json(included_in(name: name, allowed_values: allowed_values)) do
+    [included_in: [name: name, allowed_values: allowed_values]]
+  end
+
+  def to_json(is(name: name, allowed_value: allowed_value)) do
+    [is: [name: name, allowed_value: allowed_value]]
+  end
 end
