@@ -52,4 +52,12 @@ defmodule Yodado.Definition do
     end
   end
 
+  defimpl Rule, for: Atom do
+    def matches?(bool, _state) when is_boolean(bool), do: bool
+    def json(bool) when is_boolean(bool), do: [operand: "boolean", value: bool]
+  end
+
+  defimpl Rule, for: Function do
+    def matches?(f, state), do: f.(state)
+  end
 end
