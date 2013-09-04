@@ -1,3 +1,9 @@
+defprotocol Definition do
+  def matches?(d, state)
+  def to_json(d)
+  def from_json(definition_json)
+end
+
 defmodule Yodado.Model.Feature do
 
   defrecord Any, options: []
@@ -8,7 +14,7 @@ defmodule Yodado.Model.Feature do
   
   def do?(feature_id, state) do
     d = definition(feature_id)
-    {:ok, handle_definition(d, state)}
+    {:ok, Definition.matches?(d, state)}
   end
 
   def definition(_feature_id) do
@@ -22,42 +28,70 @@ defmodule Yodado.Model.Feature do
     ]]
   end
 
-  defprotocol Definition do
-    def definitition_matches?(d, state)
-    def to_json(d)
-    def from_json(definition_json)
+
+  defimpl Definition, for: List do
+    def from_json(definition_json) do
+      Enum.map(definition_json, &Definition.from_json/1)
+    end
   end
 
-  defp handle_definition(Any[options: options], state) do
-    options |> Enum.any?(&handle_definition(&1, state))
+  defimpl Definition, for: Tuple do
+    def from_json(definition_json) do
+
+    end
   end
 
-  defp handle_definition(All[options: options], state) do
-    options |> Enum.all?(&handle_definition(&1, state))
+  defimpl Definition, for: Any do
+    def matches?(Any[options: options], state) do
+      options |> Enum.any?(&Definition.matches?(&1, state))
+    end
+
+    def to_json(Any[options: options]) do
+      [any: [options: Enum.map(options, &Definition.to_json/1)]]
+    end
+
+    def from_json(_definition_json) do
+    end
   end
 
-  defp handle_definition(IncludedIn[name: name, allowed_values: allowed_values], state) do
-    value = state[name]
-    Enum.member?(allowed_values, value)
+  defimpl Definition, for: All do
+    def matches?(All[options: options], state) do
+      options |> Enum.all?(&Definition.matches?(&1, state))
+    end
+
+    def to_json(All[options: options]) do
+      [all: [options: Enum.map(options, &Definition.to_json/1)]]
+    end
+
+    def from_json(_definition_json) do
+    end
   end
 
-  defp handle_definition(Is[name: name, allowed_value: allowed_value], state) do
-    state[name] == allowed_value
+  defimpl Definition, for: IncludedIn do
+    def matches?(IncludedIn[name: name, allowed_values: allowed_values], state) do
+      value = state[name]
+      Enum.member?(allowed_values, value)
+    end
+
+    def to_json(IncludedIn[name: name, allowed_values: allowed_values]) do
+      [included_in: [name: name, allowed_values: allowed_values]]
+    end
+
+    def from_json(_definition_json) do
+    end
   end
 
-  def to_json(Any[options: options]) do
-    [any: [options: Enum.map(options, &to_json/1)]]
-  end
 
-  def to_json(All[options: options]) do
-    [all: [options: Enum.map(options, &to_json/1)]]
-  end
+  defimpl Definition, for: Is do
+    def matches?(Is[name: name, allowed_value: allowed_value], state) do
+      state[name] == allowed_value
+    end
 
-  def to_json(IncludedIn[name: name, allowed_values: allowed_values]) do
-    [included_in: [name: name, allowed_values: allowed_values]]
-  end
+    def to_json(Is[name: name, allowed_value: allowed_value]) do
+      [is: [name: name, allowed_value: allowed_value]]
+    end
 
-  def to_json(Is[name: name, allowed_value: allowed_value]) do
-    [is: [name: name, allowed_value: allowed_value]]
+    def from_json(_definition_json) do
+    end
   end
 end
