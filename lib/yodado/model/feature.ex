@@ -10,7 +10,7 @@ defmodule Yodado.Model.Feature do
     {:ok, handle_definition(d, state)}
   end
 
-  defp definition(_feature_id) do
+  def definition(_feature_id) do
     any(options: [
       all(options: [
         included_in(name: "username", allowed_values: ["madlep", "gstamp"]),
