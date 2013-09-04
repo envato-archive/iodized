@@ -7,13 +7,13 @@ defmodule Yodado.Feature do
   end
 
   def definition(_feature_id) do
-    Yodado.Definition.Any[options: [
-      Yodado.Definition.All[options: [
-        Yodado.Definition.IncludedIn[name: "username", allowed_values: ["madlep", "gstamp"]],
-        Yodado.Definition.IncludedIn[name: "host", allowed_values: ["themeforest.net", "codecanyon.net"]]
+    Yodado.Definition.Any[conditions: [
+      Yodado.Definition.All[conditions: [
+        Yodado.Definition.IncludedIn[param_name: "username", value: ["madlep", "gstamp"]],
+        Yodado.Definition.IncludedIn[param_name: "host", value: ["themeforest.net", "codecanyon.net"]]
       ]],
-      Yodado.Definition.Is[name: "session_on"],
-      Yodado.Definition.IncludedIn[name: "role", allowed_values: ["developer"]]
+      Yodado.Definition.Is[param_name: "session_on"],
+      Yodado.Definition.IncludedIn[param_name: "role", value: ["developer"]]
     ]]
   end
 end

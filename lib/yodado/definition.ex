@@ -7,48 +7,48 @@ defmodule Yodado.Definition do
 
   alias Yodado.Definition.Rule, as: Rule
 
-  defrecord All, options: []
+  defrecord All, conditions: []
   defimpl Rule, for: All do
-    def matches?(All[options: options], state) do
-      options |> Enum.all?(&Rule.matches?(&1, state))
+    def matches?(All[conditions: conditions], state) do
+      conditions |> Enum.all?(&Rule.matches?(&1, state))
     end
 
-    def json(All[options: options]) do
-      [all: [options: Enum.map(options, &Rule.json/1)]]
+    def json(All[conditions: conditions]) do
+      [operand: "all", conditions: Enum.map(conditions, &Rule.json/1)]
     end
   end
 
-  defrecord Any, options: []
+  defrecord Any, conditions: []
   defimpl Rule, for: Any do
-    def matches?(Any[options: options], state) do
-      options |> Enum.any?(&Rule.matches?(&1, state))
+    def matches?(Any[conditions: conditions], state) do
+      conditions |> Enum.any?(&Rule.matches?(&1, state))
     end
 
-    def json(Any[options: options]) do
-      [any: [options: Enum.map(options, &Rule.json/1)]]
+    def json(Any[conditions: conditions]) do
+      [operand: "any", conditions: Enum.map(conditions, &Rule.json/1)]
     end
   end
 
-  defrecord IncludedIn, name: nil, allowed_values: []
+  defrecord IncludedIn, param_name: nil, value: []
   defimpl Rule, for: IncludedIn do
-    def matches?(IncludedIn[name: name, allowed_values: allowed_values], state) do
-      value = state[name]
-      Enum.member?(allowed_values, value)
+    def matches?(IncludedIn[param_name: param_name, value: value], state) do
+      actual_value = state[param_name]
+      Enum.member?(value, actual_value)
     end
 
-    def json(IncludedIn[name: name, allowed_values: allowed_values]) do
-      [included_in: [name: name, allowed_values: allowed_values]]
+    def json(IncludedIn[param_name: param_name, value: value]) do
+      [operand: "included_in", param_name: param_name, value: value]
     end
   end
 
-  defrecord Is, name: nil, allowed_value: "true"
+  defrecord Is, param_name: nil, value: "true"
   defimpl Rule, for: Is do
-    def matches?(Is[name: name, allowed_value: allowed_value], state) do
-      state[name] == allowed_value
+    def matches?(Is[param_name: param_name, value: value], state) do
+      state[param_name] == value
     end
 
-    def json(Is[name: name, allowed_value: allowed_value]) do
-      [is: [name: name, allowed_value: allowed_value]]
+    def json(Is[param_name: param_name, value: value]) do
+      [operand: "is", param_name: param_name, value: value]
     end
   end
 
