@@ -22,7 +22,7 @@ angular.module('myApp.controllers', [])
             angular.copy(result, feature_to_edit);
           }
           else {
-            $scope.features[$scope.features.length] = $scope.compute_view_for(result);
+            $scope.features[$scope.features.length] = compute_view_for(result);
           }
         }
         feature_to_edit = undefined;
@@ -48,7 +48,7 @@ angular.module('myApp.controllers', [])
       ,compute_view_for({
          title                : "engage_hyper_drive"
         ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
-        ,master_switch_state  : false
+        ,master_switch_state  : null
         ,conditions           : { 
           operand: "any", conditions: [
             { operand: "all", conditions: 
@@ -82,11 +82,11 @@ angular.module('myApp.controllers', [])
       $scope.feature = {
          title                : undefined
         ,description          : undefined
-        ,conditions           : { operand: "any" }
       };
     }
     if(typeof $scope.feature.conditions == 'undefined') {
       $scope.feature.conditions = { operand: "any" };
+      add_id_to_condition($scope.feature.conditions);
     }
 
     $scope.comparisons = ['is', 'included_in', 'any', 'all'];
@@ -100,7 +100,7 @@ angular.module('myApp.controllers', [])
     ];
 
     $scope.has_no_conditions = function() {
-      return !conditions_specified_for($scope.feature);
+      return !conditions_specified_for($scope.feature.conditions);
     }
     
     $scope.save = function() {
@@ -111,7 +111,9 @@ angular.module('myApp.controllers', [])
       dialog.close(undefined);
     };
 
-    $scope.new_condition = function() {
-      console.log('die in a fire angular!');
+    $scope.new_condition = function(clicked_condition) {
+      console.log(JSON.stringify($scope.feature,undefined,2));
+      add_condition_to_feature(clicked_condition, $scope.feature.conditions);
+      console.log(JSON.stringify($scope.feature,undefined,2));
     }
   }]);
