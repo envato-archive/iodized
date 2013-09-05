@@ -1,4 +1,8 @@
 defmodule Yodado.FeaturePersistence do
+  @key_prefix "feature"
+  @id_prefix "id"
+  @index_key "index"
+
   def ping! do
     {:ok, "PONG"} = :eredis.q(:redis, ["PING"])
   end
@@ -14,14 +18,23 @@ defmodule Yodado.FeaturePersistence do
 
   def save_feature(feature) do
     feature_json = Yodado.Feature.json(feature) |> JSEX.encode!
-    {:ok, "OK"} = :eredis.q(:redis, ["SET", key(feature), feature_json])
+    feature_key = key(feature)
+    [{:ok, "OK"}, {:ok, _lpush_result}]  = :eredis.qp(:redis, [
+      ["SET", feature_key, feature_json],
+      ["SADD", index_key(), feature_key],
+    ])
   end
 
   defp key(feature) when is_record(feature, Yodado.Feature.Feature) do
     key(feature.title)
   end
+
   defp key(feature_id) do
     id = Regex.replace(%r/[^\w]+/, feature_id, "_") |> String.downcase
-    "fid:#{id}"
+    "#{@key_prefix}:#{@id_prefix}:#{id}"
+  end
+
+  defp index_key() do
+    "#{@key_prefix}:#{@index_key}"
   end
 end
