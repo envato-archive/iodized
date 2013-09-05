@@ -24,7 +24,7 @@
   </div>
 
   <div class="block row-fluid ruled">
-    <div class="offset1">
+    <div class="span9 offset1">
       Match
       <div class="btn-group">
         <button 
@@ -45,6 +45,12 @@
         </button>
       </div>
       of the current rules for <strong>{{feature.title}}</strong>
+    </div>
+
+    <div class="span1">
+      <a class="btn btn-mini" ng-click="new_condition(feature.conditions)">
+        <i class="icon-plus"></i>
+      </a>
     </div>
   </div>
   

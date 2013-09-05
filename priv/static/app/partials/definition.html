@@ -1,7 +1,6 @@
 <div ng-repeat="definition in conditions">
   <div class="row-fluid">
     <div class="span3 offset1">
-      {{definition.id}}
       <select title="Select one..." ng-model="definition.param" ng-disabled="definition.operand == 'all' || definition.operand == 'any'">
         <option ng-repeat="param in params">{{param}}</option>
         <option>New param...</option>
