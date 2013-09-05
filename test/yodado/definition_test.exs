@@ -85,4 +85,27 @@ defmodule Yodado.DefinitionTest do
       assert actual_json == expected_json
     end
   end
+
+
+  defmodule IsTest do
+    use ExUnit.Case, async: true
+    alias Yodado.Definition.Is, as: Is
+
+    test "is true if the value of the param in the state equals the value" do
+      rule = Is[param_name: "session_on", value: "yes"]
+      assert Rule.matches?(rule, [{"session_on", "yes"}]) 
+    end
+
+    test "is false if the value of the param in the state does not equals the value" do
+      rule = Is[param_name: "session_on", value: "yes"]
+      assert !Rule.matches?(rule, [{"session_on", "HAHA"}]) 
+    end
+
+    test "it generates JSON" do
+      rule = Is[param_name: "session_on", value: "yes"]
+      expected_json = "{\"operand\":\"is\",\"param_name\":\"session_on\",\"value\":\"yes\"}"
+      actual_json = Rule.json(rule) |> JSEX.encode!
+      assert actual_json == expected_json
+    end
+  end
 end
