@@ -60,4 +60,32 @@ defmodule Yodado.Definition do
   defimpl Rule, for: Function do
     def matches?(f, state), do: f.(state)
   end
+
+  def from_json(definition) do
+    operand = Keyword.fetch!(definition, :operand)
+    from_json(operand, definition)
+  end
+
+  defp from_json("any", definition) do
+    conditions = Keyword.fetch!(definition, :conditions)
+    Any[conditions: Enum.map(conditions, &from_json/1)]
+  end
+
+  defp from_json("all", definition) do
+    conditions = Keyword.fetch!(definition, :conditions)
+    All[conditions: Enum.map(conditions, &from_json/1)]
+  end
+
+  defp from_json("included_in", definition) do
+    param_name = Keyword.fetch!(definition, :param_name)
+    value = Keyword.fetch!(definition, :value)
+    true = is_list(value) # validate we've got a list
+    IncludedIn[param_name: param_name, value: value]
+  end
+
+  defp from_json("is", definition) do
+    param_name = Keyword.fetch!(definition, :param_name)
+    value = Keyword.fetch!(definition, :value)
+    Is[param_name: param_name, value: value]
+  end
 end

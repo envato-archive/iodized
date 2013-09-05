@@ -108,4 +108,59 @@ defmodule Yodado.DefinitionTest do
       assert actual_json == expected_json
     end
   end
+
+  test "parsing from JSON" do
+    json = """
+      {
+       "operand":"any",
+       "conditions":[
+        {
+         "operand":"all",
+         "conditions":[
+          {
+           "operand":"included_in",
+           "param_name":"username",
+           "value":[
+            "madlep",
+            "gstamp"
+           ]
+          },
+          {
+           "operand":"included_in",
+           "param_name":"host",
+           "value":[
+            "themeforest.net",
+            "codecanyon.net"
+           ]
+          }
+         ]
+        },
+        {
+         "operand":"is",
+         "param_name":"session_on",
+         "value":"true"
+        },
+        {
+         "operand":"included_in",
+         "param_name":"role",
+         "value":[
+          "developer"
+         ]
+        }
+       ]
+      }
+    """
+    actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.Definition.from_json
+    expected_definition = 
+      Yodado.Definition.Any[conditions: [
+        Yodado.Definition.All[conditions: [
+          Yodado.Definition.IncludedIn[param_name: "username", value: ["madlep", "gstamp"]],
+          Yodado.Definition.IncludedIn[param_name: "host", value: ["themeforest.net", "codecanyon.net"]]
+        ]],
+        Yodado.Definition.Is[param_name: "session_on"],
+        Yodado.Definition.IncludedIn[param_name: "role", value: ["developer"]]
+      ]]
+
+    assert actual_definition == expected_definition
+  end
 end
