@@ -95,7 +95,7 @@ function add_condition(condition) {
   condition.conditions[condition.conditions.length] = new_condition;
 };
 
-function remove_condition_from_feature(clicked_condition, current_condition){
+function remove_condition_from_feature(clicked_condition, current_condition) {
   for(var i in current_condition.conditions) {
     if(current_condition.conditions[i].id == clicked_condition.id) {
       current_condition.conditions.splice(i, 1);
@@ -108,6 +108,33 @@ function remove_condition_from_feature(clicked_condition, current_condition){
     remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
   }
 };
+
+function copy_new_params_to_params(current_condition, params) {
+  for(var i in current_condition.conditions) {
+    if(current_condition.conditions[i].custom_param != undefined) {
+      current_condition.conditions[i].param = current_condition.conditions[i].custom_param;
+      params[params.length] = current_condition.conditions[i].custom_param;
+      delete current_condition.conditions[i].custom_param
+      return;
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    copy_new_params_to_params(current_condition.conditions[i], params);
+  }
+};
+
+var params = [
+  "host_name"
+  ,"session_id"
+  ,"client_id"
+  ,"username"
+  ,"user_role"
+];
+function fetch_params() {
+  return params;
+}
 
 var yoda_quotes = [
   "Agree with you, the council does. Your apprentice, Skywalker will be.",

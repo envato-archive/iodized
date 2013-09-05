@@ -96,13 +96,7 @@ angular.module('myApp.controllers', [])
     $scope.container_operands = ['any', 'all'];
     $scope.all_operands = ['is', 'included_in', 'any', 'all'];
 
-    $scope.params = [
-      "host_name"
-      ,"session_id"
-      ,"client_id"
-      ,"username"
-      ,"user_role"
-    ];
+    $scope.params = fetch_params();
 
     $scope.has_no_conditions = function() {
       return !conditions_specified_for($scope.feature.conditions);
@@ -123,6 +117,7 @@ angular.module('myApp.controllers', [])
     }
     
     $scope.save = function() {
+      copy_new_params_to_params($scope.feature.conditions, $scope.params);
       dialog.close($scope.feature);
     };
 

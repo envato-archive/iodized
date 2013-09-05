@@ -1,10 +1,21 @@
 <div ng-repeat="definition in conditions">
   <div class="row-fluid">
     <div class="span3 offset1">
-      <select title="Select one..." ng-model="definition.param" ng-disabled="definition.operand == 'all' || definition.operand == 'any'">
+      <input 
+          type="text" 
+          ng-model="definition.custom_param" 
+          ng-if="definition.param == 'New param...'"
+          ng-disabled="definition.operand == 'all' || definition.operand == 'any'"
+      />
+      <select 
+          ng-model="definition.param" 
+
+          ng-if="definition.param != 'New param...'"
+          ng-disabled="definition.operand == 'all' || definition.operand == 'any'"
+      />
         <option ng-repeat="param in params">{{param}}</option>
         <option>New param...</option>
-      </select>
+      </select><br/>
     </div>
 
     <div class="span3" ng-if="condition_is_a_container(definition)">
