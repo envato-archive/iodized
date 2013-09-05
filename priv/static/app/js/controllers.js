@@ -11,7 +11,7 @@ angular.module('myApp.controllers', [])
       // begin black magic
       $dialog.dialog(
         angular.extend(
-          { controller: 'EditCtrl', templateUrl: 'partials/edit.html' }, 
+          { controller: 'EditCtrl', templateUrl: 'partials/edit.html', dialogClass: 'modal modal-huge' }, 
           { resolve: { feature: function() { return angular.copy(feature_to_edit) } } }
         )
       )
@@ -26,6 +26,24 @@ angular.module('myApp.controllers', [])
           }
         }
         feature_to_edit = undefined;
+      });
+    };
+
+    $scope.delete_feature = function(feature) {
+      var title = 'Delete ' + feature.title + ' this will!';
+      var msg = 'Sure you are?';
+      var btns = [{result:'cancel', label: 'Cancel'}, {result:'delete', label: 'Delete', cssClass: 'btn-primary'}];
+
+      $dialog.messageBox(title, msg, btns)
+      .open()
+      .then(function(result){
+        if(result == 'delete') {
+          for(var i in $scope.features) {
+            if($scope.features[i].title == feature.title) {
+              $scope.features.splice(i, 1);
+            }
+          }
+        }
       });
     };
 
