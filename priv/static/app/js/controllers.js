@@ -7,16 +7,24 @@ angular.module('myApp.controllers', [])
   .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
     $scope.sync = function() {
       var payload = JSON.stringify($scope.features.concat($scope.features));
+      
+      // nuke view specific crap
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
-
+      payload = payload.replace(/,"view":\{.*?\}/gi, '');
+      payload = payload.replace(/,"id":[0-9]+/gi, '');
+      
       $http({
         method: 'POST'
         ,url: 'http://localhost:4567/json'
         ,data: 'json=' + payload
         ,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        //method: 'PUT'
+        //,url: 'http://localhost:8080/admin/api/feature/i_like_cheese'
+        //,data: payload
+        //,headers: {'Content-Type': 'application/json'}
       })
       .success(function(data, status) {
-        $scope.features = data;
+        $scope.features = compute_view(data);
       });
     };
 
@@ -76,13 +84,13 @@ angular.module('myApp.controllers', [])
 
     $scope.quote = yoda_quotes[Math.floor((Math.random()*yoda_quotes.length)+1)];
 
-    $scope.features = [
-      compute_view_for({
+    $scope.features = compute_view([
+      {
          title                : "droids_were_looking_for"
         ,description          : "You can go about your business. Move along"
         ,master_switch_state  : true
-      })
-      ,compute_view_for({
+      }
+      ,{
          title                : "engage_hyper_drive"
         ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
         ,master_switch_state  : null
@@ -100,13 +108,13 @@ angular.module('myApp.controllers', [])
             }
           ]
         }
-      })
-      ,compute_view_for({
+      }
+      ,{
          title                : "open_the_blast_doors"
         ,description          : "Close the blast doors! Open the blast doors! Open the blast doors!"
         ,master_switch_state  : false
-      })
-    ];
+      }
+    ]);
   }])
 
 

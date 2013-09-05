@@ -31,29 +31,31 @@ function conditions_specified_for(feature) {
   return true;
 };
 
-function compute_view_for(feature) {
-  var view = { }
+function compute_view(features) {
+  for(var i in features) {
+    var view = { }
 
-  switch(feature.master_switch_state) {
-    case true:
-      view.master_switch = "ON"
-      view.indicator = "indicator-on"
-    break;
-    case false:
-      view.master_switch = "OFF"
-      view.indicator = "indicator-off"
-    break;
-    case null:
-      view.master_switch = "LOGIC"
-      view.indicator = "indicator-logic"
-    break;
+    switch(features[i].master_switch_state) {
+      case true:
+        view.master_switch = "ON"
+        view.indicator = "indicator-on"
+      break;
+      case false:
+        view.master_switch = "OFF"
+        view.indicator = "indicator-off"
+      break;
+      case null:
+        view.master_switch = "LOGIC"
+        view.indicator = "indicator-logic"
+      break;
+    }
+
+    features[i].view = view;
+
+    add_id_to_condition(features[i].conditions);
   }
-
-  feature.view = view;
-
-  add_id_to_condition(feature.conditions);
-
-  return feature;
+  
+  return features;
 };
 
 function add_condition_to_feature(clicked_condition, current_condition) {
