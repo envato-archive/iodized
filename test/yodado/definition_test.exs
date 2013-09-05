@@ -63,4 +63,19 @@ defmodule Yodado.DefinitionTest do
       assert actual_json == expected_json
     end
   end
+
+  defmodule IncludedInTest do
+    use ExUnit.Case
+    alias Yodado.Definition.IncludedIn, as: IncludedIn
+
+    test "is true if the value of the param in the state is in the list of values" do
+      rule = IncludedIn[param_name: "username", value: ["francis", "bill", "zoey", "louis"]]
+      assert Rule.matches?(rule, [{"username", "bill"}])
+    end
+
+    test "is false if the value of the param in the state is not in the list of values" do
+      rule = IncludedIn[param_name: "username", value: ["francis", "bill", "zoey", "louis"]]
+      assert !Rule.matches?(rule, [{"username", "coach"}])
+    end
+  end
 end
