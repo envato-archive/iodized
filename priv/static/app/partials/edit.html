@@ -48,30 +48,28 @@
     </div>
   </div>
 
-  <div ng-if="has_no_conditions()">
-    <div class="block row-fluid">
-      <div class="span3 offset1">
-        <select title="Select one...">
-          <option ng-repeat="param in params">{{param}}</option>
-          <option>New param</option>
-        </select>
-      </div>
+  <div class="block row-fluid" ng-show="has_no_conditions()">
+    <div class="span3 offset1">
+      <select title="Select one...">
+        <option ng-repeat="param in params">{{param}}</option>
+        <option>New param...</option>
+      </select>
+    </div>
 
-      <div class="span3">
-        <select title="Select one...">
-          <option ng-repeat="comparison in comparisons">{{comparison}}</option>
-        </select>
-      </div>
+    <div class="span3">
+      <select title="Select one...">
+        <option ng-repeat="comparison in comparisons">{{comparison}}</option>
+      </select>
+    </div>
 
-      <div class="span3">
-        <input type="text" placeholder="Value here..." />
-      </div>
+    <div class="span3">
+      <input type="text" placeholder="Value here..." />
+    </div>
 
-      <div class="span1">
-        <a class="btn" ng-click="new_feature()">
-          <i class="icon-plus"></i>
-        </a>
-      </div>
+    <div class="span1">
+      <a class="btn" ng-click="new_condition()">
+        <i class="icon-plus"></i>
+      </a>
     </div>
   </div>
 

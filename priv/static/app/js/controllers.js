@@ -3,8 +3,7 @@
 /* Controllers */
 
 angular.module('myApp.controllers', [])
-
-
+  
   .controller('YodadoCtrl', ['$scope', '$dialog', function($scope, $dialog) {
     $scope.edit_feature = function(feature) {
       var feature_to_edit = feature;
@@ -111,4 +110,8 @@ angular.module('myApp.controllers', [])
     $scope.close = function() {
       dialog.close(undefined);
     };
+
+    $scope.new_condition = function() {
+      console.log('die in a fire angular!');
+    }
   }]);
