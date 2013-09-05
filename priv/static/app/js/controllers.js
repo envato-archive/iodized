@@ -22,7 +22,7 @@ angular.module('myApp.controllers', [])
             angular.copy(result, feature_to_edit);
           }
           else {
-            $scope.features[$scope.features.length] = $scope.compute_view_for(result);
+            $scope.features[$scope.features.length] = compute_view_for(result);
           }
         }
         feature_to_edit = undefined;
@@ -48,17 +48,15 @@ angular.module('myApp.controllers', [])
       ,compute_view_for({
          title                : "engage_hyper_drive"
         ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
-        ,master_switch_state  : false
+        ,master_switch_state  : null
         ,conditions           : { 
           operand: "any", conditions: [
-            { operand: "all", conditions: 
-              [
+            { operand: "all", conditions: [
                 { param: "host_name", operand: "is", value: "death star"},
                 { param: "username", operand: "is", value: "darth vader"}
               ]
             },
-            { operand: "all", conditions: 
-              [
+            { operand: "all", conditions: [
                 { param: "username", operand: "included_in", value: "luke, obi wan, yoda" },
                 { param: "user_role", operand: "is", value: "jedi" }
               ]
@@ -78,15 +76,21 @@ angular.module('myApp.controllers', [])
   .controller('EditCtrl', ['$scope', 'feature', 'dialog', function($scope, feature, dialog) {
     $scope.feature = feature;
     
+    // if we're creating a new feature, set it up
     if(typeof $scope.feature == 'undefined') {
       $scope.feature = {
          title                : undefined
         ,description          : undefined
-        ,conditions           : { operand: "any" }
+        ,master_switch_state  : false
       };
     }
     if(typeof $scope.feature.conditions == 'undefined') {
-      $scope.feature.conditions = { operand: "any" };
+      $scope.feature.conditions = { 
+        operand: "any", conditions: [
+          { param: null, operand: null, value: null }
+        ]
+      };
+      add_id_to_condition($scope.feature.conditions);
     }
 
     $scope.comparisons = ['is', 'included_in', 'any', 'all'];
@@ -100,7 +104,7 @@ angular.module('myApp.controllers', [])
     ];
 
     $scope.has_no_conditions = function() {
-      return !conditions_specified_for($scope.feature);
+      return !conditions_specified_for($scope.feature.conditions);
     }
     
     $scope.save = function() {
@@ -111,7 +115,11 @@ angular.module('myApp.controllers', [])
       dialog.close(undefined);
     };
 
-    $scope.new_condition = function() {
-      console.log('die in a fire angular!');
+    $scope.new_condition = function(clicked_condition) {
+      add_condition_to_feature(clicked_condition, $scope.feature.conditions);
+    }
+
+    $scope.delete_condition = function(clicked_condition) {
+      remove_condition_from_feature(clicked_condition, $scope.feature.conditions);
     }
   }]);

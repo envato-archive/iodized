@@ -47,31 +47,6 @@
       of the current rules for <strong>{{feature.title}}</strong>
     </div>
   </div>
-
-  <div class="block row-fluid" ng-show="has_no_conditions()">
-    <div class="span3 offset1">
-      <select title="Select one...">
-        <option ng-repeat="param in params">{{param}}</option>
-        <option>New param...</option>
-      </select>
-    </div>
-
-    <div class="span3">
-      <select title="Select one...">
-        <option ng-repeat="comparison in comparisons">{{comparison}}</option>
-      </select>
-    </div>
-
-    <div class="span3">
-      <input type="text" placeholder="Value here..." />
-    </div>
-
-    <div class="span1">
-      <a class="btn" ng-click="new_condition()">
-        <i class="icon-plus"></i>
-      </a>
-    </div>
-  </div>
-
+  
   <div class="block container" ng-include="'partials/definition.html'" ng-init="conditions = feature.conditions.conditions;"></div>
 </div>

@@ -11,8 +11,21 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
 
 // utilities
 
+var id_counter = 0;
+function add_id_to_condition(condition) {
+  if(condition != undefined) {
+    if(condition.id == undefined) {
+      condition.id = id_counter++;
+    }
+
+    for(var x in condition.conditions) {
+      add_id_to_condition(condition.conditions[x]);
+    }
+  }
+};
+
 function conditions_specified_for(feature) {
-  if(typeof feature.conditions == 'undefined' || typeof feature.conditions.conditions == 'undefined') {
+  if(typeof feature.conditions == 'undefined') {
     return false;
   }
   return true;
@@ -21,21 +34,79 @@ function conditions_specified_for(feature) {
 function compute_view_for(feature) {
   var view = { }
 
-  if(feature.master_switch_state == true) {
-    view.master_switch = "ON"
-    view.indicator = "indicator-on"
-  }
-  else if(conditions_specified_for(feature)) {
-    view.master_switch = "OFF"
-    view.indicator = "indicator-off"
-  }
-  else {
-    view.master_switch = "LOGIC"
-    view.indicator = "indicator-logic"
+  switch(feature.master_switch_state) {
+    case true:
+      view.master_switch = "ON"
+      view.indicator = "indicator-on"
+    break;
+    case false:
+      view.master_switch = "OFF"
+      view.indicator = "indicator-off"
+    break;
+    case null:
+      view.master_switch = "LOGIC"
+      view.indicator = "indicator-logic"
+    break;
   }
 
   feature.view = view;
+
+  add_id_to_condition(feature.conditions);
+
   return feature;
+};
+
+function add_condition_to_feature(clicked_condition, current_condition) {
+  // insert as child
+  if(clicked_condition.operand == "any" || clicked_condition.operand== "all") {
+    if(current_condition.id == clicked_condition.id) {
+      add_condition(current_condition);
+      return;
+    }
+  }
+  // insert as sibling
+  else {
+    for(var i in current_condition.conditions) {
+      if(current_condition.conditions[i].id == clicked_condition.id) {
+        add_condition(current_condition);
+        return;
+      }
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    add_condition_to_feature(clicked_condition, current_condition.conditions[i]);
+  }
+};
+
+function add_condition(condition) {
+  var new_condition = {
+    param: null
+    ,operand: null
+    ,value: null
+    ,id: id_counter++
+  };
+
+  if(condition.conditions == undefined) {
+    condition.conditions = [];
+  }
+
+  condition.conditions[condition.conditions.length] = new_condition;
+};
+
+function remove_condition_from_feature(clicked_condition, current_condition){
+  for(var i in current_condition.conditions) {
+    if(current_condition.conditions[i].id == clicked_condition.id) {
+      current_condition.conditions.splice(i, 1);
+      return;
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
+  }
 };
 
 var yoda_quotes = [
