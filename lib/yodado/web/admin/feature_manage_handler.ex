@@ -34,7 +34,7 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
 
   def render_feature(req, state) do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
-    body = state[:feature] |> Yodado.Feature.json |> JSEX.encode!([:indent])
+    body = state[:feature] |> Yodado.Feature.json |> JSEX.encode!(indent: 2)
     {body, req, state}
   end
 
