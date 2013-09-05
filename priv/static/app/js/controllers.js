@@ -116,8 +116,10 @@ angular.module('myApp.controllers', [])
     };
 
     $scope.new_condition = function(clicked_condition) {
-      console.log(JSON.stringify($scope.feature,undefined,2));
       add_condition_to_feature(clicked_condition, $scope.feature.conditions);
-      console.log(JSON.stringify($scope.feature,undefined,2));
+    }
+
+    $scope.delete_condition = function(clicked_condition) {
+      remove_condition_from_feature(clicked_condition, $scope.feature.conditions);
     }
   }]);

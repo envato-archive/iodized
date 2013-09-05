@@ -93,7 +93,21 @@ function add_condition(condition) {
   }
 
   condition.conditions[condition.conditions.length] = new_condition;
-}
+};
+
+function remove_condition_from_feature(clicked_condition, current_condition){
+  for(var i in current_condition.conditions) {
+    if(current_condition.conditions[i].id == clicked_condition.id) {
+      current_condition.conditions.splice(i, 1);
+      return;
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
+  }
+};
 
 var yoda_quotes = [
   "Agree with you, the council does. Your apprentice, Skywalker will be.",
