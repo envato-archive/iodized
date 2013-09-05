@@ -8,7 +8,7 @@
 
     <div class="details block span4">
       <h3>Description</h3>
-      <textarea rows="3" ng-model="feature.description"></textarea>
+      <textarea rows="3" cols="10" ng-model="feature.description"></textarea>
     </div>
 
     <div class="details block span2">
@@ -30,7 +30,7 @@
         <button 
             type="button" 
             class="btn" 
-            ng-model="any_all" 
+            ng-model="feature.conditions.operand" 
             btn-radio="'any'"
         >
           Any
@@ -38,7 +38,7 @@
         <button 
             type="button" 
             class="btn" 
-            ng-model="any_all" 
+            ng-model="feature.conditions.operand" 
             btn-radio="'all'"
         >
           All
@@ -48,11 +48,11 @@
     </div>
   </div>
 
-  <div class="block row-fluid">
+  <div class="block row-fluid" ng-show="has_no_conditions()">
     <div class="span3 offset1">
       <select title="Select one...">
         <option ng-repeat="param in params">{{param}}</option>
-        <option>New param</option>
+        <option>New param...</option>
       </select>
     </div>
 
@@ -67,9 +67,11 @@
     </div>
 
     <div class="span1">
-      <a class="btn" ng-click="new_feature()">
+      <a class="btn" ng-click="new_condition()">
         <i class="icon-plus"></i>
       </a>
     </div>
   </div>
+
+  <div class="block container" ng-include="'partials/definition.html'" ng-init="conditions = feature.conditions.conditions;"></div>
 </div>

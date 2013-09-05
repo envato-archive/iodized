@@ -7,7 +7,7 @@
         <h1>Do, or do not.</h1>
       </div>
       <div class="span2">
-        <a class="btn btn-large btn-primary" ng-click="new_feature()">
+        <a class="btn btn-large btn-primary" ng-click="edit_feature()">
           <i class="icon-plus icon-white"></i> New
         </a>
       </div>
@@ -33,6 +33,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
+                ng-click="toggle_master_state(feature, 'on')"
                 btn-radio="'ON'"
             >
               On
@@ -41,6 +42,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
+                ng-click="toggle_master_state(feature, 'logic')"
                 btn-radio="'LOGIC'"
             >
               Logic
@@ -49,6 +51,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
+                ng-click="toggle_master_state(feature, 'off')"
                 btn-radio="'OFF'"
             >
               Off
@@ -67,7 +70,7 @@
         <h3>Status</h3>
         <span 
             class="indicator" 
-            ng:class="indicator_for(feature)"
+            ng:class="feature.view.indicator"
         >
           {{ feature.view.master_switch }}
         </span>
@@ -79,4 +82,5 @@
 
 <div>
   <img class="yoda" alt="Yodadontknow" src="http://networkingnerd.files.wordpress.com/2012/12/yoda_portait.png?w=584" />
+  <div class="quote">{{ quote }}</div>
 </div>

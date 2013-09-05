@@ -1,5 +1,15 @@
+.block ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
 .block {
   padding: 10px;
+}
+
+.container {
+  overflow-y: auto;
+  height: 200px;
 }
 
 .indicator {
@@ -24,6 +34,13 @@
   float: right;
 }
 
+.quote {
+  float: right;
+  padding: 50px;
+  font-size: 20px;
+  width: 400px;
+}
+
 .modal {
   width: 83%;
   margin-left: -41%;
@@ -31,4 +48,8 @@
 
 .ruled {
   border-bottom: 1px solid #333333;
+}
+
+.details textarea {
+  width: 100%;
 }
