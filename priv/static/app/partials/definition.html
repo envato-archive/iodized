@@ -1,21 +1,20 @@
 <div ng-repeat="definition in conditions">
   <div class="row-fluid">
-    <div class="span3 offset1">
+    <div class="span3">
       <input 
           type="text" 
           ng-model="definition.custom_param" 
-          ng-if="definition.param == 'New param...'"
-          ng-disabled="definition.operand == 'all' || definition.operand == 'any'"
+          ng-if="(definition.param == 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
+          
       />
       <select 
           ng-model="definition.param" 
-
-          ng-if="definition.param != 'New param...'"
-          ng-disabled="definition.operand == 'all' || definition.operand == 'any'"
+          ng-if="(definition.param != 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
+          
       />
         <option ng-repeat="param in params">{{param}}</option>
         <option>New param...</option>
-      </select><br/>
+      </select>
     </div>
 
     <div class="span3" ng-if="condition_is_a_container(definition)">
@@ -31,7 +30,12 @@
     </div>
 
     <div class="span3">
-      <input type="text" placeholder="Value here..." ng-model="definition.value" ng-disabled="definition.operand == 'all' || definition.operand == 'any'"/>
+      <input 
+          type="text" 
+          placeholder="Value here..." 
+          ng-model="definition.value"
+          ng-if="!(definition.operand == 'all' || definition.operand == 'any')"
+      />
     </div>
 
     <div class="span1">
@@ -41,6 +45,7 @@
       <a class="btn btn-mini" ng-click="delete_condition(definition)">
         <i class="icon-minus"></i>
       </a>
+    </div>
   </div>
 
   <div ng-switch on="definition.conditions.length &gt; 0">
