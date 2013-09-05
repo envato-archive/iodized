@@ -40,14 +40,16 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
 
   def content_types_accepted(req, state) do
     acceptors = [
-      {'application/json', :save_feature}
+      {"application/json", :save_feature}
     ]
     {acceptors, req, state}
   end
 
   def save_feature(req, state) do
-    # TODO talk to redis, and save feature data
-    raise "not implemented"
+    {:ok, feature_json, req} = :cowboy_req.body(req)
+    feature = feature_json |> JSEX.decode!(labels: :atom) |> Yodado.Feature.from_json
+    Yodado.FeaturePersistence.save_feature(feature)
+    {true, req, state}
   end
 
   def delete_resource(req, state) do
