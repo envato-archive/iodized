@@ -1,4 +1,4 @@
-defmodule Yodado.Web.FeatureStatusHandler do
+defmodule Yodado.Web.Admin.FeatureListHandler do
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
@@ -17,31 +17,20 @@ defmodule Yodado.Web.FeatureStatusHandler do
   end
 
   def resource_exists(req, state) do
-    {feature_id, req} = :cowboy_req.binding(:feature_id, req)
-    case Yodado.FeaturePersistence.find_feature(feature_id) do
-      :not_found ->     {false, req, state}
-      {:ok, feature} -> state = Keyword.put(state, :feature, feature)
-                        {true, req, state}
-    end
+    {true, req, state}
   end
 
   def content_types_provided(req, state) do
     providers = [
-      {"*", :render_feature_state}
+      {"*", :render_feature_list}
     ]
-
     {providers, req, state}
   end
 
-  def render_feature_state(req, state) do
-    {params, req} = :cowboy_req.qs_vals(req)
-
+  def render_feature_list(req, state) do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
-
-    {:ok, result} = Yodado.Feature.do?(state[:feature], params)
-    body = [state: result] |> JSEX.encode!
-
+    {:ok, features} = Yodado.FeaturePersistence.all()
+    body = features |> Enum.map(&Yodado.Feature.json/1) |> JSEX.encode!(indent: 2)
     {body, req, state}
   end
-
 end

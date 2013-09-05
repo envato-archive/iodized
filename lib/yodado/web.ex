@@ -15,6 +15,7 @@ defmodule Yodado.Web do
         directory: {:priv_dir, :yodado, "static"},
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
       ]},
+      {"/admin/api/features", Yodado.Web.Admin.FeatureListHandler, []},
       {"/admin/api/feature/:feature_id", Yodado.Web.Admin.FeatureStatusHandler, []}
     ]
 

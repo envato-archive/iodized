@@ -10,14 +10,32 @@ defmodule Yodado.FeaturePersistence do
     end
   end
 
-  def find_feature(feature_id) do
-    {:ok, feature_json} = :eredis.q(:redis, ["GET", key(feature_id)])
+  def all() do
+    # TODO make this transactional
+    {:ok, feature_ids} = :eredis.q(:redis, ["SMEMBERS", index_key()]) 
+    features = feature_ids |> Enum.reduce([], fn(id, acc) -> 
+      # TODO use MGET here rather than lots of GETs
+      case find_feature({:key, id}) do
+        :not_found      -> acc
+        {:ok, feature}  -> [feature|acc]
+      end
+    end)
+    {:ok, features}
+  end
+
+  def find_feature({:key, feature_id}) do
+    {:ok, feature_json} = :eredis.q(:redis, ["GET", feature_id])
     case feature_json do
       :undefined  ->  :not_found
       _           ->  feature = JSEX.decode!(feature_json, labels: :atom)
                       {:ok, Yodado.Feature.from_json(feature)}
     end
   end
+
+  def find_feature(feature_id) do
+    find_feature({:key, key(feature_id)})
+  end
+
 
   def save_feature(feature) do
     feature_json = Yodado.Feature.json(feature) |> JSEX.encode!

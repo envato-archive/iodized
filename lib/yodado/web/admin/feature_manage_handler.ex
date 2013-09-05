@@ -3,7 +3,7 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
-  def rest_init(req, opts) do
+  def rest_init(req, _opts) do
     {:ok, req, []}
   end
 
