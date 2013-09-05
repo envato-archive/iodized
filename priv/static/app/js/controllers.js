@@ -93,7 +93,8 @@ angular.module('myApp.controllers', [])
       add_id_to_condition($scope.feature.conditions);
     }
 
-    $scope.comparisons = ['is', 'included_in', 'any', 'all'];
+    $scope.container_operands = ['any', 'all'];
+    $scope.all_operands = ['is', 'included_in', 'any', 'all'];
 
     $scope.params = [
       "host_name"
@@ -105,6 +106,20 @@ angular.module('myApp.controllers', [])
 
     $scope.has_no_conditions = function() {
       return !conditions_specified_for($scope.feature.conditions);
+    };
+
+    $scope.condition_is_a_container = function(condition) {
+      if(
+        (condition.operand == 'any' || condition.operand== 'all') && 
+        (condition.conditions != undefined && condition.conditions.length > 0)
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    $scope.condition_is_not_a_container = function(condition) {
+      return !$scope.condition_is_a_container(condition);
     }
     
     $scope.save = function() {
@@ -117,9 +132,9 @@ angular.module('myApp.controllers', [])
 
     $scope.new_condition = function(clicked_condition) {
       add_condition_to_feature(clicked_condition, $scope.feature.conditions);
-    }
+    };
 
     $scope.delete_condition = function(clicked_condition) {
       remove_condition_from_feature(clicked_condition, $scope.feature.conditions);
-    }
+    };
   }]);

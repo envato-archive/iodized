@@ -8,9 +8,15 @@
       </select>
     </div>
 
-    <div class="span3">
+    <div class="span3" ng-if="condition_is_a_container(definition)">
       <select title="Select one..." ng-model="definition.operand">
-        <option ng-repeat="comparison in comparisons">{{comparison}}</option>
+        <option ng-repeat="operands in container_operands">{{operands}}</option>
+      </select>
+    </div>
+
+    <div class="span3" ng-if="condition_is_not_a_container(definition)">
+      <select title="Select one..." ng-model="definition.operand">
+        <option ng-repeat="operands in all_operands">{{operands}}</option>
       </select>
     </div>
 
