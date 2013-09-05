@@ -82,6 +82,7 @@ angular.module('myApp.controllers', [])
       $scope.feature = {
          title                : undefined
         ,description          : undefined
+        ,master_switch_state  : false
       };
     }
     if(typeof $scope.feature.conditions == 'undefined') {

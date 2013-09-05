@@ -10,6 +10,7 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
 
 
 // utilities
+
 var id_counter = 0;
 function add_id_to_condition(condition) {
   if(condition != undefined) {
@@ -56,11 +57,6 @@ function compute_view_for(feature) {
 };
 
 function add_condition_to_feature(clicked_condition, current_condition) {
-  // if we're adding a new feature, then there are no conditions
-  /*if(clicked_condition.id == undefined && current_condition.id == undefined) {
-    current_condition.conditions = [{ param: null, operand: null, value: null }];
-  }*/
-
   // insert as child
   if(clicked_condition.operand == "any" || clicked_condition.operand== "all") {
     if(current_condition.id == clicked_condition.id) {
@@ -85,10 +81,18 @@ function add_condition_to_feature(clicked_condition, current_condition) {
 };
 
 function add_condition(condition) {
+  var new_condition = {
+    param: null
+    ,operand: null
+    ,value: null
+    ,id: id_counter++
+  };
+
   if(condition.conditions == undefined) {
     condition.conditions = [];
   }
-  condition.conditions[condition.conditions.length] = { param: null, operand: null, value: null, id: id_counter++ }
+
+  condition.conditions[condition.conditions.length] = new_condition;
 }
 
 var yoda_quotes = [
