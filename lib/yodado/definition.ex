@@ -59,6 +59,7 @@ defmodule Yodado.Definition do
 
   defimpl Rule, for: Function do
     def matches?(f, state), do: f.(state)
+    def json(_f), do: raise "not implemented"
   end
 
   def from_json(definition) do
