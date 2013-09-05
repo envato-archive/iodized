@@ -35,8 +35,8 @@
 }
 
 .quote {
-  float: right;
-  padding: 50px;
+  margin-top: 50px;
+  padding-right: 50px;
   font-size: 20px;
   width: 400px;
 }
