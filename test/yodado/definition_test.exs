@@ -77,5 +77,12 @@ defmodule Yodado.DefinitionTest do
       rule = IncludedIn[param_name: "username", value: ["francis", "bill", "zoey", "louis"]]
       assert !Rule.matches?(rule, [{"username", "coach"}])
     end
+
+    test "it generates JSON" do
+      rule = IncludedIn[param_name: "username", value: ["francis", "bill", "zoey", "louis"]]
+      expected_json = "{\"operand\":\"included_in\",\"param_name\":\"username\",\"value\":[\"francis\",\"bill\",\"zoey\",\"louis\"]}"
+      actual_json = Rule.json(rule) |> JSEX.encode!
+      assert actual_json == expected_json
+    end
   end
 end
