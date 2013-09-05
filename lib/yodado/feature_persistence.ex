@@ -30,7 +30,7 @@ defmodule Yodado.FeaturePersistence do
 
   def delete_feature(feature_id) do
     feature_key = key(feature_id)
-    [{:ok, deleted_count}, {:ok, "1"}] = :eredis.qp(:redis, [
+    [{:ok, "1"}, {:ok, "1"}] = :eredis.qp(:redis, [
       ["DEL", feature_key],
       ["SREM", index_key(), feature_key]
     ])
