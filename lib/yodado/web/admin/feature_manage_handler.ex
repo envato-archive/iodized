@@ -53,7 +53,8 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
   end
 
   def delete_resource(req, state) do
-    # TODO talk to redis and nuke
-    raise "not implemented"
+    {feature_id, req} = :cowboy_req.binding(:feature_id, req)
+    Yodado.FeaturePersistence.delete_feature(feature_id)
+    {true, req, state}
   end
 end
