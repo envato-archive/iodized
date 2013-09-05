@@ -13,7 +13,7 @@ defmodule Yodado.Mixfile do
   # Configuration for the OTP application
   def application do
     [ 
-      mod: { Yodado.Web, [] },
+      mod: { Yodado, [] },
       applications: [:cowboy],
     ]
   end
