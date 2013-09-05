@@ -4,14 +4,33 @@
 
 angular.module('myApp.controllers', [])
   
-  .controller('YodadoCtrl', ['$scope', '$dialog', function($scope, $dialog) {
+  .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
+    $scope.sync = function() {
+      var payload = JSON.stringify($scope.features.concat($scope.features));
+      payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
+
+      $http({
+        method: 'POST'
+        ,url: 'http://localhost:4567/json'
+        ,data: 'json=' + payload
+        ,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .success(function(data, status) {
+        $scope.features = data;
+      });
+    };
+
+
     $scope.edit_feature = function(feature) {
       var feature_to_edit = feature;
       
-      // begin black magic
       $dialog.dialog(
         angular.extend(
-          { controller: 'EditCtrl', templateUrl: 'partials/edit.html', dialogClass: 'modal modal-huge' }, 
+          { 
+            controller: 'EditCtrl'
+            ,templateUrl: 'partials/edit.html'
+            ,dialogClass: 'modal modal-huge' 
+          }, 
           { resolve: { feature: function() { return angular.copy(feature_to_edit) } } }
         )
       )
