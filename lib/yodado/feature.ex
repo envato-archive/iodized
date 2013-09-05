@@ -30,7 +30,7 @@ defmodule Yodado.Feature do
   end
 
   def feature(feature_id) do
-    Feature[title: "I am a feature", description: "yodalol quote here", definition: definition(feature_id)]
+    Feature[title: "I... am a, feature", description: "yodalol quote here", definition: definition(feature_id)]
   end
 
   def definition(_feature_id) do

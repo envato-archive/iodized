@@ -21,7 +21,7 @@ defmodule Yodado.FeaturePersistence do
     key(feature.title)
   end
   defp key(feature_id) do
-    id = Regex.replace(%r/[^\w]/, feature_id, "_") |> String.downcase
+    id = Regex.replace(%r/[^\w]+/, feature_id, "_") |> String.downcase
     "fid:#{id}"
   end
 end
