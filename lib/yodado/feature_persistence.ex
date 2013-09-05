@@ -3,8 +3,11 @@ defmodule Yodado.FeaturePersistence do
   @id_prefix "id"
   @index_key "index"
 
-  def ping! do
-    {:ok, "PONG"} = :eredis.q(:redis, ["PING"])
+  def ping do
+    case :eredis.q(:redis, ["PING"]) do
+      {:ok, "PONG"} ->  true
+      _any          ->  false
+    end
   end
 
   def find_feature(feature_id) do
