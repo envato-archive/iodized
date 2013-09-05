@@ -51,14 +51,12 @@ angular.module('myApp.controllers', [])
         ,master_switch_state  : null
         ,conditions           : { 
           operand: "any", conditions: [
-            { operand: "all", conditions: 
-              [
+            { operand: "all", conditions: [
                 { param: "host_name", operand: "is", value: "death star"},
                 { param: "username", operand: "is", value: "darth vader"}
               ]
             },
-            { operand: "all", conditions: 
-              [
+            { operand: "all", conditions: [
                 { param: "username", operand: "included_in", value: "luke, obi wan, yoda" },
                 { param: "user_role", operand: "is", value: "jedi" }
               ]
@@ -78,6 +76,7 @@ angular.module('myApp.controllers', [])
   .controller('EditCtrl', ['$scope', 'feature', 'dialog', function($scope, feature, dialog) {
     $scope.feature = feature;
     
+    // if we're creating a new feature, set it up
     if(typeof $scope.feature == 'undefined') {
       $scope.feature = {
          title                : undefined
@@ -86,7 +85,11 @@ angular.module('myApp.controllers', [])
       };
     }
     if(typeof $scope.feature.conditions == 'undefined') {
-      $scope.feature.conditions = { operand: "any" };
+      $scope.feature.conditions = { 
+        operand: "any", conditions: [
+          { param: null, operand: null, value: null }
+        ]
+      };
       add_id_to_condition($scope.feature.conditions);
     }
 
