@@ -11,7 +11,7 @@ angular.module('myApp.controllers', [])
       // begin black magic
       $dialog.dialog(
         angular.extend(
-          { controller: 'EditCtrl', templateUrl: 'partials/edit.html' }, 
+          { controller: 'EditCtrl', templateUrl: 'partials/edit.html', dialogClass: 'modal modal-huge' }, 
           { resolve: { feature: function() { return angular.copy(feature_to_edit) } } }
         )
       )
@@ -26,6 +26,24 @@ angular.module('myApp.controllers', [])
           }
         }
         feature_to_edit = undefined;
+      });
+    };
+
+    $scope.delete_feature = function(feature) {
+      var title = 'Delete ' + feature.title + ' this will!';
+      var msg = 'Sure you are?';
+      var btns = [{result:'cancel', label: 'Cancel'}, {result:'delete', label: 'Delete', cssClass: 'btn-primary'}];
+
+      $dialog.messageBox(title, msg, btns)
+      .open()
+      .then(function(result){
+        if(result == 'delete') {
+          for(var i in $scope.features) {
+            if($scope.features[i].title == feature.title) {
+              $scope.features.splice(i, 1);
+            }
+          }
+        }
       });
     };
 
@@ -96,13 +114,7 @@ angular.module('myApp.controllers', [])
     $scope.container_operands = ['any', 'all'];
     $scope.all_operands = ['is', 'included_in', 'any', 'all'];
 
-    $scope.params = [
-      "host_name"
-      ,"session_id"
-      ,"client_id"
-      ,"username"
-      ,"user_role"
-    ];
+    $scope.params = fetch_params();
 
     $scope.has_no_conditions = function() {
       return !conditions_specified_for($scope.feature.conditions);
@@ -123,6 +135,7 @@ angular.module('myApp.controllers', [])
     }
     
     $scope.save = function() {
+      copy_new_params_to_params($scope.feature.conditions, $scope.params);
       dialog.close($scope.feature);
     };
 
