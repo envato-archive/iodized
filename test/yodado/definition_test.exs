@@ -1,9 +1,9 @@
 defmodule Yodado.DefinitionTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Yodado.Definition.Rule, as: Rule
 
   defmodule AllTest do
-    use ExUnit.Case
+    use ExUnit.Case, async: true
     alias Yodado.Definition.All, as: All
 
     test "is true if all conditions match" do
@@ -34,7 +34,7 @@ defmodule Yodado.DefinitionTest do
   end
   
   defmodule AnyTest do
-    use ExUnit.Case
+    use ExUnit.Case, async: true
     alias Yodado.Definition.Any, as: Any
 
     test "is true if any conditions match" do
@@ -65,7 +65,7 @@ defmodule Yodado.DefinitionTest do
   end
 
   defmodule IncludedInTest do
-    use ExUnit.Case
+    use ExUnit.Case, async: true
     alias Yodado.Definition.IncludedIn, as: IncludedIn
 
     test "is true if the value of the param in the state is in the list of values" do
