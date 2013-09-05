@@ -11,7 +11,7 @@ defmodule Yodado.Web do
         file: "index.html",
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
       ]},
-      {"/feature/[:feature_id]", Yodado.Web.FeatureStatusHandler, []},
+      {"/feature/:feature_id", Yodado.Web.FeatureStatusHandler, []},
       {"/static/[...]", :cowboy_static, [ 
         directory: {:priv_dir, :yodado, "static"},
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
