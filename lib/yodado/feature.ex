@@ -25,7 +25,10 @@ defmodule Yodado.Feature do
   end
 
   def do?(feature, state) do
-    match = feature.definition |> Yodado.Definition.Rule.matches? state
+    match = case feature.master_switch_state do
+      nil -> feature.definition |> Yodado.Definition.Rule.matches? state
+      master_switch_state -> master_switch_state
+    end
     {:ok, match}
   end
 end
