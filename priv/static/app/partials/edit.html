@@ -1,4 +1,3 @@
-<!-- new feature form -->
 <div>
   <div class="feature block row-fluid">
     <div class="span4 offset1">
@@ -29,7 +28,7 @@
         <button 
             type="button" 
             class="btn" 
-            ng-model="feature.conditions.operand" 
+            ng-model="feature.definition.operand" 
             btn-radio="'any'"
         >
           Any
@@ -37,7 +36,7 @@
         <button 
             type="button" 
             class="btn" 
-            ng-model="feature.conditions.operand" 
+            ng-model="feature.definition.operand" 
             btn-radio="'all'"
         >
           All
@@ -47,11 +46,15 @@
     </div>
 
     <div class="span1">
-      <a class="btn btn-mini" ng-click="new_condition(feature.conditions)">
+      <a class="btn btn-mini" ng-click="new_condition(feature.definition)">
         <i class="icon-plus"></i>
       </a>
     </div>
   </div>
   
-  <div class="block container" ng-include="'partials/definition.html'" ng-init="conditions = feature.conditions.conditions;"></div>
+  <div 
+      class="block container" 
+      ng-include="'partials/definition.html'" 
+      ng-init="conditions = feature.definition.conditions;"
+  ></div>
 </div>

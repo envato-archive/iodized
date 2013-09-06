@@ -25,7 +25,7 @@ function add_id_to_condition(condition) {
 };
 
 function conditions_specified_for(feature) {
-  if(typeof feature.conditions == 'undefined') {
+  if(typeof feature.definition == 'undefined') {
     return false;
   }
   return true;
@@ -52,7 +52,7 @@ function compute_view(features) {
 
     features[i].view = view;
 
-    add_id_to_condition(features[i].conditions);
+    add_id_to_condition(features[i].definition);
   }
   
   return features;
