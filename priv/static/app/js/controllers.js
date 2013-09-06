@@ -23,7 +23,8 @@ angular.module('myApp.controllers', [])
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
       payload = payload.replace(/,"view":\{.*?\}/gi, '');
       payload = payload.replace(/[,]*"id":[0-9]+/gi, '');
-      
+      payload = payload.replace(/\{"param_name":null,"operand":null,"value":null\}/gi, '');
+
       // let yodado know
       $http({
         method: 'PUT'
