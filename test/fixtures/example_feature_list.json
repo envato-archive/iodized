@@ -84,5 +84,53 @@
     }
     ]
   }
+},
+{
+  "title": "super_awesome_redesign",
+  "description": "make the marketplace look COOL",
+  "master_switch_state": false,
+  "definition": {
+    "operand":"any",
+    "conditions":[
+    {
+      "operand":"all",
+      "conditions":[
+      {
+        "operand":"included_in",
+        "param_name":"username",
+        "value":[
+          "madlep",
+          "gstamp"
+          ]
+      },
+      {
+        "operand":"included_in",
+        "param_name":"host",
+        "value":[
+          "themeforest.net",
+        "codecanyon.net"
+          ]
+      }
+      ]
+    },
+    {
+      "operand":"is",
+      "param_name":"session_on",
+      "value":"true"
+    },
+    {
+      "operand":"included_in",
+      "param_name":"role",
+      "value":[
+        "developer"
+        ]
+    }
+    ]
+  }
+},
+{
+  "title": "i have no definition",
+  "description": "foo",
+  "master_switch_state": true
 }
 ]

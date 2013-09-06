@@ -14,7 +14,8 @@ defmodule Yodado.Feature do
     title = Keyword.fetch!(json, :title)
     description = Keyword.fetch!(json, :description)
     master_switch_state = Keyword.fetch!(json, :master_switch_state)
-    definition = Keyword.fetch!(json, :definition) |> Yodado.Definition.from_json
+    definition = json[:definition] |> Yodado.Definition.from_json
+
     Feature[
       title: title,
       description: description,
