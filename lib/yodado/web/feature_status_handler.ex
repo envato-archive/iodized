@@ -18,6 +18,7 @@ defmodule Yodado.Web.FeatureStatusHandler do
 
   def resource_exists(req, state) do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
+    state = Keyword.put(state, :feature_id, feature_id)
     case Yodado.FeaturePersistence.find_feature(feature_id) do
       :not_found ->     {false, req, state}
       {:ok, feature} -> state = Keyword.put(state, :feature, feature)
@@ -39,6 +40,9 @@ defmodule Yodado.Web.FeatureStatusHandler do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
 
     {:ok, result} = Yodado.Feature.do?(state[:feature], params)
+
+    IO.puts "feature_id=#{state[:feature_id]} params=#{params |> inspect} result=#{result}"
+
     body = [state: result] |> JSEX.encode!
 
     {body, req, state}
