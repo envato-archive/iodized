@@ -34,7 +34,7 @@
     },
     {
       "operand":"included_in",
-      "param_name":"role",
+      "param_name":"user_role",
       "value":[
         "developer"
         ]
@@ -77,7 +77,7 @@
     },
     {
       "operand":"included_in",
-      "param_name":"role",
+      "param_name":"user_role",
       "value":[
         "developer"
         ]
@@ -88,7 +88,7 @@
 {
   "title": "super_awesome_redesign",
   "description": "make the marketplace look COOL",
-  "master_switch_state": false,
+  "master_switch_state": null,
   "definition": {
     "operand":"any",
     "conditions":[
@@ -107,8 +107,8 @@
         "operand":"included_in",
         "param_name":"host",
         "value":[
-          "themeforest.net",
-        "codecanyon.net"
+          "themeforest.dev",
+        "codecanyon.dev"
           ]
       }
       ]
@@ -120,7 +120,7 @@
     },
     {
       "operand":"included_in",
-      "param_name":"role",
+      "param_name":"user_role",
       "value":[
         "developer"
         ]
