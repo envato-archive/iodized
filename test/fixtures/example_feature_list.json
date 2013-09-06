@@ -1,0 +1,88 @@
+[
+{
+  "title": "foo_bar",
+  "description": "super foo",
+  "master_switch_state": null,
+  "definition": {
+    "operand":"any",
+    "conditions":[
+    {
+      "operand":"all",
+      "conditions":[
+      {
+        "operand":"included_in",
+        "param_name":"username",
+        "value":[
+          "madlep",
+        "gstamp"
+          ]
+      },
+      {
+        "operand":"included_in",
+        "param_name":"host",
+        "value":[
+          "themeforest.net",
+        "codecanyon.net"
+          ]
+      }
+      ]
+    },
+    {
+      "operand":"is",
+      "param_name":"session_on",
+      "value":"true"
+    },
+    {
+      "operand":"included_in",
+      "param_name":"role",
+      "value":[
+        "developer"
+        ]
+    }
+    ]
+  }
+},
+{
+  "title": "fuz_boz",
+  "description": "not foo",
+  "master_switch_state": null,
+  "definition": {
+    "operand":"any",
+    "conditions":[
+    {
+      "operand":"all",
+      "conditions":[
+      {
+        "operand":"included_in",
+        "param_name":"username",
+        "value":[
+          "madlep",
+        "gstamp"
+          ]
+      },
+      {
+        "operand":"included_in",
+        "param_name":"host",
+        "value":[
+          "themeforest.net",
+        "codecanyon.net"
+          ]
+      }
+      ]
+    },
+    {
+      "operand":"is",
+      "param_name":"session_on",
+      "value":"true"
+    },
+    {
+      "operand":"included_in",
+      "param_name":"role",
+      "value":[
+        "developer"
+        ]
+    }
+    ]
+  }
+}
+]
