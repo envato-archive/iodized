@@ -14,14 +14,14 @@ angular.module('myApp.controllers', [])
       payload = payload.replace(/,"id":[0-9]+/gi, '');
       
       $http({
-        method: 'POST'
-        ,url: 'http://localhost:4567/json'
-        ,data: 'json=' + payload
-        ,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        //method: 'PUT'
-        //,url: 'http://localhost:8080/admin/api/feature/i_like_cheese'
-        //,data: payload
-        //,headers: {'Content-Type': 'application/json'}
+        //method: 'POST'
+        //,url: 'http://localhost:4567/json'
+        //,data: 'json=' + payload
+        //,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        method: 'PUT'
+        ,url: 'http://localhost:8080/admin/api/features'
+        ,data: payload
+        ,headers: {'Content-Type': 'application/json'}
       })
       .success(function(data, status) {
         $scope.features = compute_view(data);
