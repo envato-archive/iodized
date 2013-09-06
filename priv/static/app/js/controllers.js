@@ -97,13 +97,13 @@ angular.module('myApp.controllers', [])
         ,definition           : { 
           operand: "any", conditions: [
             { operand: "all", conditions: [
-                { param: "host_name", operand: "is", value: "death star"},
-                { param: "username", operand: "is", value: "darth vader"}
+                { param_name: "host_name", operand: "is", value: "death star"},
+                { param_name: "username", operand: "is", value: "darth vader"}
               ]
             },
             { operand: "all", conditions: [
-                { param: "username", operand: "included_in", value: ["luke", "obi wan", "yoda"] },
-                { param: "user_role", operand: "is", value: "jedi" }
+                { param_name: "username", operand: "included_in", value: ["luke", "obi wan", "yoda"] },
+                { param_name: "user_role", operand: "is", value: "jedi" }
               ]
             }
           ]
@@ -132,7 +132,7 @@ angular.module('myApp.controllers', [])
     if(typeof $scope.feature.definition == 'undefined') {
       $scope.feature.definition = { 
         operand: "any", conditions: [
-          { param: null, operand: null, value: null }
+          { param_name: null, operand: null, value: null }
         ]
       };
       add_id_to_condition($scope.feature.definition);

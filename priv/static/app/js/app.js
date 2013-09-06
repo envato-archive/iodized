@@ -84,7 +84,7 @@ function add_condition_to_feature(clicked_condition, current_condition) {
 
 function add_condition(condition) {
   var new_condition = {
-    param: null
+    param_name: null
     ,operand: null
     ,value: null
     ,id: id_counter++
@@ -114,7 +114,7 @@ function remove_condition_from_feature(clicked_condition, current_condition) {
 function copy_new_params_to_params(current_condition, params) {
   for(var i in current_condition.conditions) {
     if(current_condition.conditions[i].custom_param != undefined) {
-      current_condition.conditions[i].param = current_condition.conditions[i].custom_param;
+      current_condition.conditions[i].param_name = current_condition.conditions[i].custom_param;
       params[params.length] = current_condition.conditions[i].custom_param;
       delete current_condition.conditions[i].custom_param;
     }
