@@ -65,8 +65,8 @@ angular.module('myApp.controllers', [])
     };
 
     $scope.delete_feature = function(feature) {
-      var title = 'Delete ' + feature.title + ' this will!';
-      var msg = 'Sure you are?';
+      var title = 'Delete ' + feature.title + ', this will!';
+      var msg = 'Sure are you, hmm? Hmmmmmm.';
       var btns = [{result:'cancel', label: 'Cancel'}, {result:'delete', label: 'Delete', cssClass: 'btn-primary'}];
 
       $dialog.messageBox(title, msg, btns)

@@ -15,13 +15,17 @@
         </a>
       </div>
       <div class="span1">
-        <a class="btn btn-large btn-primary btn-block" ng-click="sync()">
+        <a class="btn btn-large btn-primary btn-block" ng-click="put_features()">
           <i class="icon-refresh icon-white"></i> Sync
         </a>
       </div>
     </div>
 
     <!-- list of features -->
+    <div ng-if="features.length == 0">
+      You have not any features. Why create one not, hmm? Yeesssssss.
+    </div>
+    
     <div class="feature block row-fluid well" ng-repeat="feature in features">
       <div class="details block span4 offset1">
         <div>
