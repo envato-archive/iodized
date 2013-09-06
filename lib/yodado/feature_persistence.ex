@@ -44,14 +44,30 @@ defmodule Yodado.FeaturePersistence do
       ["SET", feature_key, feature_json],
       ["SADD", index_key(), feature_key],
     ])
+    {:ok, true}
   end
 
   def delete_feature(feature_id) do
     feature_key = key(feature_id)
-    [{:ok, "1"}, {:ok, "1"}] = :eredis.qp(:redis, [
+    [{:ok, _del_result}, {:ok, _srem_result}] = :eredis.qp(:redis, [
       ["DEL", feature_key],
       ["SREM", index_key(), feature_key]
     ])
+    {:ok, true}
+  end
+
+  def sync(features) do
+    # TODO make this transactional
+    {:ok, feature_ids} = :eredis.q(:redis, ["SMEMBERS", index_key()]) 
+    # TODO do M DEL (or whatever)
+    feature_ids |> Enum.each(fn(id) ->
+      {:ok, true} = delete_feature(id)
+    end)
+
+    features |> Enum.each(fn(f) ->
+      {:ok, true} = save_feature(f)
+    end)
+    {:ok, true}
   end
 
   defp key(feature) when is_record(feature, Yodado.Feature.Feature) do

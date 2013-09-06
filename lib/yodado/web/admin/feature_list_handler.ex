@@ -8,7 +8,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
   end
 
   def allowed_methods(req, state) do
-    {["GET"], req, state}
+    {["GET", "PUT"], req, state}
   end
 
   def service_available(req, state) do
@@ -32,5 +32,21 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
     {:ok, features} = Yodado.FeaturePersistence.all()
     body = features |> Enum.map(&Yodado.Feature.json/1) |> JSEX.encode!(indent: 2)
     {body, req, state}
+  end
+
+  def content_types_accepted(req, state) do
+    acceptors = [
+      {"application/json", :sync_features}
+    ]
+    {acceptors, req, state}
+  end
+
+  def sync_features(req, state) do
+    {:ok, features_json, req} = :cowboy_req.body(req)
+    {:ok, true} = features_json |> 
+                JSEX.decode!(labels: :atom) |> 
+                Enum.map(&Yodado.Feature.from_json/1) |>
+                Yodado.FeaturePersistence.sync
+    {true, req, state}
   end
 end
