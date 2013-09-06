@@ -4,12 +4,12 @@
       <input 
           type="text" 
           ng-model="definition.custom_param" 
-          ng-if="(definition.param == 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
+          ng-if="(definition.param_name == 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
           
       />
       <select 
-          ng-model="definition.param" 
-          ng-if="(definition.param != 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
+          ng-model="definition.param_name" 
+          ng-if="(definition.param_name != 'New param...') &amp;&amp; (definition.operand != 'all' &amp;&amp; definition.operand != 'any')"
           
       />
         <option ng-repeat="param in params">{{param}}</option>
