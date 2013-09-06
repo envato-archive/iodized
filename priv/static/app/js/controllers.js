@@ -5,26 +5,31 @@
 angular.module('myApp.controllers', [])
   
   .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
-    $scope.sync = function() {
-      var payload = JSON.stringify($scope.features, undefined, 2);
+
+    $scope.get_features = function () {
+      $http({
+        method: 'GET'
+        ,url: 'http://localhost:8080/admin/api/features'
+      })
+      .success(function(data, status) {
+        $scope.features = compute_view(data);
+      });
+    }
+
+    $scope.put_features = function() {
+      var payload = JSON.stringify($scope.features);
 
       // nuke view specific crap
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
       payload = payload.replace(/,"view":\{.*?\}/gi, '');
-      payload = payload.replace(/,"id":[0-9]+/gi, '');
+      payload = payload.replace(/[,]*"id":[0-9]+/gi, '');
       
+      // let yodado know
       $http({
-        //method: 'POST'
-        //,url: 'http://localhost:4567/json'
-        //,data: 'json=' + payload
-        //,headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         method: 'PUT'
         ,url: 'http://localhost:8080/admin/api/features'
         ,data: payload
         ,headers: {'Content-Type': 'application/json'}
-      })
-      .success(function(data, status) {
-        $scope.features = compute_view(data);
       });
     };
 
@@ -49,10 +54,13 @@ angular.module('myApp.controllers', [])
             angular.copy(result, feature_to_edit);
           }
           else {
-            $scope.features[$scope.features.length] = compute_view_for(result);
+            $scope.features[$scope.features.length] = result;
+            compute_view($scope.features);
           }
         }
         feature_to_edit = undefined;
+
+        $scope.put_features();
       });
     };
 
@@ -71,6 +79,8 @@ angular.module('myApp.controllers', [])
             }
           }
         }
+
+        $scope.put_features();
       });
     };
 
@@ -80,41 +90,12 @@ angular.module('myApp.controllers', [])
       feature.view.master_state = state.toUpperCase();
       feature.view.indicator = 'indicator-'+state;
       feature.master_switch_state = master_state;
+
+      $scope.put_features();
     };
 
     $scope.quote = yoda_quotes[Math.floor((Math.random()*yoda_quotes.length)+1)];
-
-    $scope.features = compute_view([
-      {
-         title                : "droids_were_looking_for"
-        ,description          : "You can go about your business. Move along"
-        ,master_switch_state  : true
-      }
-      ,{
-         title                : "engage_hyper_drive"
-        ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
-        ,master_switch_state  : null
-        ,definition           : { 
-          operand: "any", conditions: [
-            { operand: "all", conditions: [
-                { param_name: "host_name", operand: "is", value: "death star"},
-                { param_name: "username", operand: "is", value: "darth vader"}
-              ]
-            },
-            { operand: "all", conditions: [
-                { param_name: "username", operand: "included_in", value: ["luke", "obi wan", "yoda"] },
-                { param_name: "user_role", operand: "is", value: "jedi" }
-              ]
-            }
-          ]
-        }
-      }
-      ,{
-         title                : "open_the_blast_doors"
-        ,description          : "Close the blast doors! Open the blast doors! Open the blast doors!"
-        ,master_switch_state  : false
-      }
-    ]);
+    $scope.features = [];
   }])
 
 
