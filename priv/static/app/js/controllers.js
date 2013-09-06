@@ -6,8 +6,8 @@ angular.module('myApp.controllers', [])
   
   .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
     $scope.sync = function() {
-      var payload = JSON.stringify($scope.features.concat($scope.features));
-      
+      var payload = JSON.stringify($scope.features, undefined, 2);
+
       // nuke view specific crap
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
       payload = payload.replace(/,"view":\{.*?\}/gi, '');
@@ -102,7 +102,7 @@ angular.module('myApp.controllers', [])
               ]
             },
             { operand: "all", conditions: [
-                { param: "username", operand: "included_in", value: "luke, obi wan, yoda" },
+                { param: "username", operand: "included_in", value: ["luke", "obi wan", "yoda"] },
                 { param: "user_role", operand: "is", value: "jedi" }
               ]
             }
@@ -137,6 +137,7 @@ angular.module('myApp.controllers', [])
       };
       add_id_to_condition($scope.feature.conditions);
     }
+    convert_array_to_csv($scope.feature.conditions);
 
     $scope.container_operands = ['any', 'all'];
     $scope.all_operands = ['is', 'included_in', 'any', 'all'];
@@ -163,6 +164,7 @@ angular.module('myApp.controllers', [])
     
     $scope.save = function() {
       copy_new_params_to_params($scope.feature.conditions, $scope.params);
+      convert_csv_to_array($scope.feature.conditions);
       dialog.close($scope.feature);
     };
 
