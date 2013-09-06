@@ -6,8 +6,8 @@ angular.module('myApp.controllers', [])
   
   .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
     $scope.sync = function() {
-      var payload = JSON.stringify($scope.features.concat($scope.features));
-      
+      var payload = JSON.stringify($scope.features, undefined, 2);
+
       // nuke view specific crap
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
       payload = payload.replace(/,"view":\{.*?\}/gi, '');
@@ -94,16 +94,16 @@ angular.module('myApp.controllers', [])
          title                : "engage_hyper_drive"
         ,description          : "If I may say so, sir, I noticed earlier the hyperdrive motivator has been damaged. It's impossible to go to lightspeed"
         ,master_switch_state  : null
-        ,conditions           : { 
+        ,definition           : { 
           operand: "any", conditions: [
             { operand: "all", conditions: [
-                { param: "host_name", operand: "is", value: "death star"},
-                { param: "username", operand: "is", value: "darth vader"}
+                { param_name: "host_name", operand: "is", value: "death star"},
+                { param_name: "username", operand: "is", value: "darth vader"}
               ]
             },
             { operand: "all", conditions: [
-                { param: "username", operand: "included_in", value: "luke, obi wan, yoda" },
-                { param: "user_role", operand: "is", value: "jedi" }
+                { param_name: "username", operand: "included_in", value: ["luke", "obi wan", "yoda"] },
+                { param_name: "user_role", operand: "is", value: "jedi" }
               ]
             }
           ]
@@ -129,14 +129,15 @@ angular.module('myApp.controllers', [])
         ,master_switch_state  : false
       };
     }
-    if(typeof $scope.feature.conditions == 'undefined') {
-      $scope.feature.conditions = { 
+    if(typeof $scope.feature.definition == 'undefined') {
+      $scope.feature.definition = { 
         operand: "any", conditions: [
-          { param: null, operand: null, value: null }
+          { param_name: null, operand: null, value: null }
         ]
       };
-      add_id_to_condition($scope.feature.conditions);
+      add_id_to_condition($scope.feature.definition);
     }
+    convert_array_to_csv($scope.feature.definition);
 
     $scope.container_operands = ['any', 'all'];
     $scope.all_operands = ['is', 'included_in', 'any', 'all'];
@@ -144,7 +145,7 @@ angular.module('myApp.controllers', [])
     $scope.params = fetch_params();
 
     $scope.has_no_conditions = function() {
-      return !conditions_specified_for($scope.feature.conditions);
+      return !conditions_specified_for($scope.feature.definition);
     };
 
     $scope.condition_is_a_container = function(condition) {
@@ -162,7 +163,8 @@ angular.module('myApp.controllers', [])
     }
     
     $scope.save = function() {
-      copy_new_params_to_params($scope.feature.conditions, $scope.params);
+      copy_new_params_to_params($scope.feature.definition, $scope.params);
+      convert_csv_to_array($scope.feature.definition);
       dialog.close($scope.feature);
     };
 
@@ -171,10 +173,10 @@ angular.module('myApp.controllers', [])
     };
 
     $scope.new_condition = function(clicked_condition) {
-      add_condition_to_feature(clicked_condition, $scope.feature.conditions);
+      add_condition_to_feature(clicked_condition, $scope.feature.definition);
     };
 
     $scope.delete_condition = function(clicked_condition) {
-      remove_condition_from_feature(clicked_condition, $scope.feature.conditions);
+      remove_condition_from_feature(clicked_condition, $scope.feature.definition);
     };
   }]);

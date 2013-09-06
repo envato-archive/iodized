@@ -25,7 +25,7 @@ function add_id_to_condition(condition) {
 };
 
 function conditions_specified_for(feature) {
-  if(typeof feature.conditions == 'undefined') {
+  if(typeof feature.definition == 'undefined') {
     return false;
   }
   return true;
@@ -52,7 +52,7 @@ function compute_view(features) {
 
     features[i].view = view;
 
-    add_id_to_condition(features[i].conditions);
+    add_id_to_condition(features[i].definition);
   }
   
   return features;
@@ -84,7 +84,7 @@ function add_condition_to_feature(clicked_condition, current_condition) {
 
 function add_condition(condition) {
   var new_condition = {
-    param: null
+    param_name: null
     ,operand: null
     ,value: null
     ,id: id_counter++
@@ -114,16 +114,48 @@ function remove_condition_from_feature(clicked_condition, current_condition) {
 function copy_new_params_to_params(current_condition, params) {
   for(var i in current_condition.conditions) {
     if(current_condition.conditions[i].custom_param != undefined) {
-      current_condition.conditions[i].param = current_condition.conditions[i].custom_param;
+      current_condition.conditions[i].param_name = current_condition.conditions[i].custom_param;
       params[params.length] = current_condition.conditions[i].custom_param;
-      delete current_condition.conditions[i].custom_param
-      return;
+      delete current_condition.conditions[i].custom_param;
     }
   }
 
   //check next condition
   for(var i in current_condition.conditions) {
     copy_new_params_to_params(current_condition.conditions[i], params);
+  }
+};
+
+function convert_csv_to_array(current_condition) {
+  for(var i in current_condition.conditions) {
+    if(current_condition.conditions[i].value != undefined) {
+      if(current_condition.conditions[i].value.indexOf(',') >= 0) {
+        // split on ,
+        current_condition.conditions[i].value = current_condition.conditions[i].value.split(',');
+        for(var j in current_condition.conditions[i].value) {
+          // trim whitespace
+          current_condition.conditions[i].value[j] = current_condition.conditions[i].value[j].trim();
+        }
+      }
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    convert_csv_to_array(current_condition.conditions[i]);
+  }
+};
+
+function convert_array_to_csv(current_condition) {
+  for(var i in current_condition.conditions) {
+    if(current_condition.conditions[i].value instanceof Array) {
+      current_condition.conditions[i].value = current_condition.conditions[i].value.join(', ');
+    }
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    convert_array_to_csv(current_condition.conditions[i]);
   }
 };
 
