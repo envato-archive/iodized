@@ -19,7 +19,7 @@
       },
       {
         "operand":"included_in",
-        "param_name":"host",
+        "param_name":"host_name",
         "value":[
           "themeforest.net",
         "codecanyon.net"
@@ -29,7 +29,7 @@
     },
     {
       "operand":"is",
-      "param_name":"session_on",
+      "param_name":"session_id",
       "value":"true"
     },
     {
@@ -62,7 +62,7 @@
       },
       {
         "operand":"included_in",
-        "param_name":"host",
+        "param_name":"host_name",
         "value":[
           "themeforest.net",
         "codecanyon.net"
@@ -72,7 +72,7 @@
     },
     {
       "operand":"is",
-      "param_name":"session_on",
+      "param_name":"session_id",
       "value":"true"
     },
     {
@@ -105,7 +105,7 @@
       },
       {
         "operand":"included_in",
-        "param_name":"host",
+        "param_name":"host_name",
         "value":[
           "themeforest.dev",
         "codecanyon.dev"
@@ -115,7 +115,7 @@
     },
     {
       "operand":"is",
-      "param_name":"session_on",
+      "param_name":"session_id",
       "value":"true"
     },
     {
