@@ -22,6 +22,10 @@
     </div>
 
     <!-- list of features -->
+    <div ng-if="features.length == 0">
+      You have not any features. Why create one not, hmm? Yeesssssss.
+    </div>
+    
     <div class="feature block row-fluid well" ng-repeat="feature in features">
       <div class="details block span4 offset1">
         <div>
