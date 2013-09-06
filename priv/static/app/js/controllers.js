@@ -4,7 +4,7 @@
 
 angular.module('myApp.controllers', [])
   
-  .controller('YodadoCtrl', ['$scope', '$dialog', '$http', function($scope, $dialog, $http) {
+  .controller('YodadoCtrl', ['$scope', '$dialog', '$http', '$timeout', function($scope, $dialog, $http, $timeout) {
 
     $scope.get_features = function () {
       $http({
@@ -13,6 +13,10 @@ angular.module('myApp.controllers', [])
       })
       .success(function(data, status) {
         $scope.features = compute_view(data);
+        $scope.show_alert('success');
+      })
+      .error(function(data, status) {
+        $scope.show_alert('error');
       });
     }
 
@@ -31,9 +35,36 @@ angular.module('myApp.controllers', [])
         ,url: 'http://localhost:8080/admin/api/features'
         ,data: payload
         ,headers: {'Content-Type': 'application/json'}
+      })
+      .success(function(data, status) {
+        $scope.remove_alert();
+        $scope.show_alert('success');
+      })
+      .error(function(data, status) {
+        $scope.remove_alert();
+        $scope.show_alert('error');
       });
     };
 
+    $scope.remove_alert = function() {
+      $scope.error = false;
+      $scope.success = false;
+    }
+
+    $scope.show_alert = function(alert) {
+      switch(alert) {
+        case 'success':
+          $scope.success = true;
+        break;
+        case 'error':
+          $scope.error = true;
+        break
+      }
+
+      $timeout(function() {
+        $scope.remove_alert();
+      }, 3000);
+    };
 
     $scope.edit_feature = function(feature) {
       var feature_to_edit = feature;
@@ -58,10 +89,10 @@ angular.module('myApp.controllers', [])
             $scope.features[$scope.features.length] = result;
             compute_view($scope.features);
           }
-        }
-        feature_to_edit = undefined;
-
         $scope.put_features();
+        }
+
+        feature_to_edit = undefined;
       });
     };
 
@@ -115,6 +146,7 @@ angular.module('myApp.controllers', [])
          title                : undefined
         ,description          : undefined
         ,master_switch_state  : false
+        ,definition           : undefined
       };
     }
     if(typeof $scope.feature.definition == 'undefined') {
@@ -125,10 +157,13 @@ angular.module('myApp.controllers', [])
       };
       add_id_to_condition($scope.feature.definition);
     }
-    convert_array_to_csv($scope.feature.definition);
+
+    //if(typeof $scope.feature.definition != 'undefined') {
+      convert_array_to_csv($scope.feature.definition);
+    //}
 
     $scope.container_operands = ['any', 'all'];
-    $scope.all_operands = ['is', 'included_in', 'any', 'all'];
+    $scope.all_operands = ['is', 'included_in', 'within', 'any', 'all'];
 
     $scope.params = fetch_params();
 

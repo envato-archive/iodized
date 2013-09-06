@@ -97,6 +97,18 @@ function add_condition(condition) {
   condition.conditions[condition.conditions.length] = new_condition;
 };
 
+
+function recursively_iterate_over_condition(current_condition, operation, args) {
+  for(var i in current_condition.conditions) {
+    operation(current_condition, args);
+  }
+
+  //check next condition
+  for(var i in current_condition.conditions) {
+    remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
+  }
+}
+
 function remove_condition_from_feature(clicked_condition, current_condition) {
   for(var i in current_condition.conditions) {
     if(current_condition.conditions[i].id == clicked_condition.id) {
@@ -129,7 +141,7 @@ function copy_new_params_to_params(current_condition, params) {
 function convert_csv_to_array(current_condition) {
   for(var i in current_condition.conditions) {
     if(current_condition.conditions[i].value != undefined) {
-      if(current_condition.conditions[i].value.indexOf(',') >= 0) {
+      if(current_condition.conditions[i].operand == 'included_in') {
         // split on ,
         current_condition.conditions[i].value = current_condition.conditions[i].value.split(',');
         for(var j in current_condition.conditions[i].value) {

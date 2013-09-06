@@ -53,3 +53,7 @@
 .details textarea {
   width: 100%;
 }
+
+.alerts {
+  height: 50px;
+}
