@@ -23,7 +23,7 @@ angular.module('myApp.controllers', [])
       payload = payload.replace(/,"\$\$hashKey":"[0-9A-Z]+"/gi, '');
       payload = payload.replace(/,"view":\{.*?\}/gi, '');
       payload = payload.replace(/[,]*"id":[0-9]+/gi, '');
-      payload = payload.replace(/\{"param_name":null,"operand":null,"value":null\}/gi, '');
+      payload = payload.replace(/\{"param_name":null,"operand":(.*?),"value":null\}/gi, '');
 
       // let yodado know
       $http({
@@ -86,11 +86,17 @@ angular.module('myApp.controllers', [])
     };
 
     $scope.toggle_master_state = function(feature, state) {
-      var master_state = (state == 'on' ? true : false)
+      var master_state = 'logic'
+      if(state == true) {
+        master_state = 'on';
+      }
+      else if(state == false) {
+        master_state = 'off'
+      }
       
-      feature.view.master_state = state.toUpperCase();
-      feature.view.indicator = 'indicator-'+state;
-      feature.master_switch_state = master_state;
+      feature.view.master_state = master_state.toUpperCase();
+      feature.view.indicator = 'indicator-' + master_state;
+      feature.master_switch_state = state;
 
       $scope.put_features();
     };

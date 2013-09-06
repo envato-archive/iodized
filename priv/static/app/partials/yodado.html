@@ -45,7 +45,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
-                ng-click="toggle_master_state(feature, 'on')"
+                ng-click="toggle_master_state(feature, true)"
                 btn-radio="'ON'"
             >
               On
@@ -54,7 +54,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
-                ng-click="toggle_master_state(feature, 'logic')"
+                ng-click="toggle_master_state(feature, null)"
                 btn-radio="'LOGIC'"
             >
               Logic
@@ -63,7 +63,7 @@
                 type="button" 
                 class="btn" 
                 ng-model="feature.view.master_switch" 
-                ng-click="toggle_master_state(feature, 'off')"
+                ng-click="toggle_master_state(feature, false)"
                 btn-radio="'OFF'"
             >
               Off
