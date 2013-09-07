@@ -158,9 +158,10 @@ angular.module('myApp.controllers', [])
       add_id_to_condition($scope.feature.definition);
     }
 
-    //if(typeof $scope.feature.definition != 'undefined') {
-      convert_array_to_csv($scope.feature.definition);
-    //}
+    each_condition(
+      $scope.feature.definition,
+      convert_array_to_csv
+    );
 
     $scope.container_operands = ['any', 'all'];
     $scope.all_operands = ['is', 'included_in', 'within', 'any', 'all'];
@@ -186,8 +187,15 @@ angular.module('myApp.controllers', [])
     }
     
     $scope.save = function() {
-      copy_new_params_to_params($scope.feature.definition, $scope.params);
-      convert_csv_to_array($scope.feature.definition);
+      each_condition(
+        $scope.feature.definition,
+        copy_new_params_to_params,
+        $scope.params
+      );
+      each_condition(
+        $scope.feature.definition,
+        convert_csv_to_array
+      );
       dialog.close($scope.feature);
     };
 
@@ -200,6 +208,10 @@ angular.module('myApp.controllers', [])
     };
 
     $scope.delete_condition = function(clicked_condition) {
-      remove_condition_from_feature(clicked_condition, $scope.feature.definition);
+      each_condition(
+        $scope.feature.definition, 
+        remove_condition_from_feature, 
+        clicked_condition
+      );
     };
   }]);

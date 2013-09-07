@@ -98,76 +98,63 @@ function add_condition(condition) {
 };
 
 
-function recursively_iterate_over_condition(current_condition, operation, args) {
-  for(var i in current_condition.conditions) {
-    operation(current_condition, args);
+function each_condition(condition, func) {
+  // retrieve rest of args
+  var args = [];
+  for(var i = 2; i < arguments.length; i++) {
+    args.push(arguments[i]);
+  }
+
+  // call the function on the currently visited condition
+  for(var i in condition.conditions) {
+    func.apply(condition, args);
   }
 
   //check next condition
-  for(var i in current_condition.conditions) {
-    remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
+  for(var i in condition.conditions) {
+    each_condition(condition.conditions[i], func, args);
   }
 }
 
-function remove_condition_from_feature(clicked_condition, current_condition) {
-  for(var i in current_condition.conditions) {
-    if(current_condition.conditions[i].id == clicked_condition.id) {
-      current_condition.conditions.splice(i, 1);
+function remove_condition_from_feature(clicked_condition) {
+  for(var i in this.conditions) {
+    if(this.conditions[i].id == clicked_condition.id) {
+      this.conditions.splice(i, 1);
       return;
     }
   }
-
-  //check next condition
-  for(var i in current_condition.conditions) {
-    remove_condition_from_feature(clicked_condition, current_condition.conditions[i]);
-  }
 };
 
-function copy_new_params_to_params(current_condition, params) {
-  for(var i in current_condition.conditions) {
-    if(current_condition.conditions[i].custom_param != undefined) {
-      current_condition.conditions[i].param_name = current_condition.conditions[i].custom_param;
-      params[params.length] = current_condition.conditions[i].custom_param;
-      delete current_condition.conditions[i].custom_param;
+function copy_new_params_to_params(params) {
+  for(var i in this.conditions) {
+    if(this.conditions[i].custom_param != undefined) {
+      this.conditions[i].param_name = this.conditions[i].custom_param;
+      params[params.length] = this.conditions[i].custom_param;
+      delete this.conditions[i].custom_param;
     }
   }
-
-  //check next condition
-  for(var i in current_condition.conditions) {
-    copy_new_params_to_params(current_condition.conditions[i], params);
-  }
 };
 
-function convert_csv_to_array(current_condition) {
-  for(var i in current_condition.conditions) {
-    if(current_condition.conditions[i].value != undefined) {
-      if(current_condition.conditions[i].operand == 'included_in') {
+function convert_csv_to_array() {
+  for(var i in this.conditions) {
+    if(this.conditions[i].value != undefined) {
+      if(this.conditions[i].operand == 'included_in') {
         // split on ,
-        current_condition.conditions[i].value = current_condition.conditions[i].value.split(',');
-        for(var j in current_condition.conditions[i].value) {
+        this.conditions[i].value = this.conditions[i].value.split(',');
+        for(var j in this.conditions[i].value) {
           // trim whitespace
-          current_condition.conditions[i].value[j] = current_condition.conditions[i].value[j].trim();
+          this.conditions[i].value[j] = this.conditions[i].value[j].trim();
         }
       }
     }
   }
-
-  //check next condition
-  for(var i in current_condition.conditions) {
-    convert_csv_to_array(current_condition.conditions[i]);
-  }
 };
 
-function convert_array_to_csv(current_condition) {
-  for(var i in current_condition.conditions) {
-    if(current_condition.conditions[i].value instanceof Array) {
-      current_condition.conditions[i].value = current_condition.conditions[i].value.join(', ');
+function convert_array_to_csv() {
+  for(var i in this.conditions) {
+    if(this.conditions[i].value instanceof Array) {
+      this.conditions[i].value = this.conditions[i].value.join(', ');
     }
-  }
-
-  //check next condition
-  for(var i in current_condition.conditions) {
-    convert_array_to_csv(current_condition.conditions[i]);
   }
 };
 
