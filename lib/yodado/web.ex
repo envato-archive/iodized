@@ -26,7 +26,6 @@ defmodule Yodado.Web do
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
 
-    {:ok, _} = :cowboy.start_http( :http, @handler_count, [port: @port], [env: [dispatch: dispatch]])
-    :ok
+    :cowboy.start_http( :http, @handler_count, [port: @port], [env: [dispatch: dispatch]])
   end
 end
