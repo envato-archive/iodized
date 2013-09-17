@@ -25,7 +25,8 @@ defmodule Yodado.Mixfile do
       {:cowboy, github: "extend/cowboy"},
       {:mimetypes, github: "spawngrid/mimetypes"},
       {:jsex, github: "talentdeficit/jsex"},
-      {:eredis, github: "wooga/eredis"}
+      {:eredis, github: "wooga/eredis"},
+      {:poolboy, github: "devinus/poolboy"}
     ]
   end
 end

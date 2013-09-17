@@ -41,8 +41,6 @@ defmodule Yodado.Web.FeatureStatusHandler do
 
     {:ok, result} = Yodado.Feature.do?(state[:feature], params)
 
-    IO.puts "feature_id=#{state[:feature_id]} params=#{params |> inspect} result=#{result}"
-
     body = [status: result] |> JSEX.encode!
 
     {body, req, state}

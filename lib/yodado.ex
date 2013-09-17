@@ -2,10 +2,10 @@ defmodule Yodado do
   use Application.Behaviour
 
   def start(_type, _args) do
-    case :eredis.start_link() do
-      {:ok, redis_pid}  ->  {:ok, Process.register(redis_pid, :redis)}
-                            start_web()
-      {:error, error}   ->  {:error, "Problem starting eredis error=#{inspect error}"}
+    case :poolboy.start_link([worker_module: :eredis, size: 50, max_overflow: 0], []) do
+      {:ok, redis_pool_pid}  -> {:ok, Process.register(redis_pool_pid, :redis_pool_pid)}
+                                start_web()
+      {:error, error}   ->      {:error, "Problem starting eredis error=#{inspect error}"}
     end
   end
 
