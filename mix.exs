@@ -5,7 +5,7 @@ defmodule Yodado.Mixfile do
     [ 
       app: :yodado,
       version: "0.0.1",
-      elixir: "~> 0.10.1",
+      elixir: "~> 0.10.2",
       deps: deps
     ]
   end
