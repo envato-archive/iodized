@@ -5,6 +5,7 @@ defmodule Yodado.Web do
 
   def start() do
     routes = [
+      {"/features", Yodado.Web.FeatureSetHandler, []},
       {"/feature/:feature_id", Yodado.Web.FeatureStatusHandler, []},
       {"/admin/api/features", Yodado.Web.Admin.FeatureListHandler, []},
       {"/admin/api/feature/:feature_id", Yodado.Web.Admin.FeatureStatusHandler, []},
