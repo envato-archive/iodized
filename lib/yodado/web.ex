@@ -14,11 +14,11 @@ defmodule Yodado.Web do
         file: "index.html",
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
       ]},
-      {"/admin/[...]", :cowboy_static, [ 
+      {"/admin/[...]", :cowboy_static, [
         directory: {:priv_dir, :yodado, "static/app"},
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
       ]},
-      {"/", :cowboy_static, [ 
+      {"/", :cowboy_static, [
         directory: {:priv_dir, :yodado, ["static"]},
         file: "index.html",
         mimetypes: {&:mimetypes.path_to_mimes/2, :default}
