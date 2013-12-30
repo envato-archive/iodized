@@ -1,97 +1,68 @@
-defprotocol Yodado.Definition.Rule do
-  def matches?(definition, state)
-  def json(definition)
-end
-
 defmodule Yodado.Definition do
 
-  alias Yodado.Definition.Rule, as: Rule
+  defprotocol Rule do
+    def matches?(definition, state)
+  end
 
-  defrecord All, conditions: []
+  ## All
+  defrecord All,
+    operand: "All",
+    definitions: []
+
   defimpl Rule, for: All do
-    def matches?(All[conditions: conditions], state) do
-      conditions |> Enum.all?(&Rule.matches?(&1, state))
-    end
-
-    def json(All[conditions: conditions]) do
-      [operand: "all", conditions: Enum.map(conditions, &Rule.json/1)]
+    def matches?(all, state) do
+      Enum.all?(all.definitions, &Rule.matches?(&1, state))
     end
   end
 
-  defrecord Any, conditions: []
+
+  ## Any
+  defrecord Any,
+    operand: "Any",
+    definitions: []
+
   defimpl Rule, for: Any do
-    def matches?(Any[conditions: conditions], state) do
-      conditions |> Enum.any?(&Rule.matches?(&1, state))
-    end
-
-    def json(Any[conditions: conditions]) do
-      [operand: "any", conditions: Enum.map(conditions, &Rule.json/1)]
+    def matches?(any, state) do
+      Enum.any?(any.definitions, &Rule.matches?(&1, state))
     end
   end
 
-  defrecord IncludedIn, param_name: nil, value: []
+
+  ## IncludedIn
+  defrecord IncludedIn,
+    operand: "IncludedIn",
+    actual_state_param_name: nil,
+    allowed_values: []
+
   defimpl Rule, for: IncludedIn do
-    def matches?(IncludedIn[param_name: param_name, value: value], state) do
-      actual_value = state[param_name]
-      Enum.member?(value, actual_value)
-    end
-
-    def json(IncludedIn[param_name: param_name, value: value]) do
-      [operand: "included_in", param_name: param_name, value: value]
+    def matches?(included_in, state) do
+      actual_value = state[included_in.actual_state_param_name]
+      Enum.member?(included_in.allowed_values, actual_value)
     end
   end
 
-  defrecord Is, param_name: nil, value: "true"
+
+  # Is
+  defrecord Is,
+    operand: "Is",
+    actual_state_param_name: nil,
+    allowed_value: "true"
+
   defimpl Rule, for: Is do
-    def matches?(Is[param_name: param_name, value: value], state) do
-      state[param_name] == value
-    end
-
-    def json(Is[param_name: param_name, value: value]) do
-      [operand: "is", param_name: param_name, value: value]
+    def matches?(is, state) do
+      state[is.actual_state_param_name] == is.allowed_value
     end
   end
 
+
+  # boolean
   defimpl Rule, for: Atom do
     def matches?(bool, _state) when is_boolean(bool), do: bool
-    def json(nil), do: nil
-    def json(bool) when is_boolean(bool), do: [operand: "boolean", value: bool]
   end
 
+
+  # function
   defimpl Rule, for: Function do
     def matches?(f, state), do: f.(state)
-    def json(_f), do: raise "not implemented"
-  end
-
-  def from_json(nil) do
-    nil
-  end
-
-  def from_json(definition) do
-    operand = Keyword.fetch!(definition, :operand)
-    from_json(operand, definition)
-  end
-
-  defp from_json("any", definition) do
-    conditions = Keyword.fetch!(definition, :conditions)
-    Any[conditions: Enum.map(conditions, &from_json/1)]
-  end
-
-  defp from_json("all", definition) do
-    conditions = Keyword.fetch!(definition, :conditions)
-    All[conditions: Enum.map(conditions, &from_json/1)]
-  end
-
-  defp from_json("included_in", definition) do
-    param_name = Keyword.fetch!(definition, :param_name)
-    value = Keyword.fetch!(definition, :value)
-    true = is_list(value) # validate we've got a list
-    IncludedIn[param_name: param_name, value: value]
-  end
-
-  defp from_json("is", definition) do
-    param_name = Keyword.fetch!(definition, :param_name)
-    value = Keyword.fetch!(definition, :value)
-    Is[param_name: param_name, value: value]
   end
 end
