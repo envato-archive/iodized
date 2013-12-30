@@ -1,4 +1,6 @@
 defmodule Yodado.Web.FeatureStatusHandler do
+  alias Yodado.FeaturePersistence, as: FeaturePersistence
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
@@ -12,7 +14,9 @@ defmodule Yodado.Web.FeatureStatusHandler do
   end
 
   def service_available(req, state) do
-    persistence_ok = Yodado.FeaturePersistence.ping
+    c = FeaturePersistence.connection
+    persistence_ok = FeaturePersistence.ping(c)
+    state = Keyword.put(state, :connection, c)
     {persistence_ok, req, state}
   end
 

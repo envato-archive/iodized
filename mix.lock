@@ -1,8 +1,7 @@
-[ "cowboy": {:git, "git://github.com/extend/cowboy.git", "4a30198f9068cc989616c8088e4b890bc1de259d", []},
-  "cowlib": {:git, "git://github.com/extend/cowlib.git", "2f35af5b0a67f591dde5ae4305a9587988a37c0c", [{:ref, "0.1.0"}]},
-  "eredis": {:git, "git://github.com/wooga/eredis.git", "313fce73b0fdb53f3a5f146a7adf19677b417cb5", []},
-  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "95492e9a4f418c10ff1c74d669d89ca5e8ac4d67", []},
+[ "cowboy": {:git, "git://github.com/extend/cowboy.git", "9f33a20d9425daf7491836e73f503c206cc170be", []},
+  "cowlib": {:git, "git://github.com/extend/cowlib.git", "63298e8e160031a70efff86a1acde7e7db1fcda6", [{:ref, "0.4.0"}]},
+  "eredis": {:git, "git://github.com/wooga/eredis.git", "d0f8c7f4d3ab4cc6ebb01539b8a2d6e32004f82a", []},
+  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "c9df36f07b2089a73ab6b32074c01728f1e5a2e1", []},
   "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "e50af6e109cb03bd26acf715cbc77de746507d1d", [{:tag, "v1.4.3"}]},
   "mimetypes": {:git, "git://github.com/spawngrid/mimetypes.git", "47d37a977a7d633199822bf6b08353007483d00f", []},
-  "poolboy": {:git, "git://github.com/devinus/poolboy.git", "91b68de43d49bcccf2631016febda70b20d7aa75", []},
-  "ranch": {:git, "git://github.com/extend/ranch.git", "41705752ffc7e3ecb96eef8374015ead4ca7f699", [{:ref, "0.8.5"}]} ]
+  "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [{:ref, "0.9.0"}]} ]

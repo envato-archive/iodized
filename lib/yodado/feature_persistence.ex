@@ -1,91 +1,91 @@
 defmodule Yodado.FeaturePersistence do
+  alias Yodado.Feature, as: Feature
+
   @key_prefix "feature"
   @id_prefix "id"
   @index_key "index"
 
-  def ping do
-    poolboy_transaction fn(redis) ->
-      case :eredis.q(redis, ["PING"]) do
-        {:ok, "PONG"} ->  true
-        _any          ->  false
+  def new do
+    {:ok, c} = :eredis.start_link()
+    c
+  end
+
+  def ping(c) do
+    case :eredis.q(c, ["PING"]) do
+      {:ok, "PONG"} ->  true
+      _any          ->  false
+    end
+  end
+
+  def all(c) do
+    # TODO use transaction/MGET here rather than lots of GETs to make this atomic
+    {:ok, feature_ids} = :eredis.q(c, ["SMEMBERS", index_key()])
+
+    features = Enum.reduce(feature_ids, [], fn(id, acc) ->
+      case find_feature({:key, id}, c) do
+        :not_found      -> acc
+        {:ok, feature}  -> [feature|acc]
       end
+    end)
+
+    {:ok, features}
+  end
+
+  def find_feature({:key, feature_id}, c) do
+    {:ok, feature_json} = :eredis.q(c, ["GET", feature_id])
+
+    case feature_json do
+      :undefined  ->
+        :not_found
+      _json_str   ->
+        feature = JSEX.decode!(feature_json, labels: :atom)
+        {:ok, Feature.from_json(feature)}
     end
   end
 
-  def all() do
-    poolboy_transaction fn(redis) ->
-      # TODO make this transactional
-      {:ok, feature_ids} = :eredis.q(redis, ["SMEMBERS", index_key()]) 
-      features = feature_ids |> Enum.reduce([], fn(id, acc) -> 
-        # TODO use MGET here rather than lots of GETs
-        case find_feature({:key, id}) do
-          :not_found      -> acc
-          {:ok, feature}  -> [feature|acc]
-        end
-      end)
-      {:ok, features}
-    end
+  def find_feature(feature_id, c) do
+    find_feature({:key, key(feature_id)}, c)
   end
 
-  def find_feature({:key, feature_id}) do
-    poolboy_transaction fn(redis) ->
-      {:ok, feature_json} = :eredis.q(redis, ["GET", feature_id])
-      case feature_json do
-        :undefined  ->  :not_found
-        _           ->  feature = JSEX.decode!(feature_json, labels: :atom)
-                        {:ok, Yodado.Feature.from_json(feature)}
-      end
-    end
-  end
+  def save_feature(feature, c) do
+    feature_json = Feature.json(feature) |> JSEX.encode!
 
-  def find_feature(feature_id) do
-    find_feature({:key, key(feature_id)})
-  end
+    feature_key = key(feature)
 
-
-  def save_feature(feature) do
-    poolboy_transaction fn(redis) ->
-      feature_json = Yodado.Feature.json(feature) |> JSEX.encode!
-      feature_key = key(feature)
-      [{:ok, "OK"}, {:ok, _lpush_result}]  = :eredis.qp(redis, [
-        ["SET", feature_key, feature_json],
-        ["SADD", index_key(), feature_key],
+    [{:ok, "OK"}, {:ok, _lpush_result}]  = :eredis.qp(c, [
+      ["SET", feature_key, feature_json],
+      ["SADD", index_key(), feature_key],
       ])
-      {:ok, true}
-    end
+    {:ok, true}
   end
 
-  def delete_feature({:key, feature_id}) do
-    poolboy_transaction fn(redis) ->
-      [{:ok, _del_result}, {:ok, _srem_result}] = :eredis.qp(redis, [
-        ["DEL", feature_id],
-        ["SREM", index_key(), feature_id]
+  def delete_feature({:key, feature_id}, c) do
+    [{:ok, _del_result}, {:ok, _srem_result}] = :eredis.qp(c, [
+      ["DEL", feature_id],
+      ["SREM", index_key(), feature_id]
       ])
-      {:ok, true}
-    end
+    {:ok, true}
   end
 
-  def delete_feature(feature_id) do
-    delete_feature({:key, feature_id})
+  def delete_feature(feature_id, c) do
+    delete_feature({:key, feature_id}, c)
   end
 
-  def sync(features) do
-    poolboy_transaction fn(redis) ->
-      # TODO make this transactional
-      {:ok, feature_ids} = :eredis.q(redis, ["SMEMBERS", index_key()]) 
-      # TODO do M DEL (or whatever)
-      feature_ids |> Enum.each(fn(id) ->
-        {:ok, true} = delete_feature({:key, id})
-      end)
+  def sync(features, c) do
+    # TODO make this transactional
+    {:ok, feature_ids} = :eredis.q(c, ["SMEMBERS", index_key()])
+    # TODO do M DEL (or whatever)
+    feature_ids |> Enum.each(fn(id) ->
+      {:ok, true} = delete_feature({:key, id}, c)
+    end)
 
-      features |> Enum.each(fn(f) ->
-        {:ok, true} = save_feature(f)
-      end)
-      {:ok, true}
-    end
+    features |> Enum.each(fn(f) ->
+      {:ok, true} = save_feature(f, c)
+    end)
+    {:ok, true}
   end
 
-  defp key(feature) when is_record(feature, Yodado.Feature.Feature) do
+  defp key(feature) when is_record(feature, Feature.Feature) do
     key(feature.title)
   end
 
@@ -96,9 +96,5 @@ defmodule Yodado.FeaturePersistence do
 
   defp index_key() do
     "#{@key_prefix}:#{@index_key}"
-  end
-
-  defp poolboy_transaction(f) do
-    :poolboy.transaction(:redis_pool_pid, fn(redis) -> f.(redis) end)
   end
 end
