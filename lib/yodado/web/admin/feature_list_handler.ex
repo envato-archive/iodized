@@ -1,10 +1,14 @@
 defmodule Yodado.Web.Admin.FeatureListHandler do
+
+  defrecord State, c: nil
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
   def rest_init(req, _opts) do
-    {:ok, req, []}
+    state = State.new(c: Yodado.FeaturePersistence.new)
+    {:ok, req, state}
   end
 
   def allowed_methods(req, state) do
@@ -12,7 +16,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
   end
 
   def service_available(req, state) do
-    persistence_ok = Yodado.FeaturePersistence.ping
+    persistence_ok = Yodado.FeaturePersistence.ping(state.c)
     {persistence_ok, req, state}
   end
 
@@ -29,7 +33,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
 
   def render_feature_list(req, state) do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
-    {:ok, features} = Yodado.FeaturePersistence.all()
+    {:ok, features} = Yodado.FeaturePersistence.all(state.c)
     body = features |> Enum.map(&Yodado.Feature.json/1) |> JSEX.encode!(indent: 2)
     {body, req, state}
   end
@@ -46,7 +50,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
     {:ok, true} = features_json |> 
                 JSEX.decode!(labels: :atom) |> 
                 Enum.map(&Yodado.Feature.from_json/1) |>
-                Yodado.FeaturePersistence.sync
+                Yodado.FeaturePersistence.sync(state.c)
     {true, req, state}
   end
 end
