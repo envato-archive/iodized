@@ -11,6 +11,7 @@ defmodule Yodado.Web do
       {"/admin/api/feature/:feature_id", Yodado.Web.Admin.FeatureStatusHandler, []},
       {"/admin", :cowboy_static, {:priv_file, :yodado, "static/app/index.html"}},
       {"/admin/[...]", :cowboy_static, {:priv_dir, :yodado, "static/app"}},
+      {"/try", Yodado.Web.TryHandler, []},
       {"/", :cowboy_static, {:priv_file, :yodado, "static/index.html"}},
     ]
 
