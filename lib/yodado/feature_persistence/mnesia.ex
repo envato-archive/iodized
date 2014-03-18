@@ -6,20 +6,12 @@ defmodule Yodado.FeaturePersistence.Mnesia do
     Enum.map(fn({key, _default}) -> {key, :_} end) |>
     Yodado.Feature.Feature.new
 
-  def new do
-    :ok
-  end
-
-  def ping(_c) do
-    true
-  end
-
-  def all(_c) do
+  def all() do
     features = :mnesia.dirty_match_object(@all_features_matcher)
     {:ok, features}
   end
 
-  def find_feature({:key, feature_id}, _c) do
+  def find_feature({:key, feature_id}) do
     features = :mnesia.dirty_read(@table_record, feature_id)
     case features do
       [feature] ->
@@ -29,30 +21,30 @@ defmodule Yodado.FeaturePersistence.Mnesia do
     end
   end
 
-  def find_feature(feature_id, _c) do
-    find_feature({:key, key(feature_id)}, _c)
+  def find_feature(feature_id) do
+    find_feature({:key, key(feature_id)})
   end
 
-  def save_feature(feature, _c) do
+  def save_feature(feature) do
     :ok = :mnesia.transaction(fn() ->
       :mnesia.write(feature)
     end)
     {:ok, true}
   end
 
-  def delete_feature({:key, feature_id}, _c) do
+  def delete_feature({:key, feature_id}) do
     :ok = :mnesia.transaction(fn() ->
       :mnesia.delete({@table_record, feature_id})
     end)
     {:ok, true}
   end
 
-  def delete_feature(feature_id, _c) do
-    delete_feature({:key, feature_id}, _c)
+  def delete_feature(feature_id) do
+    delete_feature({:key, feature_id})
   end
 
   #TODO this must die
-  def sync(features, _c) do
+  def sync(features) do
     # TODO not transactional. tut, tut, tut
     {:atomic, :ok} = :mnesia.clear_table(@table_record)
     :mnesia.transaction(fn() ->
