@@ -43,13 +43,17 @@ defmodule Yodado.FeaturePersistence.Mnesia do
     delete_feature({:key, feature_id})
   end
 
-  #TODO this must die
+  #TODO this must die. only used by old JS client
   def sync(features) do
-    # TODO not transactional. tut, tut, tut
-    {:atomic, :ok} = :mnesia.clear_table(@table_record)
-    :mnesia.transaction(fn() ->
+    {:atomic, :ok} =  :mnesia.transaction(fn() ->
+      #TODO slow, and hacky...
+      keys = :mnesia.all_keys(@table_record)
+      Enum.each(keys, fn(k) ->
+        :ok = :mnesia.delete({@table_record, k})
+      end)
+
       Enum.each(features, fn(f) ->
-        {:atomic, :ok} = :mnesia.write(f)
+        :ok = :mnesia.write(f)
       end)
     end)
     {:ok, true}
