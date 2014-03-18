@@ -151,7 +151,7 @@ defmodule Yodado.DefinitionTest do
        ]
       }
     """
-    actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.Definition.from_json
+    actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
     expected_definition = 
       Yodado.Definition.Any[definitions: [
         Yodado.Definition.All[definitions: [
