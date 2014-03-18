@@ -24,7 +24,6 @@ defmodule Yodado.Mixfile do
   defp deps do
     [ 
       {:cowboy, github: "extend/cowboy"},
-      {:mimetypes, github: "spawngrid/mimetypes"},
       {:jsex, github: "talentdeficit/jsex"},
       {:eredis, github: "wooga/eredis"}
     ]
