@@ -1,6 +1,6 @@
 defmodule Yodado.Web.FeatureStatusHandler do
 
-  @persistence Yodado.FeaturePersistence.Redis
+  @persistence Yodado.FeaturePersistence.Mnesia
 
   defrecord State, c: nil, feature: nil
 

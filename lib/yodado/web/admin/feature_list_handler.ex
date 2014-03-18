@@ -1,6 +1,6 @@
 defmodule Yodado.Web.Admin.FeatureListHandler do
 
-  @persistence Yodado.FeaturePersistence.Redis
+  @persistence Yodado.FeaturePersistence.Mnesia
   defrecord State, c: nil
 
   def init(_transport, _req, _opts) do
