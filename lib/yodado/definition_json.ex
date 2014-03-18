@@ -51,6 +51,12 @@ defmodule Yodado.DefinitionJson do
     end
   end
 
+  defimpl Json, for: nil do
+    def to_json(_nil) do
+      nil
+    end
+  end
+
   defp composite_from_json(record_type, definition) do
     #TODO HAX because old JS admin uses wrong param name s/conditions/definitions/
     definitions = Keyword.get(definition, :conditions) || Keyword.fetch!(definition, :definitions)
