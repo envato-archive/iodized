@@ -14,7 +14,6 @@ defmodule Yodado do
   defp start_mnesia() do
    {:ok, data_dir} = :application.get_env(:yodado, :data_dir)
    :application.set_env(:mnesia, :dir, data_dir)
-   :application.set_env(:mnesia, :core_dir, :tmp)
    :ok = :mnesia.start()
   end
 
