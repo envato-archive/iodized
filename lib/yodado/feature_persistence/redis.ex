@@ -1,4 +1,4 @@
-defmodule Yodado.FeaturePersistence do
+defmodule Yodado.FeaturePersistence.Redis do
   alias Yodado.Feature, as: Feature
 
   @key_prefix "feature"
