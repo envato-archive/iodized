@@ -5,7 +5,7 @@ defmodule Yodado.Definition do
   end
 
   ## All
-  defrecord All, operand: "All", definitions: []
+  defrecord All, definitions: []
   defimpl Rule, for: All do
     def matches?(all, state) do
       Enum.all?(all.definitions, &Rule.matches?(&1, state))
@@ -14,7 +14,7 @@ defmodule Yodado.Definition do
 
 
   ## Any
-  defrecord Any, operand: "Any", definitions: []
+  defrecord Any, definitions: []
   defimpl Rule, for: Any do
     def matches?(any, state) do
       Enum.any?(any.definitions, &Rule.matches?(&1, state))
@@ -23,7 +23,7 @@ defmodule Yodado.Definition do
 
 
   ## IncludedIn
-  defrecord IncludedIn, operand: "IncludedIn", actual_state_param_name: nil, allowed_values: []
+  defrecord IncludedIn, actual_state_param_name: nil, allowed_values: []
   defimpl Rule, for: IncludedIn do
     def matches?(included_in, state) do
       actual_value = state[included_in.actual_state_param_name]
@@ -33,7 +33,7 @@ defmodule Yodado.Definition do
 
 
   # Is
-  defrecord Is, operand: "Is", actual_state_param_name: nil, allowed_value: "true"
+  defrecord Is, actual_state_param_name: nil, allowed_value: "true"
   defimpl Rule, for: Is do
     def matches?(is, state) do
       state[is.actual_state_param_name] == is.allowed_value
