@@ -14,8 +14,6 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
     {["GET", "PUT"], req, state}
   end
 
-  end
-
   def content_types_provided(req, state) do
     providers = [
       {"*", :render_feature_list}
