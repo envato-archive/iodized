@@ -15,14 +15,14 @@ defmodule Yodado.DefinitionJson do
   defp from_json("any", definition), do: composite_from_json(Yodado.Definition.Any, definition)
   defimpl Json, for: Yodado.Definition.Any do
     def to_json(any) do
-      [operand: "any", definitions: Enum.map(any.definitions, &Json.to_json(&1))]
+      [operand: "any", definitions: Enum.map(any.definitions || [], &Json.to_json(&1))]
     end
   end
 
   defp from_json("all", definition), do: composite_from_json(Yodado.Definition.All, definition)
   defimpl Json, for: Yodado.Definition.All do
     def to_json(all) do
-      [operand: "all", definitions: Enum.map(all.definitions, &Json.to_json(&1))]
+      [operand: "all", definitions: Enum.map(all.definitions || [], &Json.to_json(&1))]
     end
   end
 
@@ -48,12 +48,6 @@ defmodule Yodado.DefinitionJson do
   defimpl Json, for: Yodado.Definition.Is do
     def to_json(is) do
       [operand: "is", param_name: is.actual_state_param_name, value: is.allowed_value]
-    end
-  end
-
-  defimpl Json, for: nil do
-    def to_json(_nil) do
-      nil
     end
   end
 
