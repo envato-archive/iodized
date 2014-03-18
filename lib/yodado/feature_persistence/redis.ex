@@ -90,7 +90,7 @@ defmodule Yodado.FeaturePersistence.Redis do
   end
 
   defp key(feature_id) do
-    id = Regex.replace(%r/[^\w]+/, feature_id, "_") |> String.downcase
+    id = Regex.replace(~r/[^\w]+/, feature_id, "_") |> String.downcase
     "#{@key_prefix}:#{@id_prefix}:#{id}"
   end
 
