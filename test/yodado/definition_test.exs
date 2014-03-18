@@ -28,7 +28,7 @@ defmodule Yodado.DefinitionTest do
 
     test "it generates JSON" do
       definition = All[definitions: [true, false]]
-      expected_json = "{\"operand\":\"all\",\"conditions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
+      expected_json = "{\"operand\":\"all\",\"definitions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
       actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
@@ -59,7 +59,7 @@ defmodule Yodado.DefinitionTest do
 
     test "it generates JSON" do
       definition = Any[definitions: [true, false]]
-      expected_json = "{\"operand\":\"any\",\"conditions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
+      expected_json = "{\"operand\":\"any\",\"definitions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
       actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end

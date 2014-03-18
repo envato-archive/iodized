@@ -56,4 +56,9 @@ defmodule Yodado.DefinitionJson do
     definitions = Keyword.get(definition, :conditions) || Keyword.fetch!(definition, :definitions)
     record_type.new(definitions: Enum.map(definitions, &from_json/1))
   end
+
+  defimpl Json, for: Atom do
+    def to_json(true), do: [operand: "boolean", value: true]
+    def to_json(false), do: [operand: "boolean", value: false]
+  end
 end
