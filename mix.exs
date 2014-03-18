@@ -12,9 +12,10 @@ defmodule Yodado.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    [ 
+    [
       mod: { Yodado, [] },
       applications: [:cowboy],
+      env: [data_dir: :data]
     ]
   end
 
