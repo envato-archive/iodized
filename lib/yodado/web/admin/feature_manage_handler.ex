@@ -2,14 +2,14 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
 
   @persistence Yodado.FeaturePersistence.Mnesia
 
-  defrecord State, c: nil, feature: nil
+  defrecord State, feature: nil
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
   def rest_init(req, _opts) do
-    state = State.new(c: @persistence.new)
+    state = State.new()
     {:ok, req, state}
   end
 
@@ -17,14 +17,9 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
     {["GET", "PUT", "DELETE"], req, state}
   end
 
-  def service_available(req, state) do
-    persistence_ok = @persistence.ping(state.c)
-    {persistence_ok, req, state}
-  end
-
   def resource_exists(req, state) do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
-    case @persistence.find_feature(feature_id, state.c) do
+    case @persistence.find_feature(feature_id) do
       :not_found ->     {false, req, state}
       {:ok, feature} -> state = State.feature(feature)
                         {true, req, state}
@@ -54,13 +49,13 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
   def save_feature(req, state) do
     {:ok, feature_json, req} = :cowboy_req.body(req)
     feature = feature_json |> JSEX.decode!(labels: :atom) |> Yodado.Feature.from_json
-    @persistence.save_feature(feature, state.c)
+    @persistence.save_feature(feature)
     {true, req, state}
   end
 
   def delete_resource(req, state) do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
-    @persistence.delete_feature(feature_id, state.c)
+    @persistence.delete_feature(feature_id)
     {true, req, state}
   end
 end
