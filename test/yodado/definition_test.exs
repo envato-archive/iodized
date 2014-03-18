@@ -1,6 +1,7 @@
 defmodule Yodado.DefinitionTest do
   use ExUnit.Case, async: true
   alias Yodado.Definition.Rule, as: Rule
+  alias Yodado.DefinitionJson.Json, as: Json
 
   defmodule AllTest do
     use ExUnit.Case, async: true
@@ -28,7 +29,7 @@ defmodule Yodado.DefinitionTest do
     test "it generates JSON" do
       definition = All[definitions: [true, false]]
       expected_json = "{\"operand\":\"all\",\"conditions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
-      actual_json = Rule.json(definition) |> JSEX.encode!
+      actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
   end
@@ -59,7 +60,7 @@ defmodule Yodado.DefinitionTest do
     test "it generates JSON" do
       definition = Any[definitions: [true, false]]
       expected_json = "{\"operand\":\"any\",\"conditions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}]}"
-      actual_json = Rule.json(definition) |> JSEX.encode!
+      actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
   end
@@ -81,7 +82,7 @@ defmodule Yodado.DefinitionTest do
     test "it generates JSON" do
       definition = IncludedIn[actual_state_param_name: "username", allowed_values: ["francis", "bill", "zoey", "louis"]]
       expected_json = "{\"operand\":\"included_in\",\"param_name\":\"username\",\"value\":[\"francis\",\"bill\",\"zoey\",\"louis\"]}"
-      actual_json = Rule.json(definition) |> JSEX.encode!
+      actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
   end
@@ -104,7 +105,7 @@ defmodule Yodado.DefinitionTest do
     test "it generates JSON" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
       expected_json = "{\"operand\":\"is\",\"param_name\":\"session_on\",\"value\":\"yes\"}"
-      actual_json = Rule.json(definition) |> JSEX.encode!
+      actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
   end
