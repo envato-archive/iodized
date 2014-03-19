@@ -5,6 +5,8 @@ defmodule Yodado.FeatureTest do
 
     setup do
       {:ok, [
+          dummy_state: [{"WA", "Perth"}],
+
           always_on_feature: Feature.Feature[title: "always on feature",
             description: "Does stuff",
             master_switch_state: true,
@@ -64,20 +66,37 @@ defmodule Yodado.FeatureTest do
 
     test "do?/2 is false when no state is sent and master_switch_state is nil", context do
       feature = context[:useful_feature]
-      {:ok, state} = Feature.do?(feature, nil)
-      refute(state)
+      state = context[:dummy_state]
+      {:ok, result} = Feature.do?(feature, state)
+      refute(result)
     end
 
     test "do?/2 is true when master_switch_state is true", context do
       feature = context[:always_on_feature]
-      {:ok, state} = Feature.do?(feature, nil)
-      assert(state)
+      state = context[:dummy_state]
+      {:ok, result} = Feature.do?(feature, state)
+      assert(result)
     end
 
     test "do?/2 is true when master_switch_state is false", context do
       feature = context[:always_off_feature]
-      {:ok, state} = Feature.do?(feature, nil)
-      refute(state)
+      state = context[:dummy_state]
+      {:ok, result} = Feature.do?(feature, state)
+      refute(result)
+    end
+
+    test "do/?2 is true when the logic says so", context do
+      feature = context[:useful_feature]
+      state = [{"username", "paj"}]
+      {:ok, result} = Feature.do?(feature, state)
+      assert(result)
+    end
+
+    test "do/?2 is false when the logic says so", context do
+      feature = context[:useful_feature]
+      state = [{"username", "madlep"}]
+      {:ok, result} = Feature.do?(feature, state)
+      refute(result)
     end
 
   end
