@@ -53,5 +53,11 @@ defmodule Yodado.FeatureTest do
 
       assert(Feature.from_json(serialized_feature) == feature)
     end
+
+    test "do?/2 is false when no state is sent", context do
+      feature = context[:feature]
+      {:ok, state} = Feature.do?(feature, nil)
+      refute(state)
+    end
   end
 end
