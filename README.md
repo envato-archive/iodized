@@ -1,5 +1,7 @@
 # Yodado
 
+[![Build Status](https://travis-ci.org/envato/yodado.png)](https://travis-ci.org/envato/yodado)
+
 ## Getting Started
 
 - Install Erlang/Elixir [using these
