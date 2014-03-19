@@ -8,11 +8,13 @@ defmodule Yodado.FeatureSetTest do
       result = FeatureSet.multi_do([])
       assert is_list(result)
 
-      [first | _ ] = result
-      {title, state} = first
+      if length(result) > 0 do
+        [first | _ ] = result
+        {title, state} = first
 
-      assert is_binary(title)
-      assert is_boolean(state)
+        assert is_binary(title)
+        assert is_boolean(state)
+      end
     end
   end
 end
