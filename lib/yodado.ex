@@ -9,10 +9,12 @@ defmodule Yodado do
   end
 
   defp start_web() do
+    # TODO this should be supervised
     {:ok, _cowboy_pid} = Yodado.Web.start()
   end
 
   defp start_thrift() do
+    # TODO this should be supervised
     :thrift_socket_server.start(
       handler: Yodado.Transport.FeaturesThriftHandler,
       service: :features_thrift,
