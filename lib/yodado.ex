@@ -18,7 +18,8 @@ defmodule Yodado do
     :thrift_socket_server.start(
       handler: Yodado.Transport.FeaturesThriftHandler,
       service: :features_thrift,
-      port: 12345)
+      port: 12345,
+      socket_opts: [recv_timeout: 60000])
   end
 
   # debugging only, kill this shortly
