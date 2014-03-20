@@ -25,7 +25,8 @@ defmodule Yodado.Mixfile do
     [ 
       {:cowboy, github: "extend/cowboy"},
       {:jsex, github: "talentdeficit/jsex"},
-      {:thrift, github: "dieswaytoofast/thrift", tag: "0.9.2"} # TODO need nicer way of managing thrift
+      {:thrift, github: "dieswaytoofast/thrift", tag: "0.9.2"}, # TODO need nicer way of managing thrift
+      {:mock, github: "jjh42/mock"},
     ]
   end
 end
