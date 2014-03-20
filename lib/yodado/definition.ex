@@ -41,7 +41,7 @@ defmodule Yodado.Definition do
   end
 
   # Percentage
-  defrecord Percentage, threshold: 0
+  defrecord Percentage, actual_state_param_name: nil, threshold: 0
   defimpl Rule, for: Percentage do
     def digest_int(s) do
       md5 = :crypto.md5(s)
@@ -51,7 +51,7 @@ defmodule Yodado.Definition do
     end
 
     def matches?(percentage, state) do
-      id = state["id"]
+      id = state[percentage.actual_state_param_name]
       value = digest_int(id) |> rem(100)
       value < percentage.threshold
     end

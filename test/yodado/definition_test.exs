@@ -115,20 +115,20 @@ defmodule Yodado.DefinitionTest do
     alias Yodado.Definition.Percentage, as: Percentage
 
     test "matches if the ID's digest modulo 100 is under the given percentage" do
-      definition = Percentage[threshold: 50]
+      definition = Percentage[actual_state_param_name: "id", threshold: 50]
       id = "Dance of Death" # digest_int #=> 1
       assert(Rule.matches?(definition, [{"id", id}]))
     end
 
     test "doesn't match if the ID's digest modulo 100 is over the given percentage" do
-      definition = Percentage[threshold: 50]
+      definition = Percentage[actual_state_param_name: "id", threshold: 50]
       id = "Hello World" # digest_int #=> 57
       refute(Rule.matches?(definition, [{"id", id}]))
     end
 
     test "it generates JSON" do
-      definition = Percentage[threshold: 42]
-      expected_json = "{\"operand\":\"percentage\",\"threshold\":42}"
+      definition = Percentage[actual_state_param_name: "id", threshold: 42]
+      expected_json = "{\"operand\":\"percentage\",\"param_name\":\"id\",\"value\":42}"
       actual_json = Json.to_json(definition) |> JSEX.encode!
       assert(actual_json === expected_json)
     end
