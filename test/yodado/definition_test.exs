@@ -126,12 +126,26 @@ defmodule Yodado.DefinitionTest do
       refute(Rule.matches?(definition, [{"id", id}]))
     end
 
-    test "it generates JSON" do
+    test "it serializes" do
       definition = Percentage[actual_state_param_name: "id", threshold: 42]
       expected_json = "{\"operand\":\"percentage\",\"param_name\":\"id\",\"value\":42}"
       actual_json = Json.to_json(definition) |> JSEX.encode!
       assert(actual_json === expected_json)
     end
+
+    test "it deserializes" do
+      json = """
+        {
+          "operand": "percentage",
+          "param_name": "something",
+          "value": "21"
+        }
+      """
+      actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
+      expected_definition = Percentage[actual_state_param_name: "something", threshold: 21]
+      assert(expected_definition === actual_definition)
+    end
+
   end
 
   test "parsing from JSON" do
