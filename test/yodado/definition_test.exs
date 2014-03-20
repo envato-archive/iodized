@@ -33,7 +33,7 @@ defmodule Yodado.DefinitionTest do
       assert actual_json == expected_json
     end
   end
-  
+
   defmodule AnyTest do
     use ExUnit.Case, async: true
     alias Yodado.Definition.Any, as: Any
@@ -94,12 +94,12 @@ defmodule Yodado.DefinitionTest do
 
     test "is true if the value of the param in the state equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert Rule.matches?(definition, [{"session_on", "yes"}]) 
+      assert Rule.matches?(definition, [{"session_on", "yes"}])
     end
 
     test "is false if the value of the param in the state does not equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert !Rule.matches?(definition, [{"session_on", "HAHA"}]) 
+      assert !Rule.matches?(definition, [{"session_on", "HAHA"}])
     end
 
     test "it generates JSON" do
@@ -152,7 +152,7 @@ defmodule Yodado.DefinitionTest do
       }
     """
     actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
-    expected_definition = 
+    expected_definition =
       Yodado.Definition.Any[definitions: [
         Yodado.Definition.All[definitions: [
           Yodado.Definition.IncludedIn[actual_state_param_name: "username", allowed_values: ["madlep", "gstamp"]],
