@@ -51,6 +51,16 @@ defmodule Yodado.DefinitionJson do
     end
   end
 
+  defp from_json("percentage", definition) do
+    threshold = Keyword.fetch!(definition, :threshold)
+    Yodado.Definition.Percentage[threshold: binary_to_integer(threshold)]
+  end
+  defimpl Json, for: Yodado.Definition.Percentage do
+    def to_json(percentage) do
+      [operand: "percentage", threshold: percentage.threshold]
+    end
+  end
+
   defp composite_from_json(record_type, definition) do
     #TODO HAX because old JS admin uses wrong param name s/conditions/definitions/
     definitions = Keyword.get(definition, :conditions) || Keyword.fetch!(definition, :definitions)

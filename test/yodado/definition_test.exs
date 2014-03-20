@@ -110,6 +110,30 @@ defmodule Yodado.DefinitionTest do
     end
   end
 
+  defmodule PercentageTest do
+    use ExUnit.Case, async: true
+    alias Yodado.Definition.Percentage, as: Percentage
+
+    test "matches if the ID's digest modulo 100 is under the given percentage" do
+      definition = Percentage[threshold: 50]
+      id = "Dance of Death" # digest_int #=> 1
+      assert(Rule.matches?(definition, [{"id", id}]))
+    end
+
+    test "doesn't match if the ID's digest modulo 100 is over the given percentage" do
+      definition = Percentage[threshold: 50]
+      id = "Hello World" # digest_int #=> 57
+      refute(Rule.matches?(definition, [{"id", id}]))
+    end
+
+    test "it generates JSON" do
+      definition = Percentage[threshold: 42]
+      expected_json = "{\"operand\":\"percentage\",\"threshold\":42}"
+      actual_json = Json.to_json(definition) |> JSEX.encode!
+      assert(actual_json === expected_json)
+    end
+  end
+
   test "parsing from JSON" do
     json = """
       {
