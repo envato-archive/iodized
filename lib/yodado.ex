@@ -3,12 +3,20 @@ defmodule Yodado do
 
   def start(_type, _args) do
     start_web()
+    start_thrift()
     start_mnesia()
     {:ok, self()}
   end
 
   defp start_web() do
     {:ok, _cowboy_pid} = Yodado.Web.start()
+  end
+
+  defp start_thrift() do
+    :thrift_socket_server.start(
+      handler: Yodado.Transport.FeaturesThriftHandler,
+      service: :features_thrift,
+      port: 12345)
   end
 
   defp start_mnesia() do
