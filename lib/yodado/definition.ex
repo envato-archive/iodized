@@ -44,7 +44,7 @@ defmodule Yodado.Definition do
   defrecord Percentage, actual_state_param_name: nil, threshold: 0
   defimpl Rule, for: Percentage do
     def digest_int(s) do
-      md5 = :crypto.md5(s)
+      md5 = :crypto.hash(:md5, s)
       powers = Enum.map(15..0, fn(x) -> :math.pow(16, x) |> trunc end)
       values = lc {byte, power} inlist Enum.zip(bitstring_to_list(md5), powers), do: byte * power
       Enum.reduce(values, fn(a, b) -> a + b end)
