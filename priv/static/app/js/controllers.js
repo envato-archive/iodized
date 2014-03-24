@@ -164,7 +164,7 @@ angular.module('myApp.controllers', [])
     );
 
     $scope.container_operands = ['any', 'all'];
-    $scope.all_operands = ['is', 'included_in', 'within', 'any', 'all'];
+    $scope.all_operands = ['is', 'included_in', 'within', 'any', 'all', 'percentage'];
 
     $scope.params = fetch_params();
 

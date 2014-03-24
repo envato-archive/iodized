@@ -33,7 +33,7 @@ defmodule Yodado.DefinitionTest do
       assert actual_json == expected_json
     end
   end
-  
+
   defmodule AnyTest do
     use ExUnit.Case, async: true
     alias Yodado.Definition.Any, as: Any
@@ -94,12 +94,12 @@ defmodule Yodado.DefinitionTest do
 
     test "is true if the value of the param in the state equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert Rule.matches?(definition, [{"session_on", "yes"}]) 
+      assert Rule.matches?(definition, [{"session_on", "yes"}])
     end
 
     test "is false if the value of the param in the state does not equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert !Rule.matches?(definition, [{"session_on", "HAHA"}]) 
+      assert !Rule.matches?(definition, [{"session_on", "HAHA"}])
     end
 
     test "it generates JSON" do
@@ -108,6 +108,44 @@ defmodule Yodado.DefinitionTest do
       actual_json = Json.to_json(definition) |> JSEX.encode!
       assert actual_json == expected_json
     end
+  end
+
+  defmodule PercentageTest do
+    use ExUnit.Case, async: true
+    alias Yodado.Definition.Percentage, as: Percentage
+
+    test "matches if the ID's digest modulo 100 is under the given percentage" do
+      definition = Percentage[actual_state_param_name: "id", threshold: 50]
+      id = "Dance of Death" # digest_int #=> 1
+      assert(Rule.matches?(definition, [{"id", id}]))
+    end
+
+    test "doesn't match if the ID's digest modulo 100 is over the given percentage" do
+      definition = Percentage[actual_state_param_name: "id", threshold: 50]
+      id = "Hello World" # digest_int #=> 57
+      refute(Rule.matches?(definition, [{"id", id}]))
+    end
+
+    test "it serializes" do
+      definition = Percentage[actual_state_param_name: "id", threshold: 42]
+      expected_json = "{\"operand\":\"percentage\",\"param_name\":\"id\",\"value\":42}"
+      actual_json = Json.to_json(definition) |> JSEX.encode!
+      assert(actual_json === expected_json)
+    end
+
+    test "it deserializes" do
+      json = """
+        {
+          "operand": "percentage",
+          "param_name": "something",
+          "value": "21"
+        }
+      """
+      actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
+      expected_definition = Percentage[actual_state_param_name: "something", threshold: 21]
+      assert(expected_definition === actual_definition)
+    end
+
   end
 
   test "parsing from JSON" do
@@ -152,7 +190,7 @@ defmodule Yodado.DefinitionTest do
       }
     """
     actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
-    expected_definition = 
+    expected_definition =
       Yodado.Definition.Any[definitions: [
         Yodado.Definition.All[definitions: [
           Yodado.Definition.IncludedIn[actual_state_param_name: "username", allowed_values: ["madlep", "gstamp"]],

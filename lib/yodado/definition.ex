@@ -40,6 +40,23 @@ defmodule Yodado.Definition do
     end
   end
 
+  # Percentage
+  defrecord Percentage, actual_state_param_name: nil, threshold: 0
+  defimpl Rule, for: Percentage do
+    @powers Enum.map(15..0, fn(x) -> :math.pow(16, x) |> trunc end)
+
+    def digest_int(s) do
+      md5 = :crypto.hash(:md5, s)
+      Enum.zip(bitstring_to_list(md5), @powers) |> Enum.reduce(0, fn({byte, power}, acc) -> byte * power + acc end)
+    end
+
+    def matches?(percentage, state) do
+      id = state[percentage.actual_state_param_name]
+      value = digest_int(id) |> rem(100)
+      value < percentage.threshold
+    end
+  end
+
 
   # boolean
   defimpl Rule, for: Atom do
