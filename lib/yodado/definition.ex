@@ -36,7 +36,7 @@ defmodule Yodado.Definition do
   defrecord Is, actual_state_param_name: nil, allowed_value: "true"
   defimpl Rule, for: Is do
     def matches?(is, state) do
-      state[is.actual_state_param_name] == is.allowed_value
+      Dict.get(state, is.actual_state_param_name) == is.allowed_value
     end
   end
 

@@ -2,10 +2,10 @@ defmodule Yodado.Mixfile do
   use Mix.Project
 
   def project do
-    [ 
+    [
       app: :yodado,
       version: "0.0.1",
-      elixir: "~> 0.12.4",
+      elixir: "~> 0.13.1",
       deps: deps
     ]
   end
@@ -22,11 +22,10 @@ defmodule Yodado.Mixfile do
   # Returns the list of dependencies in the format:
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
-    [ 
-      {:cowboy, github: "extend/cowboy"},
-      {:jsex, github: "talentdeficit/jsex"},
-      {:thrift, github: "dieswaytoofast/thrift", tag: "0.9.2"}, # TODO need nicer way of managing thrift
-      {:mock, github: "jjh42/mock"},
+    [
+      {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
+      {:jsex, github: "talentdeficit/jsex", tag: "v2.0.0"},
+      {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"} # TODO need nicer way of managing thrift
     ]
   end
 end

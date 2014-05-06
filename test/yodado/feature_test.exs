@@ -5,7 +5,7 @@ defmodule Yodado.FeatureTest do
 
     setup do
       {:ok, [
-          dummy_state: [{"WA", "Perth"}],
+          dummy_state: (HashDict.new |> HashDict.put("WA", "Perth")),
 
           always_on_feature: Feature.Feature[title: "always on feature",
             description: "Does stuff",
@@ -87,14 +87,14 @@ defmodule Yodado.FeatureTest do
 
     test "do/?2 is true when the logic says so", context do
       feature = context[:useful_feature]
-      state = [{"username", "paj"}]
+      state = HashDict.new |> HashDict.put("username", "paj")
       {:ok, result} = Feature.do?(feature, state)
       assert(result)
     end
 
     test "do/?2 is false when the logic says so", context do
       feature = context[:useful_feature]
-      state = [{"username", "madlep"}]
+      state = HashDict.new |> HashDict.put("username", "madlep")
       {:ok, result} = Feature.do?(feature, state)
       refute(result)
     end

@@ -71,12 +71,14 @@ defmodule Yodado.DefinitionTest do
 
     test "is true if the value of the param in the state is in the list of values" do
       definition = IncludedIn[actual_state_param_name: "username", allowed_values: ["francis", "bill", "zoey", "louis"]]
-      assert Rule.matches?(definition, [{"username", "bill"}])
+      state = HashDict.new |> HashDict.put("username", "bill")
+      assert Rule.matches?(definition, state)
     end
 
     test "is false if the value of the param in the state is not in the list of values" do
       definition = IncludedIn[actual_state_param_name: "username", allowed_values: ["francis", "bill", "zoey", "louis"]]
-      assert !Rule.matches?(definition, [{"username", "coach"}])
+      state = HashDict.new |> HashDict.put("username", "coach")
+      assert !Rule.matches?(definition, state)
     end
 
     test "it generates JSON" do
@@ -94,12 +96,14 @@ defmodule Yodado.DefinitionTest do
 
     test "is true if the value of the param in the state equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert Rule.matches?(definition, [{"session_on", "yes"}])
+      state = HashDict.new |> HashDict.put("session_on", "yes")
+      assert Rule.matches?(definition, state)
     end
 
     test "is false if the value of the param in the state does not equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
-      assert !Rule.matches?(definition, [{"session_on", "HAHA"}])
+      state = HashDict.new |> HashDict.put("session_on", "HAHA")
+      assert !Rule.matches?(definition, state)
     end
 
     test "it generates JSON" do
@@ -117,13 +121,15 @@ defmodule Yodado.DefinitionTest do
     test "matches if the ID's digest modulo 100 is under the given percentage" do
       definition = Percentage[actual_state_param_name: "id", threshold: 50]
       id = "Dance of Death" # digest_int #=> 1
-      assert(Rule.matches?(definition, [{"id", id}]))
+      state = HashDict.new |> HashDict.put("id", id)
+      assert(Rule.matches?(definition, state))
     end
 
     test "doesn't match if the ID's digest modulo 100 is over the given percentage" do
       definition = Percentage[actual_state_param_name: "id", threshold: 50]
       id = "Hello World" # digest_int #=> 57
-      refute(Rule.matches?(definition, [{"id", id}]))
+      state = HashDict.new() |> HashDict.put("id", id)
+      refute(Rule.matches?(definition, state))
     end
 
     test "it serializes" do

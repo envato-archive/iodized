@@ -1,8 +1,6 @@
-[ "cowboy": {:git, "git://github.com/extend/cowboy.git", "8993249e421fbfff603cedec70e90be64d3694e6", []},
-  "cowlib": {:git, "git://github.com/extend/cowlib.git", "0d4ece08a7cce90a07cf33d4edad29bc324c7d90", [ref: "0.5.1"]},
-  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "65aa6ae7c1543a0c4e83032c04626af7be7a7f3e", []},
-  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "e50af6e109cb03bd26acf715cbc77de746507d1d", [tag: "v1.4.3"]},
-  "meck": {:git, "git://github.com/eproxus/meck.git", "2447206f201bab1054c49cd32621eee23fa0ee3b", [tag: "0.7.2"]},
-  "mock": {:git, "git://github.com/jjh42/mock.git", "0f9b4d16884ddc112ddc694622f95b61973fddd8", []},
+%{"cowboy": {:git, "git://github.com/extend/cowboy.git", "db52494371ea249f38d51108c7d79cf487ff6374", [tag: "0.9.0"]},
+  "cowlib": {:git, "git://github.com/extend/cowlib.git", "63298e8e160031a70efff86a1acde7e7db1fcda6", [ref: "0.4.0"]},
+  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "bb92c79e640d06be20ca8160368da1d9369fdb02", [tag: "v2.0.0"]},
+  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "507fa4c41db33c81e925ab53f4d789d234aaff2f", []},
   "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]},
-  "thrift": {:git, "git://github.com/dieswaytoofast/thrift.git", "2c3ac3480ab58bceea6976ed1ac84d7f63499684", [tag: "0.9.2"]} ]
+  "thrift": {:git, "git://github.com/envato/thrift-erlang.git", "b5d82063e183a51afe126edc06fe588c73b10d5a", [tag: "0.9.1.envato"]}}
