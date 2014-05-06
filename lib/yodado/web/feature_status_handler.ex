@@ -1,31 +1,27 @@
 defmodule Yodado.Web.FeatureStatusHandler do
-  alias Yodado.FeaturePersistence, as: FeaturePersistence
+
+  @persistence Yodado.FeaturePersistence.Mnesia
+
+  defrecord State, feature: nil
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
   def rest_init(req, _opts) do
-    {:ok, req, []}
+    state = State.new()
+    {:ok, req, state}
   end
 
   def allowed_methods(req, state) do
     {["GET"], req, state}
   end
 
-  def service_available(req, state) do
-    c = FeaturePersistence.connection
-    persistence_ok = FeaturePersistence.ping(c)
-    state = Keyword.put(state, :connection, c)
-    {persistence_ok, req, state}
-  end
-
   def resource_exists(req, state) do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
-    state = Keyword.put(state, :feature_id, feature_id)
-    case Yodado.FeaturePersistence.find_feature(feature_id) do
+    case @persistence.find_feature(feature_id) do
       :not_found ->     {false, req, state}
-      {:ok, feature} -> state = Keyword.put(state, :feature, feature)
+      {:ok, feature} -> state = State.feature(feature)
                         {true, req, state}
     end
   end
@@ -43,7 +39,7 @@ defmodule Yodado.Web.FeatureStatusHandler do
 
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
 
-    {:ok, result} = Yodado.Feature.do?(state[:feature], params)
+    {:ok, result} = Yodado.Feature.do?(state.feature, params)
 
     body = [status: result] |> JSEX.encode!
 

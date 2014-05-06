@@ -3,5 +3,6 @@
 echo "This command will setup your local dev environment"
 mix deps.get
 mix compile
+mix yodado.install
 echo "Done mixing!"
-echo "Start app with \`iex -S mix\`"
+echo "Start app with \`iex -S mix\` and find the admin interface at http://localhost:8080/admin/index.html"

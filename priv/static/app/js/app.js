@@ -164,6 +164,7 @@ var params = [
   ,"client_id"
   ,"username"
   ,"user_role"
+  ,"id"
 ];
 function fetch_params() {
   return params;
