@@ -26,7 +26,7 @@ defmodule Yodado.FeaturePersistence.Mnesia do
   end
 
   def save_feature(feature) do
-    :ok = :mnesia.transaction(fn() ->
+    {:atomic, :ok} = :mnesia.transaction(fn() ->
       :mnesia.write(feature)
     end)
     {:ok, true}
