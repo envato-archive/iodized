@@ -9,10 +9,9 @@ defmodule Yodado.Web do
       {"/feature/:feature_id", Yodado.Web.FeatureStatusHandler, []},
       {"/admin/api/features", Yodado.Web.Admin.FeatureListHandler, []},
       {"/admin/api/feature/:feature_id", Yodado.Web.Admin.FeatureStatusHandler, []},
-      {"/admin", :cowboy_static, {:priv_file, :yodado, "static/app/index.html"}},
-      {"/admin/[...]", :cowboy_static, {:priv_dir, :yodado, "static/app"}},
-      {"/try", Yodado.Web.TryHandler, []},
       {"/", :cowboy_static, {:priv_file, :yodado, "static/index.html"}},
+      {"/[...]", :cowboy_static, {:priv_dir, :yodado, "static"}},
+      {"/try", Yodado.Web.TryHandler, []}
     ]
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
