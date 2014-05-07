@@ -63,6 +63,10 @@ defmodule Yodado.Definition do
     def matches?(bool, _state) when is_boolean(bool), do: bool
   end
 
+  # nil
+  defimpl Rule, for: Atom do
+    def matches?(nil, _state), do: false
+  end
 
   # function
   defimpl Rule, for: Function do
