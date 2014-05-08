@@ -78,5 +78,6 @@ defmodule Yodado.DefinitionJson do
   defimpl Json, for: Atom do
     def to_json(true), do: [operand: "boolean", value: true]
     def to_json(false), do: [operand: "boolean", value: false]
+    def to_json(nil), do: nil
   end
 end
