@@ -33,7 +33,7 @@ defmodule Yodado.FeaturePersistence.Mnesia do
   end
 
   def delete_feature({:key, feature_id}) do
-    :ok = :mnesia.transaction(fn() ->
+    {:atomic, :ok} = :mnesia.transaction(fn() ->
       :mnesia.delete({@table_record, feature_id})
     end)
     {:ok, true}
