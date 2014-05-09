@@ -2,7 +2,7 @@
 var FeatureBox = React.createClass({
 
   getInitialState: function() {
-    return {data: [], selectedFeature: null};
+    return {data: []};
   },
 
   fetchFeatures: function() {
@@ -23,23 +23,11 @@ var FeatureBox = React.createClass({
     setInterval(this.fetchFeatures, this.props.pollInterval);
   },
 
-  onEdit: function(feature) {
-    var newState = $.extend({}, this.state, {selectedFeature: feature});
-    this.setState(newState);
-  },
-
-  onStopEdit: function() {
-    var newState = $.extend({}, this.state, {selectedFeature: null});
-    this.setState(newState);
-  },
-
   render: function() {
-
     return (
       <div className="featureBox row">
         <h2>Features</h2>
         <FeatureList data={this.state.data} onEdit={this.onEdit} />
-        <FeatureForm feature={this.state.selectedFeature} onStopEdit={this.onStopEdit}/>
       </div>
     );
   }
@@ -49,7 +37,9 @@ var FeatureList = React.createClass({
   render: function() {
     var self = this;
     var featureNodes = this.props.data.map(function (feature, index) {
-      return <Feature key={index} feature={feature} onEdit={self.props.onEdit}/>
+      return (
+        <Feature key={index} feature={feature}/>
+      )
     });
     return (
       <div className="featureList">{featureNodes}</div>
@@ -89,39 +79,36 @@ var Feature = React.createClass({
           <div className="editFeature small-1 columns"><a href="#" onClick={this.handleEdit}>edit</a></div>
           <div className="deleteFeature small-1 columns">delete</div>
         </div>
+        <FeatureForm feature={this.props.feature} />
       </div>
     )
   }
 });
 
 var FeatureForm = React.createClass({
-  componentDidMount: function() {
-    self = this;
-    $("#featureEditModal").
-      foundation("reveal");
-
-    $(document).
-      on("closed", "[data-reveal]", function() {
-        self.props.onStopEdit();
-      });
+  getInitialState: function() {
+    var initialFeature = this.props.feature || {}
+    var newFeature = $.extend({}, initialFeature);
+    return({feature: newFeature})
   },
 
-  componentDidUpdate: function(prevProps, prevState) {
-    if (this.props.feature) {
-      $("#featureEditModal").foundation("reveal", "open");
-    } else {
-      $("#featureEditModal").foundation("reveal", "close");
-    }
+  handleChange: function() {
+    console.log(this);
   },
 
   render: function() {
-    var feature = {};
-    if (this.props.feature) {
-      feature = this.props.feature;
-    }
     return (
-      <div id="featureEditModal" className="reveal-modal" data-reveal="true">
-        <h2>{feature.title}</h2>
+      <div id="featureEditModal">
+        <form className="featureEditForm" ref="form">
+          <div className="row">
+            <div className="small-12 columns">
+              <label>
+                Feature title
+                <input type="text" placeholder="feature_name" ref="title" value={this.state.feature.title} onChange={this.handleChange}/>
+              </label>
+            </div>
+          </div>
+        </form>
       </div>
     );
   }
