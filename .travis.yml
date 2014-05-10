@@ -2,7 +2,7 @@ language: erlang
 otp_release:
    - R16B
 before_install:
-   - git clone https://github.com/elixir-lang/elixir
-   - make -C elixir
+  - git clone https://github.com/elixir-lang/elixir
+  - make -C elixir
 before_script: "export PATH=$(pwd)/elixir/bin:${PATH} && ./script/setup.sh"
 script: mix test
