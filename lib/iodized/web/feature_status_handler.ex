@@ -1,6 +1,6 @@
-defmodule Yodado.Web.FeatureStatusHandler do
+defmodule Iodized.Web.FeatureStatusHandler do
 
-  @persistence Yodado.FeaturePersistence.Mnesia
+  @persistence Iodized.FeaturePersistence.Mnesia
 
   defrecord State, feature: nil
 
@@ -39,7 +39,7 @@ defmodule Yodado.Web.FeatureStatusHandler do
 
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
 
-    {:ok, result} = Yodado.Feature.do?(state.feature, params)
+    {:ok, result} = Iodized.Feature.do?(state.feature, params)
 
     body = [status: result] |> JSEX.encode!
 

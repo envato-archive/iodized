@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Yodado.Thrift do
+defmodule Mix.Tasks.Iodized.Thrift do
   use Mix.Task
 
   @shortdoc "generate thrift erlang boilerplate"

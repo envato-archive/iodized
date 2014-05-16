@@ -1,4 +1,4 @@
-defmodule Yodado.Definition do
+defmodule Iodized.Definition do
 
   defprotocol Rule do
     def matches?(definition, state)

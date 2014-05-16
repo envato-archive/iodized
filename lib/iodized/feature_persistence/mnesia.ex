@@ -1,10 +1,10 @@
-defmodule Yodado.FeaturePersistence.Mnesia do
+defmodule Iodized.FeaturePersistence.Mnesia do
 
-  @table_record Yodado.Feature.Feature
+  @table_record Iodized.Feature.Feature
 
-  @all_features_matcher Yodado.Feature.Feature.__record__(:fields) |>
+  @all_features_matcher Iodized.Feature.Feature.__record__(:fields) |>
     Enum.map(fn({key, _default}) -> {key, :_} end) |>
-    Yodado.Feature.Feature.new
+    Iodized.Feature.Feature.new
 
   def all() do
     features = :mnesia.dirty_match_object(@all_features_matcher)

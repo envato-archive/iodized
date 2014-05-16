@@ -1,8 +1,8 @@
-defmodule Yodado.FeatureSetTest do
+defmodule Iodized.FeatureSetTest do
   defmodule AllTest do
     use ExUnit.Case, async: true
-    alias Yodado.Feature, as: Feature
-    alias Yodado.FeatureSet, as: FeatureSet
+    alias Iodized.Feature, as: Feature
+    alias Iodized.FeatureSet, as: FeatureSet
 
     test "multi_do/1 returns a list of 2-tuples {feature.title, state}" do
       features = [
@@ -21,8 +21,8 @@ defmodule Yodado.FeatureSetTest do
         Feature.Feature[title: "Pete's Feature",
           description: "Does stuff",
           master_switch_state: nil,
-          definition: Yodado.Definition.All[definitions: [
-              Yodado.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
+          definition: Iodized.Definition.All[definitions: [
+              Iodized.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
             ]
           ]
         ],

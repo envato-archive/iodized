@@ -1,4 +1,4 @@
-defmodule Yodado.Web.FeatureSetHandler do
+defmodule Iodized.Web.FeatureSetHandler do
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
@@ -20,7 +20,7 @@ defmodule Yodado.Web.FeatureSetHandler do
   def render_feature_state(req, state) do
     {params, req} = :cowboy_req.qs_vals(req)
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
-    body = [features: Yodado.FeatureSet.multi_do(params)] |> JSEX.encode!
+    body = [features: Iodized.FeatureSet.multi_do(params)] |> JSEX.encode!
     {body, req, state}
   end
 

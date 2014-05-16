@@ -1,4 +1,4 @@
-defmodule Yodado.Web.TryHandler do
+defmodule Iodized.Web.TryHandler do
   def init(_transport, req, _opts), do: {:ok, req, :undefined}
 
   def handle(req, state) do

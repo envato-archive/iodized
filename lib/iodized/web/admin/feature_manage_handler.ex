@@ -1,6 +1,6 @@
-defmodule Yodado.Web.Admin.FeatureStatusHandler do
+defmodule Iodized.Web.Admin.FeatureStatusHandler do
 
-  @persistence Yodado.FeaturePersistence.Mnesia
+  @persistence Iodized.FeaturePersistence.Mnesia
 
   defrecord State, feature: nil
 
@@ -35,7 +35,7 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
 
   def render_feature(req, state) do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
-    body = state.feature |> Yodado.Feature.json |> JSEX.encode!(indent: 2)
+    body = state.feature |> Iodized.Feature.json |> JSEX.encode!(indent: 2)
     {body, req, state}
   end
 
@@ -48,7 +48,7 @@ defmodule Yodado.Web.Admin.FeatureStatusHandler do
 
   def save_feature(req, state) do
     {:ok, feature_json, req} = :cowboy_req.body(req)
-    feature = feature_json |> JSEX.decode!(labels: :atom) |> Yodado.Feature.from_json
+    feature = feature_json |> JSEX.decode!(labels: :atom) |> Iodized.Feature.from_json
     @persistence.save_feature(feature)
     {true, req, state}
   end

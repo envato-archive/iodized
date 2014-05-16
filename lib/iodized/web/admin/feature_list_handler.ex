@@ -1,6 +1,6 @@
-defmodule Yodado.Web.Admin.FeatureListHandler do
+defmodule Iodized.Web.Admin.FeatureListHandler do
 
-  @persistence Yodado.FeaturePersistence.Mnesia
+  @persistence Iodized.FeaturePersistence.Mnesia
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
@@ -24,7 +24,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
   def render_feature_list(req, state) do
     req = :cowboy_req.set_resp_header("content-type", "application/json; charset=utf-8", req)
     {:ok, features} = @persistence.all()
-    body = features |> Enum.map(&Yodado.Feature.json/1) |> JSEX.encode!(indent: 2)
+    body = features |> Enum.map(&Iodized.Feature.json/1) |> JSEX.encode!(indent: 2)
     {body, req, state}
   end
 
@@ -39,7 +39,7 @@ defmodule Yodado.Web.Admin.FeatureListHandler do
     {:ok, features_json, req} = :cowboy_req.body(req)
     {:ok, true} = features_json |> 
                 JSEX.decode!(labels: :atom) |> 
-                Enum.map(&Yodado.Feature.from_json/1) |>
+                Enum.map(&Iodized.Feature.from_json/1) |>
                 @persistence.sync()
     {true, req, state}
   end

@@ -1,11 +1,11 @@
-defmodule Yodado.DefinitionTest do
+defmodule Iodized.DefinitionTest do
   use ExUnit.Case, async: true
-  alias Yodado.Definition.Rule, as: Rule
-  alias Yodado.DefinitionJson.Json, as: Json
+  alias Iodized.Definition.Rule, as: Rule
+  alias Iodized.DefinitionJson.Json, as: Json
 
   defmodule AllTest do
     use ExUnit.Case, async: true
-    alias Yodado.Definition.All, as: All
+    alias Iodized.Definition.All, as: All
 
     test "is true if all conditions match" do
       definition = All[definitions: [true, true]]
@@ -36,7 +36,7 @@ defmodule Yodado.DefinitionTest do
 
   defmodule AnyTest do
     use ExUnit.Case, async: true
-    alias Yodado.Definition.Any, as: Any
+    alias Iodized.Definition.Any, as: Any
 
     test "is true if any conditions match" do
       definition = Any[definitions: [false, true]]
@@ -67,7 +67,7 @@ defmodule Yodado.DefinitionTest do
 
   defmodule IncludedInTest do
     use ExUnit.Case, async: true
-    alias Yodado.Definition.IncludedIn, as: IncludedIn
+    alias Iodized.Definition.IncludedIn, as: IncludedIn
 
     test "is true if the value of the param in the state is in the list of values" do
       definition = IncludedIn[actual_state_param_name: "username", allowed_values: ["francis", "bill", "zoey", "louis"]]
@@ -92,7 +92,7 @@ defmodule Yodado.DefinitionTest do
 
   defmodule IsTest do
     use ExUnit.Case, async: true
-    alias Yodado.Definition.Is, as: Is
+    alias Iodized.Definition.Is, as: Is
 
     test "is true if the value of the param in the state equals the value" do
       definition = Is[actual_state_param_name: "session_on", allowed_value: "yes"]
@@ -116,7 +116,7 @@ defmodule Yodado.DefinitionTest do
 
   defmodule PercentageTest do
     use ExUnit.Case, async: true
-    alias Yodado.Definition.Percentage, as: Percentage
+    alias Iodized.Definition.Percentage, as: Percentage
 
     test "matches if the ID's digest modulo 100 is under the given percentage" do
       definition = Percentage[actual_state_param_name: "id", threshold: 50]
@@ -147,7 +147,7 @@ defmodule Yodado.DefinitionTest do
           "value": "21"
         }
       """
-      actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
+      actual_definition = json |> JSEX.decode!(labels: :atom) |> Iodized.DefinitionJson.from_json
       expected_definition = Percentage[actual_state_param_name: "something", threshold: 21]
       assert(expected_definition === actual_definition)
     end
@@ -195,15 +195,15 @@ defmodule Yodado.DefinitionTest do
        ]
       }
     """
-    actual_definition = json |> JSEX.decode!(labels: :atom) |> Yodado.DefinitionJson.from_json
+    actual_definition = json |> JSEX.decode!(labels: :atom) |> Iodized.DefinitionJson.from_json
     expected_definition =
-      Yodado.Definition.Any[definitions: [
-        Yodado.Definition.All[definitions: [
-          Yodado.Definition.IncludedIn[actual_state_param_name: "username", allowed_values: ["madlep", "gstamp"]],
-          Yodado.Definition.IncludedIn[actual_state_param_name: "host", allowed_values: ["themeforest.net", "codecanyon.net"]]
+      Iodized.Definition.Any[definitions: [
+        Iodized.Definition.All[definitions: [
+          Iodized.Definition.IncludedIn[actual_state_param_name: "username", allowed_values: ["madlep", "gstamp"]],
+          Iodized.Definition.IncludedIn[actual_state_param_name: "host", allowed_values: ["themeforest.net", "codecanyon.net"]]
         ]],
-        Yodado.Definition.Is[actual_state_param_name: "session_on"],
-        Yodado.Definition.IncludedIn[actual_state_param_name: "role", allowed_values: ["developer"]]
+        Iodized.Definition.Is[actual_state_param_name: "session_on"],
+        Iodized.Definition.IncludedIn[actual_state_param_name: "role", allowed_values: ["developer"]]
       ]]
 
     assert actual_definition == expected_definition

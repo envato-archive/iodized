@@ -1,7 +1,7 @@
-defmodule Yodado.FeatureTest do
+defmodule Iodized.FeatureTest do
   defmodule AllTest do
     use ExUnit.Case, async: true
-    alias Yodado.Feature, as: Feature
+    alias Iodized.Feature, as: Feature
 
     setup do
       {:ok, [
@@ -22,8 +22,8 @@ defmodule Yodado.FeatureTest do
           useful_feature: Feature.Feature[title: "Pete's Feature",
             description: "Does stuff",
             master_switch_state: nil,
-            definition: Yodado.Definition.All[definitions: [
-                Yodado.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
+            definition: Iodized.Definition.All[definitions: [
+                Iodized.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
               ]
             ]
           ],

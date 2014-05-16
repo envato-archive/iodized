@@ -1,4 +1,4 @@
-# Yodado
+# Iodized
 
 [![Build Status](https://travis-ci.org/envato/yodado.png)](https://travis-ci.org/envato/yodado)
 
@@ -53,7 +53,7 @@ without affecting prod response.
 - web config UI
 - logic for handling decision tree
 - persistent backend storage. Probably Redis.
-- client library to call yodado. Probably REST
+- client library to call iodized
 
 ## scope braindump
 - dark launch traffic replay (redirect request to some other end point)

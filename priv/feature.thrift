@@ -1,5 +1,5 @@
-namespace erl Yodado
-namespace rb Yodado
+namespace erl Iodized
+namespace rb Iodized
 
 service Features {
   string ping(),

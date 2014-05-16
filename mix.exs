@@ -1,9 +1,9 @@
-defmodule Yodado.Mixfile do
+defmodule Iodized.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :yodado,
+      app: :iodized,
       version: "0.0.1",
       elixir: "~> 0.13.1",
       deps: deps
@@ -13,7 +13,7 @@ defmodule Yodado.Mixfile do
   # Configuration for the OTP application
   def application do
     [
-      mod: { Yodado, [] },
+      mod: { Iodized, [] },
       applications: [:cowboy],
       env: [data_dir: :data]
     ]

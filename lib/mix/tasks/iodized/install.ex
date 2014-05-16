@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Yodado.Install do
+defmodule Mix.Tasks.Iodized.Install do
   use Mix.Task
 
-  @shortdoc "set up yodado"
+  @shortdoc "set up iodized"
 
   def run(_) do
     if :application.get_env(:mnesia, :dir) == :undefined do
@@ -18,8 +18,8 @@ defmodule Mix.Tasks.Yodado.Install do
     IO.inspect :ok = :mnesia.start()
 
     IO.puts "creating features table"
-    feature_attributes = Yodado.Feature.Feature.__record__(:fields) |> Keyword.keys
-    IO.inspect :mnesia.create_table(Yodado.Feature.Feature, [
+    feature_attributes = Iodized.Feature.Feature.__record__(:fields) |> Keyword.keys
+    IO.inspect :mnesia.create_table(Iodized.Feature.Feature, [
       attributes: feature_attributes,
       disc_copies: [node()]])
 
