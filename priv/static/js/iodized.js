@@ -116,7 +116,7 @@ var FeatureForm = React.createClass({
   show: function() {
     this.props.onStartEditFeature();
     this.cloneFeature();
-    $(this.getDOMNode()).modal("show");
+    $(this.getDOMNode()).modal({keyboard: true});
   },
 
   handleChange: function(e) {
