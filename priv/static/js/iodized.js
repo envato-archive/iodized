@@ -132,14 +132,14 @@ var FeatureForm = React.createClass({
               <h3 className="modal-title">edit feature</h3>
             </div>
             <div className="modal-body">
-              <form className="featureEditForm" ref="form">
-                <div className="row">
-                  <div className="small-12 columns">
-                    <label>
-                      Feature title
-                      <input type="text" placeholder="feature_name" ref="title" value={this.state.editingFeature.title} onChange={this.handleChange}/>
-                    </label>
-                  </div>
+              <form className="featureEditForm" ref="form" role="form">
+                <div className="form-group">
+                  <label for="featureTitleInput"> Feature title</label>
+                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={this.state.editingFeature.title} onChange={this.handleChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="featureDescriptionInput"> Feature title</label>
+                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={this.state.editingFeature.description} onChange={this.handleChange}/>
                 </div>
               </form>
             </div>
