@@ -107,7 +107,8 @@ var FeatureForm = React.createClass({
 
   componentDidMount: function() {
     var self = this;
-    $(this.getDOMNode()).on("hidden.bs.modal", function (e) {
+    var domNode = $(this.getDOMNode());
+    domNode.on("hidden.bs.modal", function (e) {
       self.props.onFinishEditFeature();
     });
   },
