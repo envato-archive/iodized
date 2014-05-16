@@ -58,13 +58,9 @@ defmodule Iodized.Definition do
   end
 
 
-  # boolean
+  # boolean/nil
   defimpl Rule, for: Atom do
     def matches?(bool, _state) when is_boolean(bool), do: bool
-  end
-
-  # nil
-  defimpl Rule, for: Atom do
     def matches?(nil, _state), do: false
   end
 
