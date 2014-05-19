@@ -30,17 +30,19 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
 
   def content_types_accepted(req, state) do
     acceptors = [
-      {"application/json", :sync_features}
+      {"application/json", :save_feature}
     ]
     {acceptors, req, state}
   end
 
-  def sync_features(req, state) do
-    {:ok, features_json, req} = :cowboy_req.body(req)
-    {:ok, true} = features_json |> 
-                JSEX.decode!(labels: :atom) |> 
-                Enum.map(&Iodized.Feature.from_json/1) |>
-                @persistence.sync()
+  def save_feature(req, state) do
+    {:ok, feature_json, req} = :cowboy_req.body(req)
+    feature = feature_json |>
+      JSEX.decode!(labels: :atom) |>
+      Iodized.Feature.from_json
+    feature = feature.id(:uuid.to_string(:uuid.uuid4))
+
+    {:ok, true} = @persistence.save_feature(feature)
     {true, req, state}
   end
 end

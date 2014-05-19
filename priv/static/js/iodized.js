@@ -45,7 +45,7 @@ var FeatureList = React.createClass({
       return (
         <Feature key={index} feature={feature} editFeature={this.props.editFeature}/>
       )
-    });
+    }.bind(this));
     return (
       <div className="featureList">{featureNodes}</div>
     );
@@ -169,6 +169,9 @@ FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
     }
   });
 };
+
+FeatureRepo.prototype.saveFeature = function(feature, onSuccess, onError){
+}
 
 var featureRepo = new FeatureRepo("/admin/api/features");
 React.renderComponent(

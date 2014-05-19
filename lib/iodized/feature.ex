@@ -1,8 +1,9 @@
 defmodule Iodized.Feature do
-  defrecord Feature, title: nil, description: nil, master_switch_state: nil, definition: nil
+  defrecord Feature, id: nil, title: nil, description: nil, master_switch_state: nil, definition: nil
   
   def json(feature) do
     [
+      id: feature.id,
       title: feature.title,
       description: feature.description,
       master_switch_state: feature.master_switch_state,
@@ -11,12 +12,14 @@ defmodule Iodized.Feature do
   end
 
   def from_json(json) do
+    id = Keyword.fetch!(json, :id)
     title = Keyword.fetch!(json, :title)
     description = Keyword.fetch!(json, :description)
     master_switch_state = Keyword.fetch!(json, :master_switch_state)
     definition = Keyword.fetch!(json, :definition) |> Iodized.DefinitionJson.from_json
 
     Feature[
+      id: id,
       title: title,
       description: description,
       master_switch_state: master_switch_state,

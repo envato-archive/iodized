@@ -26,6 +26,9 @@ defmodule Iodized.FeaturePersistence.Mnesia do
   end
 
   def save_feature(feature) do
+    unless feature.id do
+      raise "feature has no id"
+    end
     {:atomic, :ok} = :mnesia.transaction(fn() ->
       :mnesia.write(feature)
     end)
@@ -43,24 +46,8 @@ defmodule Iodized.FeaturePersistence.Mnesia do
     delete_feature({:key, feature_id})
   end
 
-  #TODO this must die. only used by old JS client
-  def sync(features) do
-    {:atomic, :ok} =  :mnesia.transaction(fn() ->
-      #TODO slow, and hacky...
-      keys = :mnesia.all_keys(@table_record)
-      Enum.each(keys, fn(k) ->
-        :ok = :mnesia.delete({@table_record, k})
-      end)
-
-      Enum.each(features, fn(f) ->
-        :ok = :mnesia.write(f)
-      end)
-    end)
-    {:ok, true}
-  end
-
   defp key(feature) when is_record(feature, @table_record) do
-    feature.title
+    feature.id
   end
 
   defp key(feature_id) do
