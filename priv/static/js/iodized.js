@@ -1,43 +1,38 @@
 /** @jsx React.DOM */
+
 var FeatureBox = React.createClass({
 
   getInitialState: function() {
-    return {data: [], doFetchFeatures: true};
-  },
-
-  fetchFeatures: function() {
-    if (this.state.doFetchFeatures) {
-      $.ajax({
-        url: this.props.url,
-        dataType: 'json',
-        success: function(data) {
-          this.setState({data: data});
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.log(status, err);
-        }
-      });
-    }
-  },
-
-  onStartEditFeature: function() {
-    this.setState({doFetchFeatures: false});
-  },
-
-  onFinishEditFeature: function() {
-    this.setState({doFetchFeatures: true});
+    return {features: []};
   },
 
   componentWillMount: function() {
-    this.fetchFeatures();
-    setInterval(this.fetchFeatures, this.props.pollInterval);
+    this.props.featureRepo.fetchFeatures(function(featureData){
+      this.setState({features: featureData});
+    }.bind(this));
+  },
+
+  handleNewFeature: function() {
+    var newFeature = {};
+    this.editFeature(newFeature);
+    return false;
+  },
+
+  editFeature: function(feature) {
+    this.refs.featureEditModal.show(feature);
+  },
+
+  saveFeature: function(feature) {
+    console.log("saving", feature);
   },
 
   render: function() {
     return (
       <div className="featureBox">
         <h2>Features</h2>
-        <FeatureList data={this.state.data} onStartEditFeature={this.onStartEditFeature} onFinishEditFeature={this.onFinishEditFeature}/>
+        <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
+        <FeatureForm ref="featureEditModal" saveFeature={this.saveFeature}/>
+        <FeatureList features={this.state.features} editFeature={this.editFeature} />
       </div>
     );
   }
@@ -46,9 +41,9 @@ var FeatureBox = React.createClass({
 var FeatureList = React.createClass({
   render: function() {
     var self = this;
-    var featureNodes = this.props.data.map(function (feature, index) {
+    var featureNodes = this.props.features.map(function (feature, index) {
       return (
-        <Feature key={index} feature={feature} onStartEditFeature={self.props.onStartEditFeature} onFinishEditFeature={self.props.onFinishEditFeature}/>
+        <Feature key={index} feature={feature} editFeature={this.props.editFeature}/>
       )
     });
     return (
@@ -58,20 +53,24 @@ var FeatureList = React.createClass({
 });
 
 var Feature = React.createClass({
+  switchState: function(){
+    switch(this.props.feature.master_switch_state) {
+      case true:
+        return "Override on";
+      case false:
+        return "Override off";
+      case null:
+        return "Dynamic";
+    }
+  },
+
+  handleEdit: function(){
+    this.props.editFeature(this.props.feature);
+    false;
+  },
+
   render: function() {
     var feature = this.props.feature;
-    var switch_state = null;
-    switch(feature.master_switch_state) {
-      case true:
-        switch_state = "Override on";
-        break;
-      case false:
-        switch_state = "Override off";
-        break;
-      case null:
-        switch_state = "Dynamic";
-        break;
-    }
 
     return(
       <div className="feature panel panel-primary">
@@ -80,47 +79,50 @@ var Feature = React.createClass({
         </div>
         <div className="panel-body row">
           <div className="featureDescription col-md-9"> {feature.description} </div>
-          <div className="featureMasterSwitchState col-md-1"> {switch_state}</div>
+          <div className="featureMasterSwitchState col-md-1"> {this.switchState()}</div>
           <div className="editFeature col-md-1"> <a href="#" onClick={this.handleEdit}>edit</a></div> <div className="deleteFeature col-md-1">delete</div>
         </div>
-        <FeatureForm ref="featureEditModal" feature={this.props.feature} onStartEditFeature={this.props.onStartEditFeature} onFinishEditFeature={this.props.onFinishEditFeature}/>
       </div>
     )
-  },
-
-  handleEdit: function() {
-    this.refs.featureEditModal.show();
-    return false;
   }
 });
 
 var FeatureForm = React.createClass({
-  cloneFeature: function() {
-    var initialFeature = this.props.feature || {}
-    var editingFeature = $.extend({}, initialFeature);
-    this.setState({editingFeature: editingFeature})
-  },
-
   getInitialState: function() {
-    return {editingFeature: this.props.feature}
+    return {editingFeature: {}}
   },
 
   componentDidMount: function() {
     var self = this;
     var domNode = $(this.getDOMNode());
     domNode.on("hidden.bs.modal", function (e) {
-      self.props.onFinishEditFeature();
-    });
+      this.setState({editingFeature: {}});
+    }.bind(this));
   },
 
-  show: function() {
-    this.props.onStartEditFeature();
-    this.cloneFeature();
+  show: function(feature) {
+    var editingFeature = $.extend({}, feature);
+    this.setState({editingFeature: editingFeature})
     $(this.getDOMNode()).modal({keyboard: true});
   },
 
-  handleChange: function(e) {
-    console.log(e);
+  handleChange: function(attribute, e) {
+    var feature = this.state.editingFeature;
+    feature[attribute] = e.target.value
+    this.setState({editingFeature: feature});
+  },
+
+  modalTitle: function() {
+    if (this.state.editingFeature === {}) {
+      return "Add Feature";
+    } else {
+      return "Edit Feature";
+    }
+  },
+
+  handleSaveFeature: function() {
+    this.props.saveFeature(this.state.editingFeature);
+    false;
   },
 
   render: function() {
@@ -129,19 +131,22 @@ var FeatureForm = React.createClass({
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h3 className="modal-title">edit feature</h3>
+              <h3 className="modal-title">{this.modalTitle()}</h3>
             </div>
             <div className="modal-body">
               <form className="featureEditForm" ref="form" role="form">
                 <div className="form-group">
-                  <label for="featureTitleInput"> Feature title</label>
-                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={this.state.editingFeature.title} onChange={this.handleChange}/>
+                  <label> Feature title</label>
+                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={this.state.editingFeature.title} onChange={this.handleChange.bind(this, "title")}/>
                 </div>
                 <div className="form-group">
                   <label for="featureDescriptionInput"> Feature title</label>
-                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={this.state.editingFeature.description} onChange={this.handleChange}/>
+                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={this.state.editingFeature.description} onChange={this.handleChange.bind(this, "description")}/>
                 </div>
               </form>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={this.handleSaveFeature}>Save</button>
             </div>
           </div>
         </div>
@@ -150,8 +155,24 @@ var FeatureForm = React.createClass({
   }
 });
 
+var FeatureRepo = function(url){
+  this.url = url;
+};
+
+FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
+  $.ajax({
+    url: this.url,
+    dataType: 'json',
+    success: onSuccess,
+    error: onError || function(xhr, status, err) {
+      console.log(status, err);
+    }
+  });
+};
+
+var featureRepo = new FeatureRepo("/admin/api/features");
 React.renderComponent(
-  <FeatureBox url="/admin/api/features" pollInterval={5000}/>,
+  <FeatureBox featureRepo={featureRepo}/>,
   document.getElementById("iodized")
 );
 
