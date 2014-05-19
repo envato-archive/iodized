@@ -33,7 +33,7 @@ defmodule Iodized do
     features = :dict.to_list(features_dict)
     IO.puts "feature_set=#{inspect(features)}"
 
-    {c, :ok} = :thrift_client.close(c) 
+    {_c, :ok} = :thrift_client.close(c)
     :ok
   end
 
