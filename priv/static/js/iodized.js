@@ -41,9 +41,13 @@ var FeatureBox = React.createClass({
     return (
       <div className="featureBox">
         <h2>Features</h2>
-        <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
+        <div className="panel">
+          <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
+        </div>
+        <div className="panel">
+          <FeatureList features={this.state.features} editFeature={this.editFeature} />
+        </div>
         <FeatureForm ref="featureEditModal"/>
-        <FeatureList features={this.state.features} editFeature={this.editFeature} />
       </div>
     );
   }
