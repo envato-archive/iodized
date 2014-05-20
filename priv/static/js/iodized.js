@@ -7,23 +7,34 @@ var FeatureBox = React.createClass({
   },
 
   componentWillMount: function() {
+    this.refresh();
+  },
+
+  refresh: function() {
     this.props.featureRepo.fetchFeatures(function(featureData){
       this.setState({features: featureData});
     }.bind(this));
   },
 
   handleNewFeature: function() {
-    var newFeature = {};
-    this.editFeature(newFeature);
+    this.newFeature();
     return false;
   },
 
-  editFeature: function(feature) {
-    this.refs.featureEditModal.show(feature);
+  newFeature: function() {
+    this.refs.featureEditModal.show({}, this.createFeature);
   },
 
-  saveFeature: function(feature) {
-    console.log("saving", feature);
+  createFeature: function(feature) {
+    this.props.featureRepo.createFeature(feature, this.refresh);
+  },
+
+  editFeature: function(feature) {
+    this.refs.featureEditModal.show(feature, this.updateFeature);
+  },
+
+  updateFeature: function(feature) {
+    console.log("updating", feature);
   },
 
   render: function() {
@@ -31,7 +42,7 @@ var FeatureBox = React.createClass({
       <div className="featureBox">
         <h2>Features</h2>
         <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
-        <FeatureForm ref="featureEditModal" saveFeature={this.saveFeature}/>
+        <FeatureForm ref="featureEditModal"/>
         <FeatureList features={this.state.features} editFeature={this.editFeature} />
       </div>
     );
@@ -89,27 +100,32 @@ var Feature = React.createClass({
 
 var FeatureForm = React.createClass({
   getInitialState: function() {
-    return {editingFeature: {}}
+    return {editingFeature: {}, dirty: false}
   },
 
   componentDidMount: function() {
     var self = this;
     var domNode = $(this.getDOMNode());
-    domNode.on("hidden.bs.modal", function (e) {
-      this.setState({editingFeature: {}});
+    domNode.on("hide.bs.modal", function(e) {
+      if (this.state.dirty) {
+        return false;
+      }
     }.bind(this));
   },
 
-  show: function(feature) {
+  show: function(feature, onSave) {
     var editingFeature = $.extend({}, feature);
-    this.setState({editingFeature: editingFeature})
-    $(this.getDOMNode()).modal({keyboard: true});
+    this.setState({editingFeature: editingFeature, onSave: onSave})
+    $(this.getDOMNode()).modal({keyboard: false});
   },
 
-  handleChange: function(attribute, e) {
+  handleChange: function() {
     var feature = this.state.editingFeature;
-    feature[attribute] = e.target.value
-    this.setState({editingFeature: feature});
+    feature.title = this.refs.title.getDOMNode().value;
+    feature.description = this.refs.description.getDOMNode().value;
+    feature.master_switch_state = this.refs.master_switch_state.getDOMNode().value;
+    feature.definition = null;
+    this.setState({editingFeature: feature, dirty: true});
   },
 
   modalTitle: function() {
@@ -121,11 +137,16 @@ var FeatureForm = React.createClass({
   },
 
   handleSaveFeature: function() {
-    this.props.saveFeature(this.state.editingFeature);
+    var feature = this.state.editingFeature;
+    this.state.onSave(feature);
+    this.replaceState({editingFeature: {}, dirty: false}, function(){
+      $(this.getDOMNode()).modal('hide');
+    }.bind(this));
     false;
   },
 
   render: function() {
+    var feature = this.state.editingFeature;
     return (
       <div className="featureEdit modal fade">
         <div className="modal-dialog modal-lg">
@@ -136,12 +157,20 @@ var FeatureForm = React.createClass({
             <div className="modal-body">
               <form className="featureEditForm" ref="form" role="form">
                 <div className="form-group">
-                  <label> Feature title</label>
-                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={this.state.editingFeature.title} onChange={this.handleChange.bind(this, "title")}/>
+                  <label>Feature title</label>
+                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={feature.title} onChange={this.handleChange}/>
                 </div>
                 <div className="form-group">
-                  <label for="featureDescriptionInput"> Feature title</label>
-                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={this.state.editingFeature.description} onChange={this.handleChange.bind(this, "description")}/>
+                  <label for="featureDescriptionInput">Feature title</label>
+                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={feature.description} onChange={this.handleChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="featureMasterSwitchStateInput">Master Switch</label>
+                  <select id="featureMasterSwitchStateInput" value={feature.master_switch_state} className="form-control" ref="master_switch_state" onChange={this.handleChange}>
+                    <option value="dynamic">Dynamic</option>
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                  </select>
                 </div>
               </form>
             </div>
@@ -170,7 +199,17 @@ FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
   });
 };
 
-FeatureRepo.prototype.saveFeature = function(feature, onSuccess, onError){
+FeatureRepo.prototype.createFeature = function(feature, onSuccess, onError){
+  $.ajax({
+    url: this.url,
+    contentType: 'application/json',
+    type: 'POST',
+    data: JSON.stringify(feature),
+    success: onSuccess,
+    error: onError || function(xhr, status, err) {
+      console.log(status, err);
+    }
+  });
 }
 
 var featureRepo = new FeatureRepo("/admin/api/features");

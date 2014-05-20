@@ -40,12 +40,13 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
     feature = feature_json |>
       JSEX.decode!(labels: :atom) |>
       Iodized.Feature.from_json
-    id = :uuid.to_string(:uuid.uuid4)
+    id = :uuid.uuid4 |>
+      :uuid.to_string |>
+      list_to_bitstring
     feature = feature.id(id)
 
     {:ok, true} = @persistence.save_feature(feature)
 
-    {url, req} = :cowboy_req.url(req)
-    {{true, "#{url}/#{id}"}, req, state}
+    {true, req, state}
   end
 end

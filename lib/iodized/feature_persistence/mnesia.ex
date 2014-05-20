@@ -8,6 +8,7 @@ defmodule Iodized.FeaturePersistence.Mnesia do
 
   def all() do
     features = :mnesia.dirty_match_object(@all_features_matcher)
+    features = Enum.sort(features, &(&1.title < &2.title))
     {:ok, features}
   end
 

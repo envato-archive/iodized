@@ -29,8 +29,9 @@ defmodule Iodized.Feature do
 
   def do?(feature, state) do
     match = case feature.master_switch_state do
-      nil -> feature.definition |> Iodized.Definition.Rule.matches? state
-      master_switch_state -> master_switch_state
+      "dynamic" -> feature.definition |> Iodized.Definition.Rule.matches? state
+      "on"      -> true
+      "off"     -> false
     end
     {:ok, match}
   end
