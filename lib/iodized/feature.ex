@@ -1,6 +1,6 @@
 defmodule Iodized.Feature do
   defrecord Feature, id: nil, title: nil, description: nil, master_switch_state: nil, definition: nil
-  
+
   def json(feature) do
     [
       id: feature.id,
