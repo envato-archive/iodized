@@ -43,7 +43,7 @@ var FeatureBox = React.createClass({
   },
 
   updateFeature: function(feature) {
-    console.log("updating", feature);
+    this.props.featureRepo.updateFeature(feature, this.refresh);
   },
 
   render: function() {
@@ -231,6 +231,19 @@ FeatureRepo.prototype.createFeature = function(feature, onSuccess, onError){
     url: this.url,
     contentType: 'application/json',
     type: 'POST',
+    data: JSON.stringify(feature),
+    success: onSuccess,
+    error: onError || function(xhr, status, err) {
+      console.log(status, err);
+    }
+  });
+}
+
+FeatureRepo.prototype.updateFeature = function(feature, onSuccess, onError){
+  $.ajax({
+    url: this.url + "/" + feature.id,
+    contentType: 'application/json',
+    type: 'PUT',
     data: JSON.stringify(feature),
     success: onSuccess,
     error: onError || function(xhr, status, err) {
