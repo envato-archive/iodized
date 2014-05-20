@@ -115,7 +115,7 @@ var FeatureForm = React.createClass({
 
   show: function(feature, onSave) {
     var editingFeature = $.extend({}, feature);
-    this.setState({editingFeature: editingFeature, onSave: onSave})
+    this.setState({editingFeature: editingFeature, onSave: onSave, dirty: true})
     $(this.getDOMNode()).modal({keyboard: false});
   },
 
@@ -139,6 +139,13 @@ var FeatureForm = React.createClass({
   handleSaveFeature: function() {
     var feature = this.state.editingFeature;
     this.state.onSave(feature);
+    this.replaceState({editingFeature: {}, dirty: false}, function(){
+      $(this.getDOMNode()).modal('hide');
+    }.bind(this));
+    false;
+  },
+
+  handleCancel: function() {
     this.replaceState({editingFeature: {}, dirty: false}, function(){
       $(this.getDOMNode()).modal('hide');
     }.bind(this));
@@ -175,6 +182,7 @@ var FeatureForm = React.createClass({
               </form>
             </div>
             <div className="modal-footer">
+              <button type="button" className="btn" onClick={this.handleCancel}>Cancel</button>
               <button type="button" className="btn btn-primary" onClick={this.handleSaveFeature}>Save</button>
             </div>
           </div>
