@@ -8,7 +8,7 @@ defmodule Iodized.Web do
       {"/features", Iodized.Web.FeatureSetHandler, []},
       {"/feature/:feature_id", Iodized.Web.FeatureStatusHandler, []},
       {"/admin/api/features", Iodized.Web.Admin.FeatureListHandler, []},
-      {"/admin/api/feature/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
+      {"/admin/api/features/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
       {"/", :cowboy_static, {:priv_file, :iodized, "static/index.html"}},
       {"/[...]", :cowboy_static, {:priv_dir, :iodized, "static"}}
     ]
