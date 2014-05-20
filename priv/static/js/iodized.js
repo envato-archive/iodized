@@ -22,7 +22,12 @@ var FeatureBox = React.createClass({
   },
 
   newFeature: function() {
-    this.refs.featureEditModal.show({}, this.createFeature);
+    var emptyFeature = {
+      title: "",
+      description: "",
+      master_switch_state: "dynamic"
+    }
+    this.refs.featureEditModal.show(emptyFeature, this.createFeature);
   },
 
   createFeature: function(feature) {
@@ -119,8 +124,9 @@ var FeatureForm = React.createClass({
 
   show: function(feature, onSave) {
     var editingFeature = $.extend({}, feature);
-    this.setState({editingFeature: editingFeature, onSave: onSave, dirty: true})
-    $(this.getDOMNode()).modal({keyboard: false});
+    this.setState({editingFeature: editingFeature, onSave: onSave, dirty: true}, function(){
+      $(this.getDOMNode()).modal({keyboard: false});
+    }.bind(this));
   },
 
   handleChange: function() {
@@ -129,7 +135,8 @@ var FeatureForm = React.createClass({
     feature.description = this.refs.description.getDOMNode().value;
     feature.master_switch_state = this.refs.master_switch_state.getDOMNode().value;
     feature.definition = null;
-    this.setState({editingFeature: feature, dirty: true});
+    this.setState({editingFeature: feature});
+    return true;
   },
 
   modalTitle: function() {
@@ -143,17 +150,15 @@ var FeatureForm = React.createClass({
   handleSaveFeature: function() {
     var feature = this.state.editingFeature;
     this.state.onSave(feature);
-    this.replaceState({editingFeature: {}, dirty: false}, function(){
+    this.setState({dirty: false}, function(){
       $(this.getDOMNode()).modal('hide');
     }.bind(this));
-    false;
   },
 
   handleCancel: function() {
-    this.replaceState({editingFeature: {}, dirty: false}, function(){
+    this.setState({dirty: false}, function(){
       $(this.getDOMNode()).modal('hide');
     }.bind(this));
-    false;
   },
 
   render: function() {
