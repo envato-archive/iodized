@@ -11,7 +11,7 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
   end
 
   def allowed_methods(req, state) do
-    {["GET", "PUT"], req, state}
+    {["GET", "POST"], req, state}
   end
 
   def content_types_provided(req, state) do
@@ -40,9 +40,12 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
     feature = feature_json |>
       JSEX.decode!(labels: :atom) |>
       Iodized.Feature.from_json
-    feature = feature.id(:uuid.to_string(:uuid.uuid4))
+    id = :uuid.to_string(:uuid.uuid4)
+    feature = feature.id(id)
 
     {:ok, true} = @persistence.save_feature(feature)
-    {true, req, state}
+
+    {url, req} = :cowboy_req.url(req)
+    {{true, "#{url}/#{id}"}, req, state}
   end
 end
