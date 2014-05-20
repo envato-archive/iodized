@@ -8,19 +8,19 @@ defmodule Iodized.FeatureSetTest do
       features = [
         Feature.Feature[title: "always on feature",
           description: "Does stuff",
-          master_switch_state: true,
+          master_switch_state: "on",
           definition: nil
         ],
 
         Feature.Feature[title: "always off feature",
           description: "Does nothing",
-          master_switch_state: false,
+          master_switch_state: "off",
           definition: nil
         ],
 
         Feature.Feature[title: "Pete's Feature",
           description: "Does stuff",
-          master_switch_state: nil,
+          master_switch_state: "dynamic",
           definition: Iodized.Definition.All[definitions: [
               Iodized.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
             ]
