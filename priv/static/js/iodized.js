@@ -38,6 +38,10 @@ var FeatureBox = React.createClass({
     this.refs.featureEditModal.show(feature, this.updateFeature);
   },
 
+  deleteFeature: function(feature) {
+    this.props.featureRepo.deleteFeature(feature, this.refresh);
+  },
+
   updateFeature: function(feature) {
     console.log("updating", feature);
   },
@@ -50,7 +54,7 @@ var FeatureBox = React.createClass({
           <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
         </div>
         <div className="panel">
-          <FeatureList features={this.state.features} editFeature={this.editFeature} />
+          <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
         </div>
         <FeatureForm ref="featureEditModal"/>
       </div>
@@ -63,7 +67,7 @@ var FeatureList = React.createClass({
     var self = this;
     var featureNodes = this.props.features.map(function (feature, index) {
       return (
-        <Feature key={index} feature={feature} editFeature={this.props.editFeature}/>
+        <Feature key={index} feature={feature} editFeature={this.props.editFeature} deleteFeature={this.props.deleteFeature}/>
       )
     }.bind(this));
     return (
@@ -86,6 +90,11 @@ var Feature = React.createClass({
 
   handleEdit: function(){
     this.props.editFeature(this.props.feature);
+    false;
+  },
+
+  handleDelete: function(){
+    this.props.deleteFeature(this.props.feature);
     false;
   },
 
@@ -228,6 +237,17 @@ FeatureRepo.prototype.createFeature = function(feature, onSuccess, onError){
       console.log(status, err);
     }
   });
+}
+
+FeatureRepo.prototype.deleteFeature = function(feature, onSuccess, onError){
+  $.ajax({
+    url: this.url + "/" + feature.id,
+    type: 'DELETE',
+    success: onSuccess,
+    error: onError || function(xhr, status, err) {
+      console.log(status, err);
+    }
+  })
 }
 
 var featureRepo = new FeatureRepo("/admin/api/features");
