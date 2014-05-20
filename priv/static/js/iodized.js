@@ -100,7 +100,8 @@ var Feature = React.createClass({
         <div className="panel-body row">
           <div className="featureDescription col-md-9"> {feature.description} </div>
           <div className="featureMasterSwitchState col-md-1"> {this.switchState()}</div>
-          <div className="editFeature col-md-1"> <a href="#" onClick={this.handleEdit}>edit</a></div> <div className="deleteFeature col-md-1">delete</div>
+          <div className="editFeature col-md-1"><button className="btn" onClick={this.handleEdit}>edit</button></div>
+          <div className="deleteFeature col-md-1"><button className="btn btn-danger" onClick={this.handleDelete}>delete</button></div>
         </div>
       </div>
     )
