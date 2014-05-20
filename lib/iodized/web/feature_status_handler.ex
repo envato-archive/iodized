@@ -28,7 +28,7 @@ defmodule Iodized.Web.FeatureStatusHandler do
 
   def content_types_provided(req, state) do
     providers = [
-      {"*", :render_feature_state}
+      {{"application", "json", :*}, :render_feature_state}
     ]
 
     {providers, req, state}

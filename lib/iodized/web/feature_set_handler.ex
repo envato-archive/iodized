@@ -13,7 +13,7 @@ defmodule Iodized.Web.FeatureSetHandler do
   end
 
   def content_types_provided(req, state) do
-    providers = [{"*", :render_feature_state}]
+    providers = [{{"application", "json", :*}, :render_feature_state}]
     {providers, req, state}
   end
 

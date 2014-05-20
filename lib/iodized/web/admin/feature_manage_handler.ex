@@ -28,7 +28,7 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
 
   def content_types_provided(req, state) do
     providers = [
-      {"*", :render_feature}
+      {{"application", "json", :*}, :render_feature}
     ]
     {providers, req, state}
   end
@@ -41,7 +41,7 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
 
   def content_types_accepted(req, state) do
     acceptors = [
-      {"application/json", :save_feature}
+      {{"application", "json", :*}, :save_feature}
     ]
     {acceptors, req, state}
   end
