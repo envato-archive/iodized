@@ -10,8 +10,7 @@ defmodule Iodized.Web do
       {"/admin/api/features", Iodized.Web.Admin.FeatureListHandler, []},
       {"/admin/api/feature/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
       {"/", :cowboy_static, {:priv_file, :iodized, "static/index.html"}},
-      {"/[...]", :cowboy_static, {:priv_dir, :iodized, "static"}},
-      {"/try", Iodized.Web.TryHandler, []}
+      {"/[...]", :cowboy_static, {:priv_dir, :iodized, "static"}}
     ]
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
