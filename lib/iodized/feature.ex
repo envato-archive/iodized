@@ -12,11 +12,11 @@ defmodule Iodized.Feature do
   end
 
   def from_json(json) do
-    id = Keyword.fetch!(json, :id)
-    title = Keyword.fetch!(json, :title)
-    description = Keyword.fetch!(json, :description)
-    master_switch_state = Keyword.fetch!(json, :master_switch_state)
-    definition = Keyword.fetch!(json, :definition) |> Iodized.DefinitionJson.from_json
+    id = json[:id] # maybe unsaved
+    title = json.title
+    description = json.description
+    master_switch_state = json.master_switch_state
+    definition = json.definition |> Iodized.DefinitionJson.from_json
 
     Feature[
       id: id,
