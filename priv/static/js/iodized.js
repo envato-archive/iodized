@@ -39,7 +39,9 @@ var FeatureBox = React.createClass({
   },
 
   deleteFeature: function(feature) {
-    this.props.featureRepo.deleteFeature(feature, this.refresh);
+    if(confirm("really delete " + feature.title + "?")) {
+      this.props.featureRepo.deleteFeature(feature, this.refresh);
+    }
   },
 
   updateFeature: function(feature) {
