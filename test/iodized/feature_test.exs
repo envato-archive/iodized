@@ -7,19 +7,25 @@ defmodule Iodized.FeatureTest do
       {:ok, [
           dummy_state: (HashDict.new |> HashDict.put("WA", "Perth")),
 
-          always_on_feature: Feature.Feature[title: "always on feature",
+          always_on_feature: Feature.Feature[
+            id: 1,
+            title: "always on feature",
             description: "Does stuff",
             master_switch_state: true,
             definition: nil
           ],
 
-          always_off_feature: Feature.Feature[title: "always off feature",
+          always_off_feature: Feature.Feature[
+            id: 2,
+            title: "always off feature",
             description: "Does nothing",
             master_switch_state: false,
             definition: nil
           ],
 
-          useful_feature: Feature.Feature[title: "Pete's Feature",
+          useful_feature: Feature.Feature[
+            id: 3,
+            title: "Pete's Feature",
             description: "Does stuff",
             master_switch_state: nil,
             definition: Iodized.Definition.All[definitions: [
@@ -28,17 +34,20 @@ defmodule Iodized.FeatureTest do
             ]
           ],
 
-          serialized_feature: [
+          serialized_feature: %{
+            id: 3,
             title: "Pete's Feature",
             description: "Does stuff",
             master_switch_state: nil,
-            definition: [
+            definition: %{
               operand: "all",
               definitions: [
-                [operand: "is", param_name: "username", value: "paj"]
+                %{
+                  operand: "is", param_name: "username", value: "paj"
+                }
               ]
-            ]
-          ]
+            }
+          }
         ]
       }
     end

@@ -15,14 +15,14 @@ defmodule Iodized.DefinitionJson do
   defp from_json("any", definition), do: composite_from_json(Iodized.Definition.Any, definition)
   defimpl Json, for: Iodized.Definition.Any do
     def to_json(any) do
-      [operand: "any", definitions: Enum.map(any.definitions || [], &Json.to_json(&1))]
+      %{operand: "any", definitions: Enum.map(any.definitions || [], &Json.to_json(&1))}
     end
   end
 
   defp from_json("all", definition), do: composite_from_json(Iodized.Definition.All, definition)
   defimpl Json, for: Iodized.Definition.All do
     def to_json(all) do
-      [operand: "all", definitions: Enum.map(all.definitions || [], &Json.to_json(&1))]
+      %{operand: "all", definitions: Enum.map(all.definitions || [], &Json.to_json(&1))}
     end
   end
 
@@ -34,9 +34,9 @@ defmodule Iodized.DefinitionJson do
   end
   defimpl Json, for: Iodized.Definition.IncludedIn do
     def to_json(included_in) do
-      [operand: "included_in",
+      %{operand: "included_in",
         param_name: included_in.actual_state_param_name,
-        value: included_in.allowed_values]
+        value: included_in.allowed_values}
     end
   end
 
@@ -47,7 +47,7 @@ defmodule Iodized.DefinitionJson do
   end
   defimpl Json, for: Iodized.Definition.Is do
     def to_json(is) do
-      [operand: "is", param_name: is.actual_state_param_name, value: is.allowed_value]
+      %{operand: "is", param_name: is.actual_state_param_name, value: is.allowed_value}
     end
   end
 
@@ -61,11 +61,11 @@ defmodule Iodized.DefinitionJson do
   end
   defimpl Json, for: Iodized.Definition.Percentage do
     def to_json(percentage) do
-      [
+      %{
         operand: "percentage",
         param_name: percentage.actual_state_param_name,
         value: percentage.threshold,
-      ]
+      }
     end
   end
 
@@ -76,8 +76,8 @@ defmodule Iodized.DefinitionJson do
   end
 
   defimpl Json, for: Atom do
-    def to_json(true), do: [operand: "boolean", value: true]
-    def to_json(false), do: [operand: "boolean", value: false]
+    def to_json(true), do: %{operand: "boolean", value: true}
+    def to_json(false), do: %{operand: "boolean", value: false}
     def to_json(nil), do: nil
   end
 end

@@ -2,13 +2,13 @@ defmodule Iodized.Feature do
   defrecord Feature, id: nil, title: nil, description: nil, master_switch_state: nil, definition: nil
 
   def json(feature) do
-    [
+    %{
       id: feature.id,
       title: feature.title,
       description: feature.description,
       master_switch_state: feature.master_switch_state,
       definition: Iodized.DefinitionJson.Json.to_json(feature.definition)
-    ]
+    }
   end
 
   def from_json(json) do
