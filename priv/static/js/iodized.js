@@ -70,12 +70,12 @@ var FeatureList = React.createClass({
 var Feature = React.createClass({
   switchState: function(){
     switch(this.props.feature.master_switch_state) {
-      case true:
-        return "Override on";
-      case false:
-        return "Override off";
-      case null:
-        return "Dynamic";
+      case "on":
+        return <span className="label label-success">force on</span>
+      case "off":
+        return <span className="label label-danger">force off</span>
+      case "dynamic":
+        return <span className="label label-default">dynamic</span>
     }
   },
 
