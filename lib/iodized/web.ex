@@ -13,6 +13,7 @@ defmodule Iodized.Web do
 
     {:ok, port} = :application.get_env(:iodized, :http_port)
     {:ok, handler_count} = :application.get_env(:iodized, :http_handler_count)
+    :error_logger.info_msg("starting cowboy HTTP server on port #{port} with #{handler_count} handlers")
     :cowboy.start_http( :http, handler_count, [port: port], [env: [dispatch: dispatch]])
   end
 end
