@@ -6,8 +6,8 @@ defmodule Mix.Tasks.Iodized.Install do
   def run(_) do
     if :application.get_env(:mnesia, :dir) == :undefined do
       data_dir = (:os.getenv("DATA_DIR") || 'data') |>
-        iolist_to_binary |>
-        binary_to_atom
+        IO.iodata_to_binary |>
+        String.to_atom
       :application.set_env(:mnesia, :dir, data_dir)
     end
 
