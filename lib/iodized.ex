@@ -9,14 +9,14 @@ defmodule Iodized do
   end
 
   defp start_web() do
-    unless Mix.env == :test do
+    if start_services? do
       # TODO this should be supervised
       {:ok, _cowboy_pid} = Iodized.Web.start()
     end
   end
 
   defp start_thrift() do
-    unless Mix.env == :test do
+    if start_services? do
       # TODO this should be supervised
       {:ok, port} = :application.get_env(:iodized, :thrift_port)
       :thrift_socket_server.start(
@@ -46,6 +46,10 @@ defmodule Iodized do
    {:ok, data_dir} = :application.get_env(:iodized, :data_dir)
    :application.set_env(:mnesia, :dir, data_dir)
    :ok = :mnesia.start()
+  end
+
+  defp start_services? do
+    !(Code.ensure_loaded?(Mix) && Mix.env == :test)
   end
 
 end
