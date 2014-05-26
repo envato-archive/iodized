@@ -1,8 +1,5 @@
 defmodule Iodized.Web do
 
-  @handler_count 100
-  @port 8080
-
   def start() do
     routes = [
       {"/api/features", Iodized.Transport.FeatureSetRestHandler, []},
@@ -14,6 +11,8 @@ defmodule Iodized.Web do
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
 
-    :cowboy.start_http( :http, @handler_count, [port: @port], [env: [dispatch: dispatch]])
+    {:ok, port} = :application.get_env(:iodized, :http_port)
+    {:ok, handler_count} = :application.get_env(:iodized, :http_handler_count)
+    :cowboy.start_http( :http, handler_count, [port: port], [env: [dispatch: dispatch]])
   end
 end

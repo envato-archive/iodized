@@ -18,10 +18,11 @@ defmodule Iodized do
   defp start_thrift() do
     unless Mix.env == :test do
       # TODO this should be supervised
+      {:ok, port} = :application.get_env(:iodized, :thrift_port)
       :thrift_socket_server.start(
         handler: Iodized.Transport.FeatureSetThriftHandler,
         service: :features_thrift,
-        port: 12345,
+        port: port,
         socket_opts: [recv_timeout: 60000])
     end
   end

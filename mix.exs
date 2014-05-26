@@ -15,7 +15,12 @@ defmodule Iodized.Mixfile do
     [
       mod: { Iodized, [] },
       applications: [:cowboy],
-      env: [data_dir: :data]
+      env: [
+        data_dir: :data,
+        http_port: 8080,
+        http_handler_count: 100,
+        thrift_port: 5353
+      ]
     ]
   end
 
