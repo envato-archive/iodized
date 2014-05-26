@@ -1,5 +1,6 @@
 defmodule Iodized.Transport.FeaturesThriftHandler do
   @persistence Iodized.FeaturePersistence.Mnesia
+
   def handle_function(:feature_set, {client_state}) do
     # thrift maps are erlang `dict` records,
     # so need to convert to/from that for input/output params
