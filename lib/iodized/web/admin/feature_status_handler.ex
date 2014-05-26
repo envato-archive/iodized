@@ -2,14 +2,12 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
 
   @persistence Iodized.FeaturePersistence.Mnesia
 
-  defrecord State, feature: nil
-
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
   def rest_init(req, _opts) do
-    state = State.new()
+    state = %{feature: nil}
     {:ok, req, state}
   end
 
@@ -21,7 +19,7 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
     case @persistence.find_feature(feature_id) do
       :not_found ->     {false, req, state}
-      {:ok, feature} -> state = state.feature(feature)
+      {:ok, feature} -> state = %{state| feature: feature}
                         {true, req, state}
     end
   end
