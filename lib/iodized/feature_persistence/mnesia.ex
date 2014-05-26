@@ -1,21 +1,20 @@
 defmodule Iodized.FeaturePersistence.Mnesia do
 
-  @table_record Iodized.Feature.Feature
-
-  @all_features_matcher Iodized.Feature.Feature.__record__(:fields) |>
-    Enum.map(fn({key, _default}) -> {key, :_} end) |>
-    Iodized.Feature.Feature.new
+  @table :feature
 
   def all() do
-    features = :mnesia.dirty_match_object(@all_features_matcher)
-    features = Enum.sort(features, &(&1.title < &2.title))
+    id_wildcard = feature_wildcard = :_
+    match = {@table, id_wildcard, feature_wildcard}
+    features = :mnesia.dirty_match_object(match) |>
+      Enum.map(fn({@table, _id, feature}) -> feature end) |>
+      Enum.sort(&(&1.title < &2.title))
     {:ok, features}
   end
 
   def find_feature({:key, feature_id}) do
-    features = :mnesia.dirty_read(@table_record, feature_id)
+    features = :mnesia.dirty_read(@table, feature_id)
     case features do
-      [feature] ->
+      [{@table, _id, feature}] ->
         {:ok, feature}
       [] ->
         :not_found
@@ -31,14 +30,14 @@ defmodule Iodized.FeaturePersistence.Mnesia do
       raise "feature has no id"
     end
     {:atomic, :ok} = :mnesia.transaction(fn() ->
-      :mnesia.write(feature)
+      :mnesia.write({@table, feature.id, feature})
     end)
     {:ok, true}
   end
 
   def delete_feature({:key, feature_id}) do
     {:atomic, :ok} = :mnesia.transaction(fn() ->
-      :mnesia.delete({@table_record, feature_id})
+      :mnesia.delete({@table, feature_id})
     end)
     {:ok, true}
   end
@@ -47,7 +46,7 @@ defmodule Iodized.FeaturePersistence.Mnesia do
     delete_feature({:key, feature_id})
   end
 
-  defp key(feature) when is_record(feature, @table_record) do
+  defp key(feature) when is_map(feature) do
     feature.id
   end
 

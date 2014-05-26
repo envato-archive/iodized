@@ -18,12 +18,11 @@ defmodule Mix.Tasks.Iodized.Install do
     IO.inspect :ok = :mnesia.start()
 
     IO.puts "creating features table"
-    feature_attributes = Iodized.Feature.Feature.__record__(:fields) |> Keyword.keys
-    IO.inspect :mnesia.create_table(Iodized.Feature.Feature, [
-      attributes: feature_attributes,
+    IO.inspect :mnesia.create_table(:feature, [
+      attributes: [:id, :feature],
       disc_copies: [node()]])
 
-    :mnesia.wait_for_tables([:features], 5000)
+    :mnesia.wait_for_tables([:feature], 5000)
 
     IO.puts "stopping mnesia"
     IO.inspect :stopped = :mnesia.stop()

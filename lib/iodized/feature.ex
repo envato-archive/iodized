@@ -1,5 +1,5 @@
 defmodule Iodized.Feature do
-  defrecord Feature, id: nil, title: nil, description: nil, master_switch_state: nil, definition: nil
+  defstruct id: nil, title: nil, description: nil, master_switch_state: nil, definition: nil
 
   def json(feature) do
     %{
@@ -18,13 +18,13 @@ defmodule Iodized.Feature do
     master_switch_state = json.master_switch_state
     definition = json.definition |> Iodized.DefinitionJson.from_json
 
-    Feature[
+    %Iodized.Feature{
       id: id,
       title: title,
       description: description,
       master_switch_state: master_switch_state,
       definition: definition
-    ]
+    }
   end
 
   def do?(feature, state) do
