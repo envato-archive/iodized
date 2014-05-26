@@ -5,7 +5,7 @@ defmodule Iodized.Web do
 
   def start() do
     routes = [
-      {"/features", Iodized.Web.FeatureSetHandler, []},
+      {"/api/features", Iodized.Web.FeatureRestHandler, []},
       {"/feature/:feature_id", Iodized.Web.FeatureStatusHandler, []},
       {"/admin/api/features", Iodized.Web.Admin.FeatureListHandler, []},
       {"/admin/api/features/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
