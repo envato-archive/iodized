@@ -12,14 +12,18 @@ defmodule Iodized.DefinitionJson do
     from_json(operand, definition)
   end
 
-  defp from_json("any", definition), do: composite_from_json(Iodized.Definition.Any, definition)
+  defp from_json("any", definition) do
+    %Iodized.Definition.Any{definitions: Enum.map(Dict.fetch!(definition, :definitions), &from_json/1)}
+  end
   defimpl Json, for: Iodized.Definition.Any do
     def to_json(any) do
       %{operand: "any", definitions: Enum.map(any.definitions || [], &Json.to_json(&1))}
     end
   end
 
-  defp from_json("all", definition), do: composite_from_json(Iodized.Definition.All, definition)
+  defp from_json("all", definition) do
+    %Iodized.Definition.All{definitions: Enum.map(Dict.fetch!(definition, :definitions), &from_json/1)}
+  end
   defimpl Json, for: Iodized.Definition.All do
     def to_json(all) do
       %{operand: "all", definitions: Enum.map(all.definitions || [], &Json.to_json(&1))}
@@ -30,7 +34,7 @@ defmodule Iodized.DefinitionJson do
     actual_state_param_name = Dict.fetch!(definition, :param_name)
     allowed_values = Dict.fetch!(definition, :value)
     true = is_list(allowed_values) # validate we've got a list
-    Iodized.Definition.IncludedIn[actual_state_param_name: actual_state_param_name, allowed_values: allowed_values]
+    %Iodized.Definition.IncludedIn{actual_state_param_name: actual_state_param_name, allowed_values: allowed_values}
   end
   defimpl Json, for: Iodized.Definition.IncludedIn do
     def to_json(included_in) do
@@ -43,7 +47,7 @@ defmodule Iodized.DefinitionJson do
   defp from_json("is", definition) do
     actual_state_param_name = Dict.fetch!(definition, :param_name)
     allowed_value = Dict.fetch!(definition, :value)
-    Iodized.Definition.Is[actual_state_param_name: actual_state_param_name, allowed_value: allowed_value]
+    %Iodized.Definition.Is{actual_state_param_name: actual_state_param_name, allowed_value: allowed_value}
   end
   defimpl Json, for: Iodized.Definition.Is do
     def to_json(is) do
@@ -54,10 +58,10 @@ defmodule Iodized.DefinitionJson do
   defp from_json("percentage", definition) do
     actual_state_param_name = Dict.fetch!(definition, :param_name)
     threshold = Dict.fetch!(definition, :value)
-    Iodized.Definition.Percentage[
+    %Iodized.Definition.Percentage{
       actual_state_param_name: actual_state_param_name,
       threshold: binary_to_integer(threshold),
-    ]
+    }
   end
   defimpl Json, for: Iodized.Definition.Percentage do
     def to_json(percentage) do
@@ -67,12 +71,6 @@ defmodule Iodized.DefinitionJson do
         value: percentage.threshold,
       }
     end
-  end
-
-  defp composite_from_json(record_type, definition) do
-    #TODO HAX because old JS admin uses wrong param name s/conditions/definitions/
-    definitions = Dict.get(definition, :conditions) || Dict.fetch!(definition, :definitions)
-    record_type.new(definitions: Enum.map(definitions, &from_json/1))
   end
 
   defimpl Json, for: Atom do

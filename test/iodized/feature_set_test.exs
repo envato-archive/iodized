@@ -20,10 +20,10 @@ defmodule Iodized.FeatureSetTest do
         %Iodized.Feature{title: "Pete's Feature",
           description: "Does stuff",
           master_switch_state: "dynamic",
-          definition: Iodized.Definition.All[definitions: [
-              Iodized.Definition.Is[actual_state_param_name: "username", allowed_value: "paj"]
+          definition: %Iodized.Definition.All{definitions: [
+              %Iodized.Definition.Is{actual_state_param_name: "username", allowed_value: "paj"}
             ]
-          ]
+          }
         },
       ]
       state = HashDict.new |> HashDict.put("username", "paj")

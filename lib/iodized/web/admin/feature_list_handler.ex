@@ -43,7 +43,7 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
     id = :uuid.uuid4 |>
       :uuid.to_string |>
       list_to_bitstring
-    feature = feature.id(id)
+    feature = %{feature | id: id}
 
     {:ok, true} = @persistence.save_feature(feature)
 
