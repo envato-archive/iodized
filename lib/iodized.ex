@@ -9,17 +9,21 @@ defmodule Iodized do
   end
 
   defp start_web() do
-    # TODO this should be supervised
-    {:ok, _cowboy_pid} = Iodized.Web.start()
+    unless Mix.env == :test do
+      # TODO this should be supervised
+      {:ok, _cowboy_pid} = Iodized.Web.start()
+    end
   end
 
   defp start_thrift() do
-    # TODO this should be supervised
-    :thrift_socket_server.start(
-      handler: Iodized.Transport.FeatureSetThriftHandler,
-      service: :features_thrift,
-      port: 12345,
-      socket_opts: [recv_timeout: 60000])
+    unless Mix.env == :test do
+      # TODO this should be supervised
+      :thrift_socket_server.start(
+        handler: Iodized.Transport.FeatureSetThriftHandler,
+        service: :features_thrift,
+        port: 12345,
+        socket_opts: [recv_timeout: 60000])
+    end
   end
 
   # debugging only, kill this shortly
