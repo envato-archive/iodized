@@ -16,7 +16,7 @@ defmodule Iodized do
   defp start_thrift() do
     # TODO this should be supervised
     :thrift_socket_server.start(
-      handler: Iodized.Transport.FeaturesThriftHandler,
+      handler: Iodized.Transport.FeatureSetThriftHandler,
       service: :features_thrift,
       port: 12345,
       socket_opts: [recv_timeout: 60000])

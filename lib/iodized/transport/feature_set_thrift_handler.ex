@@ -1,4 +1,4 @@
-defmodule Iodized.Transport.FeaturesThriftHandler do
+defmodule Iodized.Transport.FeatureSetThriftHandler do
   @persistence Iodized.FeaturePersistence.Mnesia
 
   def handle_function(:feature_set, {client_state}) do

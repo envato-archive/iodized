@@ -1,4 +1,4 @@
-defmodule Iodized.Web.FeatureSetHandler do
+defmodule Iodized.Transport.FeatureSetRestHandler do
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
