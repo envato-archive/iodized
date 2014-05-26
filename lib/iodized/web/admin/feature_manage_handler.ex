@@ -21,7 +21,7 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
     case @persistence.find_feature(feature_id) do
       :not_found ->     {false, req, state}
-      {:ok, feature} -> state = State.feature(feature)
+      {:ok, feature} -> state = state.feature(feature)
                         {true, req, state}
     end
   end
