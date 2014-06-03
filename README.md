@@ -9,6 +9,7 @@ instructions](http://elixir-lang.org/getting_started/1.html)
 - Run `mix deps.get`
 - Run `mix compile`
 - Start app with `iex -S mix`
+- Go to http://localhost:8080
 - **PROFIT!**
 
 ## overview
