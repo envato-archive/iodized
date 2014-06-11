@@ -12,25 +12,33 @@
 <div class="container">
   <div class="branding">
     <a href="/" class="branding__logo"><img src="img/logo.svg" alt="iodized"></a>
-    <p class="branding__tagline"><strong>Iodine rich feature toggling!</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
+    <p class="branding__tagline"><strong>Iodine rich feature toggling.</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
   </div>
-  <div class="btn-group" data-toggle="buttons">
-    <label class="btn btn-primary">
-      <input type="radio" name="options" id="option1"> Off
-    </label>
-    <label class="btn btn-primary">
-      <input type="radio" name="options" id="option2"> On
-    </label>
-    <label class="btn btn-primary">
-      <input type="radio" name="options" id="option3"> Force On
-    </label>
+  <div class="feature--new">
+    <button type="button" class="btn">
+      <span class="glyphicon glyphicon-plus"></span> Add new feature toggle
+    </button>
+  </div>
+  <div class="feature--on">
+    <h4 class="feature__title">Notifications (such an awesome feature everyone should get behind)</h4>
+    <div class="feature__switch">
+      <input type="checkbox" class="js-switch" checked />
+    </div>
+  </div>
+  <div class="feature--off">
+    <h4 class="feature__title">Super secret test feature</h4>
+    <div class="feature__switch">
+      <input type="checkbox" class="js-switch" />
+    </div>
   </div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/vendor/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/vendor/bootstrap.js"></script>
+<script src="js/vendor/bootstrap/button.js"></script>
 <script type="text/jsx" src="js/iodized.js"></script>
+<script src="js/vendor/switchery.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
