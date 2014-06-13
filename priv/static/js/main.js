@@ -19,7 +19,7 @@ $( document ).ready(function() {
   });
 
   // Collapse / expand feature
-  $('.feature--on > .feature__teaser, .feature--off > .feature__teaser').on('click', function (event) {
+  $('.feature__view-edit-button').on('click', function (event) {
     event.preventDefault();
     $(this).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed');
   });
@@ -30,11 +30,18 @@ $( document ).ready(function() {
     var newFeature = $(this).closest('.new-feature')
     if (newFeature.is(".is-expanded, .is-collapsed")) {
       newFeature.toggleClass('is-expanded is-collapsed');
+      newFeature.find("input:first-of-type").focus();
     } else {
       newFeature.addClass('is-expanded');
+      newFeature.find("input:first-of-type").focus();
     }
   });
   $('.new-feature__close').click(function (event) {
+    event.preventDefault();
+    var newFeature = $(this).closest('.new-feature')
+    newFeature.toggleClass('is-expanded is-collapsed');
+  });
+  $('.new-feature__submit').click(function (event) {
     event.preventDefault();
     var newFeature = $(this).closest('.new-feature')
     newFeature.toggleClass('is-expanded is-collapsed');

@@ -11,21 +11,34 @@
 <body>
 <div class="container">
   <div class="branding">
-    <a href="/" class="branding__logo"><img src="img/logo.svg" alt="iodized"></a>
+    <img class="branding__logo" src="img/logo.svg" alt="iodized" tabIndex="-1">
     <p class="branding__tagline"><strong>Iodine rich feature toggling.</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
   </div>
+  <!-- Add new feature -->
   <div class="new-feature">
-    <button type="button" class="btn new-feature__add">
-      <span class="glyphicon glyphicon-plus"></span> Add new feature toggle
+    <button type="button" class="btn new-feature__add" tabindex="0">
+      <span class="glyphicon glyphicon-plus"></span>
     </button>
     <div class="new-feature__content">
       <a href="#" class="new-feature__close"><span class="glyphicon glyphicon-remove"></span></a>
-      <label for="">Name (lower case and underscores, no spaces)</label>
+      <div class="form-group">
+        <label class="control-label" for="new-feature__name">Feature Name*</label>
+        <input type="text" class="form-control input-lg" id="new-feature__name">
+        <small>Lower case and underscores only, no spaces</small>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="new-feature__description">Description</label>
+        <textarea class="form-control input-lg" rows="3" id="new-feature__description"></textarea>
+        <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
+      </div>
+      <button type="submit" class="btn btn-default btn-lg new-feature__submit">Add feature toggle</button>
     </div>
   </div>
-  <div class="feature--on is-collapsed">
-    <div class="feature__teaser">
-      <div class="feature__teaser-content">
+  <!-- Feature -->
+  <div class="feature--on is-expanded">
+    <div class="feature__view">
+      <a href="#" class="feature__view-edit-button"><span class="glyphicon glyphicon-pencil"></span></a>
+      <div class="feature__view-content">
         <h3>notifications</h3>
         <p>Such an awesome feature everyone should get behind. Lorizzle ipsum dolizzle sure amizzle, consectetizzle adipiscing pot. Nullizzle sapizzle shizznit.</p>
       </div>
@@ -33,13 +46,26 @@
         <input type="checkbox" class="js-switch" checked />
       </div>
     </div>
-    <div class="feature__content">
-      This is the feature content
+    <div class="feature__edit">
+      <div class="form-group">
+        <label class="control-label" for="new-feature__name">Feature Name*</label>
+        <input type="text" class="form-control" id="new-feature__name" value="notifications">
+        <small>Lower case and underscores only, no spaces</small>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="new-feature__description">Description</label>
+        <textarea class="form-control" rows="3" id="new-feature__description">Such an awesome feature everyone should get behind. Lorizzle ipsum dolizzle sure amizzle, consectetizzle adipiscing pot. Nullizzle sapizzle shizznit.</textarea>
+        <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
+      </div>
+      <hr>
+      <button type="submit" class="btn btn-default btn-lg new-feature__submit">Add feature toggle</button>
     </div>
   </div>
+  <!-- Feature -->
   <div class="feature--off is-collapsed">
-    <div class="feature__teaser">
-      <div class="feature__teaser-content">
+    <div class="feature__view">
+      <a href="#" class="feature__view-edit-button"><span class="glyphicon glyphicon-pencil"></span></a>
+      <div class="feature__view-content">
         <h3>super_secret_test_feature</h3>
         <p>Praesent non mi non mauris posuere bibendum. Aliquam ass go to hizzle lectizzle. Crunk id enim et uhuh ... yih! sodalizzle euismod. My shizz lobortizzle, mauris vitae dapibizzle sure, nulla ligula bibendizzle shizzlin dizzle, izzle tellivizzle break it down dui yo mamma hizzle.</p>
       </div>
@@ -47,8 +73,8 @@
         <input type="checkbox" class="js-switch" />
       </div>
     </div>
-    <div class="feature__content">
-      This is the feature content
+    <div class="feature__edit">
+      [edit options here]
     </div>
   </div>
 </div>

@@ -21,32 +21,35 @@
     content: ''
     left: 0
     position: absolute
-    top: 17px
+    top: 20px
     width: 100%
     z-index: 0
 
 .new-feature__add
   background-color: darken($gray-lighter, 10%)
+  border-radius: 50%
   display: block
+  height: 40px
   margin: 0 auto
   position: relative
   transition: background-color 0.2s
+  width: 40px
   z-index: 1
   &:hover
     background-color: darken($gray-lighter, 15%)
-    > span
-      position: relative
-      top: 2px
-      transform: rotate(90deg)
-      -webkit-transform: rotate(90deg)
-      transition: all 0.2s
-  &:focus, &:active, &:focus:active
+    span
+      color: $black
+  &:active, &:focus:active
     outline: none
 
 .new-feature__content
+  @extend .row
   background-color: $white
   border-radius: $border-radius-base
   padding: 20px
+  position: relative
+  > input
+    display: block
 
 .new-feature__close
   background-color: $white
