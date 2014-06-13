@@ -14,21 +14,41 @@
     <a href="/" class="branding__logo"><img src="img/logo.svg" alt="iodized"></a>
     <p class="branding__tagline"><strong>Iodine rich feature toggling.</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
   </div>
-  <div class="feature--new">
-    <button type="button" class="btn">
+  <div class="new-feature">
+    <button type="button" class="btn new-feature__add">
       <span class="glyphicon glyphicon-plus"></span> Add new feature toggle
     </button>
-  </div>
-  <div class="feature--on">
-    <h4 class="feature__title">Notifications (such an awesome feature everyone should get behind)</h4>
-    <div class="feature__switch">
-      <input type="checkbox" class="js-switch" checked />
+    <div class="new-feature__content">
+      <a href="#" class="new-feature__close"><span class="glyphicon glyphicon-remove"></span></a>
+      <label for="">Name (lower case and underscores, no spaces)</label>
     </div>
   </div>
-  <div class="feature--off">
-    <h4 class="feature__title">Super secret test feature</h4>
-    <div class="feature__switch">
-      <input type="checkbox" class="js-switch" />
+  <div class="feature--on is-collapsed">
+    <div class="feature__teaser">
+      <div class="feature__teaser-content">
+        <h3>notifications</h3>
+        <p>Such an awesome feature everyone should get behind. Lorizzle ipsum dolizzle sure amizzle, consectetizzle adipiscing pot. Nullizzle sapizzle shizznit.</p>
+      </div>
+      <div class="feature__switch">
+        <input type="checkbox" class="js-switch" checked />
+      </div>
+    </div>
+    <div class="feature__content">
+      This is the feature content
+    </div>
+  </div>
+  <div class="feature--off is-collapsed">
+    <div class="feature__teaser">
+      <div class="feature__teaser-content">
+        <h3>super_secret_test_feature</h3>
+        <p>Praesent non mi non mauris posuere bibendum. Aliquam ass go to hizzle lectizzle. Crunk id enim et uhuh ... yih! sodalizzle euismod. My shizz lobortizzle, mauris vitae dapibizzle sure, nulla ligula bibendizzle shizzlin dizzle, izzle tellivizzle break it down dui yo mamma hizzle.</p>
+      </div>
+      <div class="feature__switch">
+        <input type="checkbox" class="js-switch" />
+      </div>
+    </div>
+    <div class="feature__content">
+      This is the feature content
     </div>
   </div>
 </div>

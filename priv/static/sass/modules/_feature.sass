@@ -1,47 +1,48 @@
 .feature
-  @extend .row
   background: $white
   border-radius: $border-radius-base
+  cursor: pointer
   margin-bottom: 20px
-  padding: 20px
+  overflow: hidden
+  &.is-collapsed
+    &.feature--on
+      &:hover
+        background-color: darken($white, 1%)
+    &.feature--off
+      &:hover
+        opacity: 0.9
+    .feature__content
+      display: none
+  &.is-expanded
+    display: block
 
 .feature--on
   @extend .feature
-  .feature__title
 
 .feature--off
   @extend .feature
   opacity: 0.8
-  .feature__title
+  .feature__teaser
+    color: $gray-light
+
+.feature__teaser
+  @extend .row
+  +vertical-align
+  padding: 20px 30px
+
+.feature__teaser-content
+  @extend .col-md-9
+  > h3
+    margin-top: 5px
+  > p
     color: $gray
 
-.feature__title
-  @extend .col-md-8
-
 .feature__switch
-  @extend .col-md-4
+  @extend .col-md-2
+  @extend .col-md-offset-1
   > *
     float: right
 
-.feature--new
-  margin-bottom: 25px
-  position: relative
-  &:before
-    border-top: 1px solid darken($gray-lighter, 10%)
-    content: ''
-    left: 0
-    position: absolute
-    top: 17px
-    width: 100%
-    z-index: 0
-  > button
-    background-color: darken($gray-lighter, 10%)
-    display: block
-    margin: 0 auto
-    position: relative
-    transition: background-color 0.2s
-    z-index: 1
-    &:hover
-      background-color: darken($gray-lighter, 15%)
-    &:focus, &:active, &:focus:active
-      outline: none
+.feature__content
+  @extend .col-md-12
+  padding: 0 30px 20px
