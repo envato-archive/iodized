@@ -1,5 +1,5 @@
 defmodule Iodized do
-  use Application.Behaviour
+  use Application
 
   def start(_type, _args) do
     start_web()
