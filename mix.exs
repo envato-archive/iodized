@@ -31,7 +31,8 @@ defmodule Iodized.Mixfile do
       {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
       {:jsex, github: "talentdeficit/jsex", tag: "v2.0.0"},
       {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"}, # TODO need nicer way of managing thrift
-      {:uuid, github: "avtobiff/erlang-uuid", tag: "v0.4.6"}
+      {:uuid, github: "avtobiff/erlang-uuid", tag: "v0.4.6"},
+      {:timex, github: "bitwalker/timex", tag: "0.7.1"}
     ]
   end
 end
