@@ -56,6 +56,7 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
   end
 
   defp install(:clustered, nodes) do
+    ensure_nodes_online!(nodes)
     ensure!(:clustered, :feature_table_created, nodes)
   end
 
@@ -144,6 +145,14 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     case :rpc.call(primary_node, :mnesia, :create_table, [:feature, tab_def]) do
       {:atomic, :ok}      -> :ok
       {:aborted, reason}  -> {:error, reason}
+    end
+  end
+
+  defp ensure_nodes_online!(work_nodes) do
+    bad_nodes = Enum.reject(work_nodes, &(Node.connect(&1)))
+    unless bad_nodes == [] do
+      Mix.shell.error("Could not connect to nodes: #{inspect bad_nodes}. Check all nodes are alive and accessible, then try again.")
+      System.halt(1)
     end
   end
 
