@@ -55,6 +55,10 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     ensure!(:local, :feature_table_created, [node])
   end
 
+  defp install(:clustered, nodes) do
+    ensure!(:clustered, :feature_table_created, nodes)
+  end
+
   defp configure_mnesia_dir do
     if :application.get_env(:mnesia, :dir) == :undefined do
       data_dir = (:os.getenv("DATA_DIR") || 'data') |>
@@ -62,10 +66,6 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
       String.to_atom
       :application.set_env(:mnesia, :dir, data_dir)
     end
-  end
-
-  defp install(:clustered, nodes) do
-    ensure!(:clustered, :feature_table_created, nodes)
   end
 
   defp ensure!(cluster_mode, work_to_do, work_nodes) do
@@ -85,23 +85,38 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     end
   end
 
-  # local schema ---
   defp work?(:local, :schema_created, work_nodes) do
     :application.ensure_started(:mnesia)
     Enum.sort(:mnesia.table_info(:schema, :disc_copies)) != Enum.sort(work_nodes)
   end
 
-  defp work!(:local, :schema_created, work_nodes) do
-    :application.stop :mnesia
-    :mnesia.create_schema(work_nodes)
-  end
-
-
-  # local feature table ---
   defp work?(:local, :feature_table_created, work_nodes) do
     ensure!(:local, :schema_created, work_nodes)
     :application.ensure_started(:mnesia)
     not (:mnesia.system_info(:tables) |> Enum.member?(:feature))
+  end
+
+  defp work?(:clustered, :schema_created, work_nodes) do
+    ensure_mnesia_started(work_nodes)
+
+    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
+    current_nodes = :rpc.call(primary_node, :mnesia, :table_info, [:schema, :disc_copies])
+    Enum.sort(current_nodes) != Enum.sort(work_nodes)
+  end
+
+  defp work?(:clustered, :feature_table_created, work_nodes) do
+    ensure!(:clustered, :schema_created, work_nodes)
+
+    ensure_mnesia_started(work_nodes)
+
+    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
+    table_info = :rpc.call(primary_node, :mnesia, :system_info, [:tables])
+    not (table_info |> Enum.member?(:feature))
+  end
+
+  defp work!(:local, :schema_created, work_nodes) do
+    :application.stop :mnesia
+    :mnesia.create_schema(work_nodes)
   end
 
   defp work!(:local, :feature_table_created, work_nodes) do
@@ -113,18 +128,6 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     end
   end
 
-
-  # TODO clean this mess of :rpc soup up
-  # TODO add proper handling of :badrpc errors
-  # clustered schema ---
-  defp work?(:clustered, :schema_created, work_nodes) do
-    ensure_mnesia_started(work_nodes)
-
-    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
-    current_nodes = :rpc.call(primary_node, :mnesia, :table_info, [:schema, :disc_copies])
-    Enum.sort(current_nodes) != Enum.sort(work_nodes)
-  end
-
   defp work!(:clustered, :schema_created, work_nodes) do
     mnesia_stop(work_nodes)
 
@@ -132,17 +135,6 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     :rpc.call(primary_node, :mnesia, :create_schema, [work_nodes])
   end
 
-
-  # clustered feature table ---
-  defp work?(:clustered, :feature_table_created, work_nodes) do
-    ensure!(:clustered, :schema_created, work_nodes)
-
-    ensure_mnesia_started(work_nodes)
-
-    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
-    table_info = :rpc.call(primary_node, :mnesia, :system_info, [:tables])
-    not (table_info |> Enum.member?(:feature))
-  end
 
   defp work!(:clustered, :feature_table_created, work_nodes) do
     ensure_mnesia_started(work_nodes)
