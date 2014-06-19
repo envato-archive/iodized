@@ -1,4 +1,4 @@
-@mixin user-select($val)
++user-select($val)
   -webkit-user-select: $val  /* Chrome all / Safari all */
   -moz-user-select: $val     /* Firefox all */
   -ms-user-select: $val      /* IE 10+ */
@@ -6,17 +6,38 @@
   -o-user-select: $val
   user-select: $val   
 
-@mixin vertical-align
++vertical-align
   display: flex
   align-items: center
   justify-content: center
 
-@mixin keyframes($name)
++keyframes($name)
   @-webkit-keyframes #{$name}
     @content
   @keyframes #{$name}
     @content
 
-@mixin animate($animationName, $time)
++animate($animationName, $time)
   -webkit-animation: $animationName $time
   animation:         $animationName $time
+
+
++keyframes(zoomOut)
+  0%
+    -webkit-transform: scale(1.5)
+    transform: scale(1.5)
+    opacity: 0
+  100%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+    opacity: 1
+
++keyframes(zoomIn)
+  0%
+    -webkit-transform: scale(0.5)
+    transform: scale(0.5)
+    opacity: 0
+  100%
+    -webkit-transform: scale(1)
+    transform: scale(1)
+    opacity: 1
