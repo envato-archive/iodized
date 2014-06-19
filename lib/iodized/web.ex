@@ -17,7 +17,7 @@ defmodule Iodized.Web do
     :cowboy.start_http( :http, handler_count, [port: port], [env: [dispatch: dispatch], onresponse: &log/4])
   end
 
-  defp log(status, headers, body, req) do
+  defp log(status, headers, _body, req) do
     # combined log format from https://httpd.apache.org/docs/trunk/logs.html#accesslog
     #"%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
     { {ip, _port}, req}       = :cowboy_req.peer(req)
