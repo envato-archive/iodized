@@ -5408,6 +5408,38 @@ button.close {
     top: -13px;
     width: 0; }
 
+.feature__setting {
+  height: auto;
+  margin-top: 20px; }
+
+.first-indented-list {
+  padding-left: 50px; }
+
+.sec-indented-list {
+  padding-left: 100px; }
+
+.third-indented-list {
+  padding-left: 150px; }
+
+.fourth-indented-list {
+  padding-left: 200px; }
+
+.feature__setting-icon {
+  font-size: 2.3em;
+  padding-left: 5px;
+  color: #818181; }
+  .feature__setting-icon:hover {
+    color: #2e507f; }
+
+.btn-delete {
+  color: #ca3a3a;
+  background-color: white;
+  border-color: #ca3a3a; }
+  .btn-delete:hover {
+    color: #942c2c;
+    background-color: #e6e6e5;
+    border-color: #942c2c; }
+
 .new-feature {
   margin-bottom: 25px;
   position: relative; }
