@@ -18,6 +18,29 @@
         <p class="branding__tagline"><strong>Iodine rich feature toggling.</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
     </div>
 
+    <!-- Add new feature -->
+    <div class="new-feature">
+        <button type="button" class="btn new-feature__add" tabindex="0">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <div class="new-feature__content">
+            <a href="#" class="new-feature__close"><span class="glyphicon glyphicon-remove"></span></a>
+            <div class="form-group">
+                <label class="control-label" for="new-feature__name">Feature Name*</label>
+                <input type="text" class="form-control input-lg" id="new-feature__name">
+                <small>Lower case and underscores only, no spaces</small>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="new-feature__description">Description</label>
+                <textarea class="form-control input-lg" rows="3" id="new-feature__description"></textarea>
+                <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
+            </div>
+            <button type="submit" class="btn btn-default btn-lg new-feature__submit">Add feature toggle</button>
+        </div>
+    </div>
+
+
+
   <div id="iodized"></div>
 </div>
 
