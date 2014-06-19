@@ -78,15 +78,23 @@ var FeatureList = React.createClass({
 });
 
 var Feature = React.createClass({
-  switchState: function(){
-    switch(this.props.feature.master_switch_state) {
-      case "on":
-        return <span className="label label-success">force on</span>
-      case "off":
-        return <span className="label label-danger">force off</span>
-      case "dynamic":
-        return <span className="label label-default">dynamic</span>
-    }
+  switchState: function (element) {
+      if (element === 'checkbox') {
+          switch (this.props.feature.master_switch_state) {
+              case "on":
+              case "dynamic":
+                  return 'checked'
+          }
+      }
+      else {
+          switch (this.props.feature.master_switch_state) {
+              case "on":
+              case "dynamic":
+                  return 'feature--on is-collapsed'
+              case "off":
+                  return 'feature--off is-collapsed'
+          }
+      }
   },
 
   handleEdit: function(){
@@ -117,7 +125,7 @@ var Feature = React.createClass({
        */
 
     return(
-      <div className="feature--off is-collapsed">
+      <div className={this.switchState('feature')}>
           <div className="feature__view">
               <a href="#" className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
               <div className="feature__view-content">
@@ -125,7 +133,7 @@ var Feature = React.createClass({
                   <p>{feature.description}</p>
               </div>
               <div className="feature__switch">
-                  <input type="checkbox" className="js-switch" />
+                  <input type="checkbox" checked={this.switchState('checkbox')} className="js-switch" />
               </div>
           </div>
           <div className="feature__edit">
