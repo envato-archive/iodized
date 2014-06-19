@@ -19,7 +19,8 @@ defmodule Iodized.Mixfile do
         data_dir: :data,
         http_port: 8080,
         http_handler_count: 100,
-        thrift_port: 5353
+        thrift_port: 5353,
+        thrift_ip: :any # may need to be '0.0.0.0' or '::1' if you get ipv4 vs ipv6 weirdness
       ]
     ]
   end
@@ -31,7 +32,8 @@ defmodule Iodized.Mixfile do
       {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
       {:jsex, github: "talentdeficit/jsex", tag: "v2.0.0"},
       {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"}, # TODO need nicer way of managing thrift
-      {:uuid, github: "avtobiff/erlang-uuid", tag: "v0.4.6"}
+      {:uuid, github: "avtobiff/erlang-uuid", tag: "v0.4.6"},
+      {:timex, github: "bitwalker/timex", tag: "0.7.1"}
     ]
   end
 end

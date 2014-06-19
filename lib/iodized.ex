@@ -19,17 +19,21 @@ defmodule Iodized do
     if start_services? do
       # TODO this should be supervised
       {:ok, port} = :application.get_env(:iodized, :thrift_port)
+      {:ok, ip}   = :application.get_env(:iodized, :thrift_ip)
       :thrift_socket_server.start(
         handler: Iodized.Transport.FeatureSetThriftHandler,
         service: :features_thrift,
         port: port,
-        socket_opts: [recv_timeout: 60000])
+        socket_opts: [recv_timeout: 60000],
+        ip: ip)
     end
   end
 
   # debugging only, kill this shortly
   def test_thrift() do
-    {:ok, c} = :thrift_client_util.new('localhost', 12345, :features_thrift, [])
+    {:ok, port} = :application.get_env(:iodized, :thrift_port)
+    {:ok, ip}   = :application.get_env(:iodized, :thrift_ip)
+    {:ok, c} = :thrift_client_util.new(ip, port, :features_thrift, [])
     {c, {:ok, pong}} = :thrift_client.call(c, :ping, [])
     IO.puts "ping=#{pong}"
 

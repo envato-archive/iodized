@@ -4,4 +4,5 @@
   "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "507fa4c41db33c81e925ab53f4d789d234aaff2f", []},
   "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]},
   "thrift": {:git, "git://github.com/envato/thrift-erlang.git", "b5d82063e183a51afe126edc06fe588c73b10d5a", [tag: "0.9.1.envato"]},
+  "timex": {:git, "git://github.com/bitwalker/timex.git", "eddfd210bfc183146fbd6929b31c87bcde6596ee", [tag: "0.7.1"]},
   "uuid": {:git, "git://github.com/avtobiff/erlang-uuid.git", "7c8a3bb79d8a0a3092ffa75332a91958d5438c39", [tag: "v0.4.6"]}}

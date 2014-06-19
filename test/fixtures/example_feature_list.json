@@ -2,13 +2,13 @@
 {
   "title": "foo_bar",
   "description": "super foo",
-  "master_switch_state": null,
+  "master_switch_state": "dynamic",
   "definition": {
     "operand":"any",
-    "conditions":[
+    "definitions":[
     {
       "operand":"all",
-      "conditions":[
+      "definitions":[
       {
         "operand":"included_in",
         "param_name":"username",
@@ -45,13 +45,13 @@
 {
   "title": "fuz_boz",
   "description": "not foo",
-  "master_switch_state": null,
+  "master_switch_state": "dynamic",
   "definition": {
     "operand":"any",
-    "conditions":[
+    "definitions":[
     {
       "operand":"all",
-      "conditions":[
+      "definitions":[
       {
         "operand":"included_in",
         "param_name":"username",
@@ -88,13 +88,13 @@
 {
   "title": "super_awesome_redesign",
   "description": "make the marketplace look COOL",
-  "master_switch_state": null,
+  "master_switch_state": "dynamic",
   "definition": {
     "operand":"any",
-    "conditions":[
+    "definitions":[
     {
       "operand":"all",
-      "conditions":[
+      "definitions":[
       {
         "operand":"included_in",
         "param_name":"username",
@@ -129,8 +129,13 @@
   }
 },
 {
-  "title": "i have no definition",
+  "title": "force_off_no_definition",
   "description": "foo",
-  "master_switch_state": true
+  "master_switch_state": "off"
+},
+{
+  "title": "force_on_no_definition",
+  "description": "foo",
+  "master_switch_state": "on"
 }
 ]
