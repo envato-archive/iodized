@@ -53,7 +53,7 @@ iodized.addNewFeature = function() {
 }
 
 iodized.changeFeatureSettingsVisibility = function() {
-    $('.feature__view-edit-button').on('click', function (event) {
+    $("#iodized").on( 'click', '.feature__view-edit-button', function(event) {
         event.preventDefault();
         $(this).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed');
     });
