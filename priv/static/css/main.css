@@ -1,3 +1,32 @@
+/*
+ *
+ * Main stylesheet for Switchery.
+ * http://abpetkov.github.io/switchery/
+ *
+ */
+.switchery {
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  position: relative;
+  vertical-align: middle;
+  width: 50px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box; }
+
+.switchery > small {
+  background: #fff;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  height: 30px;
+  position: absolute;
+  top: 0;
+  width: 30px; }
+
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -5210,6 +5239,27 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+.switchery {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  /* No support for these yet, use at own risk */
+  -o-user-select: none;
+  user-select: none;
+  height: 35px;
+  opacity: 0.95;
+  width: 100px; }
+  .switchery:hover {
+    opacity: 1; }
+  .switchery:active:hover > small {
+    background: #f0f0f0; }
+
+.switchery > small {
+  height: 35px;
+  width: 35px; }
+  .switchery > small:hover {
+    background: #fafafa; }
+
 @-webkit-keyframes zoomOut {
   0% {
     -webkit-transform: scale(1.5);
@@ -5434,54 +5484,6 @@ button.close {
     background-color: #fafafa;
     top: -9px;
     transition: none; }
-
-/*
- *
- * Main stylesheet for Switchery.
- * http://abpetkov.github.io/switchery/
- *
- */
-.switchery {
-  background-color: #fff;
-  border: 1px solid #dfdfdf;
-  border-radius: 20px;
-  cursor: pointer;
-  display: inline-block;
-  height: 30px;
-  position: relative;
-  vertical-align: middle;
-  width: 50px;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box; }
-
-.switchery > small {
-  background: #fff;
-  border-radius: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  height: 30px;
-  position: absolute;
-  top: 0;
-  width: 30px; }
-
-.switchery {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  height: 35px;
-  opacity: 0.95;
-  width: 100px; }
-  .switchery:hover {
-    opacity: 1; }
-  .switchery:active:hover > small {
-    background: #f0f0f0; }
-
-.switchery > small {
-  height: 35px;
-  width: 35px; }
-  .switchery > small:hover {
-    background: #fafafa; }
 
 small {
   color: #999999; }
