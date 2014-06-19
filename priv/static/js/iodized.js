@@ -55,9 +55,8 @@ var FeatureBox = React.createClass({
         <div className="panel">
           <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
         </div>
-        <div className="panel">
-          <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
-        </div>
+        <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
+
         <FeatureForm ref="featureEditModal"/>
       </div>
     );
@@ -103,17 +102,35 @@ var Feature = React.createClass({
   render: function() {
     var feature = this.props.feature;
 
+    /* old:
+     <div className="feature panel panel-primary">
+     <div className="featureTitle panel-heading">
+     <h3 className="panel-title">{feature.title}</h3>
+     </div>
+     <div className="panel-body row">
+     <div className="featureDescription col-md-9"> {feature.description} </div>
+     <div className="featureMasterSwitchState col-md-1"> {this.switchState()}</div>
+     <div className="editFeature col-md-1"><button className="btn" onClick={this.handleEdit}>edit</button></div>
+     <div className="deleteFeature col-md-1"><button className="btn btn-danger" onClick={this.handleDelete}>delete</button></div>
+     </div>
+     </div>
+       */
+
     return(
-      <div className="feature panel panel-primary">
-        <div className="featureTitle panel-heading">
-          <h3 className="panel-title">{feature.title}</h3>
-        </div>
-        <div className="panel-body row">
-          <div className="featureDescription col-md-9"> {feature.description} </div>
-          <div className="featureMasterSwitchState col-md-1"> {this.switchState()}</div>
-          <div className="editFeature col-md-1"><button className="btn" onClick={this.handleEdit}>edit</button></div>
-          <div className="deleteFeature col-md-1"><button className="btn btn-danger" onClick={this.handleDelete}>delete</button></div>
-        </div>
+      <div className="feature--off is-collapsed">
+          <div className="feature__view">
+              <a href="#" className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
+              <div className="feature__view-content">
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+              </div>
+              <div className="feature__switch">
+                  <input type="checkbox" className="js-switch" />
+              </div>
+          </div>
+          <div className="feature__edit">
+            [edit options here]
+          </div>
       </div>
     )
   }
