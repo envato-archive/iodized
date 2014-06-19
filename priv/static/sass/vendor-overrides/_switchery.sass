@@ -1,0 +1,16 @@
+.switchery
+  +user-select(none)
+  height: 35px
+  opacity: 0.95
+  width: 100px
+  &:hover
+    opacity: 1
+  &:active:hover
+    > small
+      background: darken($white, 6%)
+
+.switchery > small
+  height: 35px
+  width: 35px
+  &:hover
+    background: darken($white, 2%)
