@@ -20,7 +20,7 @@ defmodule Iodized.Mixfile do
         http_port: 8080,
         http_handler_count: 100,
         thrift_port: 5353,
-        thrift_ip: :any
+        thrift_ip: :any # may need to be '0.0.0.0' or '::1' if you get ipv4 vs ipv6 weirdness
       ]
     ]
   end
