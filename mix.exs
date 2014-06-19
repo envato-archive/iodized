@@ -19,7 +19,8 @@ defmodule Iodized.Mixfile do
         data_dir: :data,
         http_port: 8080,
         http_handler_count: 100,
-        thrift_port: 5353
+        thrift_port: 5353,
+        thrift_ip: :any
       ]
     ]
   end
