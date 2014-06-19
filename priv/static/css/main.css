@@ -5239,27 +5239,6 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
-.switchery {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  /* No support for these yet, use at own risk */
-  -o-user-select: none;
-  user-select: none;
-  height: 35px;
-  opacity: 0.95;
-  width: 100px; }
-  .switchery:hover {
-    opacity: 1; }
-  .switchery:active:hover > small {
-    background: #f0f0f0; }
-
-.switchery > small {
-  height: 35px;
-  width: 35px; }
-  .switchery > small:hover {
-    background: #fafafa; }
-
 @-webkit-keyframes zoomOut {
   0% {
     -webkit-transform: scale(1.5);
@@ -5300,6 +5279,27 @@ button.close {
     -webkit-transform: scale(1);
     transform: scale(1);
     opacity: 1; } }
+.switchery {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  /* No support for these yet, use at own risk */
+  -o-user-select: none;
+  user-select: none;
+  height: 35px;
+  opacity: 0.95;
+  width: 100px; }
+  .switchery:hover {
+    opacity: 1; }
+  .switchery:active:hover > small {
+    background: #f0f0f0; }
+
+.switchery > small {
+  height: 35px;
+  width: 35px; }
+  .switchery > small:hover {
+    background: #fafafa; }
+
 .branding {
   padding: 30px 0; }
 
