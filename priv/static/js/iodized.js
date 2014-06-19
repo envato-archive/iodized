@@ -83,7 +83,7 @@ var Feature = React.createClass({
           switch (this.props.feature.master_switch_state) {
               case "on":
               case "dynamic":
-                  return 'checked'
+                  return 'yes'
           }
       }
       else {
@@ -133,7 +133,7 @@ var Feature = React.createClass({
                   <p>{feature.description}</p>
               </div>
               <div className="feature__switch">
-                  <input type="checkbox" checked={this.switchState('checkbox')} className="js-switch" />
+                  <input type="checkbox" defaultChecked={this.switchState('checkbox')} className="js-switch" />
               </div>
           </div>
           <div className="feature__edit">
