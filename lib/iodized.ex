@@ -31,7 +31,9 @@ defmodule Iodized do
 
   # debugging only, kill this shortly
   def test_thrift() do
-    {:ok, c} = :thrift_client_util.new('localhost', 12345, :features_thrift, [])
+    {:ok, port} = :application.get_env(:iodized, :thrift_port)
+    {:ok, ip}   = :application.get_env(:iodized, :thrift_ip)
+    {:ok, c} = :thrift_client_util.new(ip, port, :features_thrift, [])
     {c, {:ok, pong}} = :thrift_client.call(c, :ping, [])
     IO.puts "ping=#{pong}"
 
