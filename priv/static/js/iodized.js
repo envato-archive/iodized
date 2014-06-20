@@ -52,7 +52,7 @@ var FeatureBox = React.createClass({
     return (
       <div className="featureBox">
         <h2>Features</h2>
-          <div className="new-feature">
+          <div className="new-feature is-expanded">
               <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
                   <span className="glyphicon glyphicon-plus"></span>
               </button>
@@ -182,7 +182,7 @@ var FeatureForm = React.createClass({
     var feature = this.state.editingFeature;
     this.state.onSave(feature);
     this.setState({dirty: false}, function(){
-      $(this.getDOMNode()).modal('hide');
+        $('.new-feature').toggleClass('is-expanded is-collapsed');
     }.bind(this));
   },
 
