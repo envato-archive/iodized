@@ -107,7 +107,6 @@ var Feature = React.createClass({
 
   render: function() {
     var feature = this.props.feature;
-
     return(
       <div className={this.switchState('feature')}>
           <div className="feature__view">
@@ -121,7 +120,8 @@ var Feature = React.createClass({
               </div>
           </div>
           <div className="feature__edit">
-            [edit options here]
+              <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
+              <button className="btn btn-default btn-lg pull-right" type="submit">Save Feature</button>
           </div>
       </div>
     )

@@ -26,20 +26,5 @@ iodized.switchery = function() {
 
 $(document).ready(function() {
     iodized.init();
-
-//    var mydata = {
-//        "definition": null,
-//        "description": "this is an awesome new feature",
-//        "master_switch_state": "dynamic",
-//        "title": "some_feature"
-//    };
-//
-//    $.ajax({
-//        url: '/admin/api/features',
-//        contentType: 'application/json',
-//        type: 'POST',
-//        data: JSON.stringify(mydata)
-//    });
-
 });
 
