@@ -2,7 +2,6 @@ var iodized = {};
 
 iodized.init = function() {
     //iodized.switchery();
-    //iodized.addNewFeature();
     iodized.changeFeatureSettingsVisibility();
 }
 
@@ -25,32 +24,6 @@ iodized.switchery = function() {
         };
     });
 };
-
-iodized.addNewFeature = function() {
-    $('.new-feature__add').click(function (event) {
-        event.preventDefault();
-        var newFeature = $(this).closest('.new-feature')
-        if (newFeature.is(".is-expanded, .is-collapsed")) {
-            newFeature.toggleClass('is-expanded is-collapsed');
-            newFeature.find("input:first-of-type").focus();
-        } else {
-            newFeature.addClass('is-expanded');
-            newFeature.find("input:first-of-type").focus();
-        }
-    });
-
-    $('.new-feature__close').click(function (event) {
-        event.preventDefault();
-        var newFeature = $(this).closest('.new-feature')
-        newFeature.toggleClass('is-expanded is-collapsed');
-    });
-
-    $('.new-feature__submit').click(function (event) {
-        event.preventDefault();
-        var newFeature = $(this).closest('.new-feature')
-        newFeature.toggleClass('is-expanded is-collapsed');
-    });
-}
 
 iodized.changeFeatureSettingsVisibility = function() {
     $("#iodized").on( 'click', '.feature__view-edit-button', function(event) {
