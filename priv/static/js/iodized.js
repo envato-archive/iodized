@@ -265,7 +265,7 @@ FeatureRepo.prototype.deleteFeature = function(feature, onSuccess, onError){
   })
 }
 
-var featureRepo = new FeatureRepo("/admin/api/features");
+var featureRepo = new FeatureRepo("admin/api/features");
 React.renderComponent(
   <FeatureBox featureRepo={featureRepo}/>,
   document.getElementById("iodized")
