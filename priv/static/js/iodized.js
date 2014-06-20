@@ -27,7 +27,7 @@ var FeatureBox = React.createClass({
       description: "",
       master_switch_state: "dynamic"
     }
-    this.refs.featureEditModal.show(emptyFeature, this.createFeature);
+    this.refs.featureForm.show(emptyFeature, this.createFeature);
   },
 
   createFeature: function(feature) {
@@ -41,7 +41,9 @@ var FeatureBox = React.createClass({
   },
 
   updateFeature: function(feature) {
-    this.props.featureRepo.updateFeature(feature, this.refresh);
+      console.log('update');
+      return false;
+    //this.props.featureRepo.updateFeature(feature, this.refresh);
   },
 
   render: function() {
@@ -52,10 +54,10 @@ var FeatureBox = React.createClass({
               <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
                   <span className="glyphicon glyphicon-plus"></span>
               </button>
-              <FeatureForm ref="featureEditModal"/>
+              <FeatureForm ref="featureForm"/>
           </div>
 
-          <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
+          <FeatureList features={this.state.features} updateFeature={this.updateFeature} deleteFeature={this.deleteFeature}/>
       </div>
     );
   }
@@ -100,6 +102,12 @@ var Feature = React.createClass({
     false;
   },
 
+  handleUpdate: function () {
+    this.props.updateFeature(this.props.feature);
+    this.handleEdit();
+    false;
+  },
+
   handleDelete: function(){
     this.props.deleteFeature(this.props.feature);
     false;
@@ -120,8 +128,28 @@ var Feature = React.createClass({
               </div>
           </div>
           <div className="feature__edit">
-              <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
-              <button className="btn btn-default btn-lg pull-right" type="submit">Save Feature</button>
+              <form className="featureEditForm" ref="form" role="form">
+                  <div className="form-group">
+                      <label className="control-label" htmlFor="featureTitleInput">Feature Name*</label>
+                      <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" defaultValue={feature.title} />
+                      <small>Lower case and underscores only, no spaces</small>
+                  </div>
+                  <div className="form-group">
+                      <label className="control-label" htmlFor="featureDescriptionInput">Description</label>
+                      <textarea className="form-control input-lg" ref="description" rows="3" id="featureDescriptionInput" defaultValue={feature.description}></textarea>
+                      <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
+                  </div>
+                  <div className="form-group">
+                      <label htmlFor="featureMasterSwitchStateInput">Master Switch</label>
+                      <select id="featureMasterSwitchStateInput" value={feature.master_switch_state} className="form-control" ref="master_switch_state">
+                          <option value="dynamic">Dynamic</option>
+                          <option value="on">On</option>
+                          <option value="off">Off</option>
+                      </select>
+                  </div>
+                  <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
+                  <button className="btn btn-default btn-lg pull-right" onClick={this.handleUpdate} type="submit">Update Feature</button>
+              </form>
           </div>
       </div>
     )
@@ -146,7 +174,9 @@ var FeatureForm = React.createClass({
   show: function(feature, onSave) {
     var editingFeature = $.extend({}, feature);
     this.setState({editingFeature: editingFeature, onSave: onSave, dirty: true}, function(){
-        $('.new-feature').toggleClass('is-expanded is-collapsed');
+        $('.new-feature')
+            .toggleClass('is-expanded is-collapsed')
+            .find("input:first-of-type").focus();
     }.bind(this));
   },
 
