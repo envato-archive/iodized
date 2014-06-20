@@ -34,10 +34,6 @@ var FeatureBox = React.createClass({
     this.props.featureRepo.createFeature(feature, this.refresh);
   },
 
-  editFeature: function(feature) {
-    this.refs.featureEditModal.show(feature, this.updateFeature);
-  },
-
   deleteFeature: function(feature) {
     if(confirm("really delete " + feature.title + "?")) {
       this.props.featureRepo.deleteFeature(feature, this.refresh);
@@ -100,7 +96,7 @@ var Feature = React.createClass({
   },
 
   handleEdit: function(){
-    this.props.editFeature(this.props.feature);
+    $(this.getDOMNode()).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed')
     false;
   },
 
@@ -109,32 +105,13 @@ var Feature = React.createClass({
     false;
   },
 
-  rowan: function() {
-      $(this.getDOMNode()).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed')
-      return false;
-  },
-
   render: function() {
     var feature = this.props.feature;
-
-    /* old:
-     <div className="feature panel panel-primary">
-     <div className="featureTitle panel-heading">
-     <h3 className="panel-title">{feature.title}</h3>
-     </div>
-     <div className="panel-body row">
-     <div className="featureDescription col-md-9"> {feature.description} </div>
-     <div className="featureMasterSwitchState col-md-1"> {this.switchState()}</div>
-     <div className="editFeature col-md-1"><button className="btn" onClick={this.handleEdit}>edit</button></div>
-     <div className="deleteFeature col-md-1"><button className="btn btn-danger" onClick={this.handleDelete}>delete</button></div>
-     </div>
-     </div>
-       */
 
     return(
       <div className={this.switchState('feature')}>
           <div className="feature__view">
-              <a href="#" onClick={this.rowan} className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
+              <a href="#" onClick={this.handleEdit} className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
               <div className="feature__view-content">
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
