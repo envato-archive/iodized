@@ -5,31 +5,29 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>iodized</title>
+<link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+<link href="css/main.css" rel="stylesheet">
 
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 <script src="js/vendor/react.js"></script>
 <script src="js/vendor/JSXTransformer.js"></script>
 </head>
 <body>
 <div class="container">
-  <h1>iodized</h1>
+    <div class="branding">
+        <img class="branding__logo" src="img/logo.svg" alt="iodized" tabIndex="-1">
+        <p class="branding__tagline"><strong>Iodine rich feature toggling.</strong> Lack of iodine can lead to development delays, and stunted growth. Iodized helps with that.</p>
+    </div>
 
-  <div id="iodized">
-  </div>
+  <div id="iodized"></div>
 </div>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/vendor/jquery.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/vendor/bootstrap.js"></script>
+<script src="js/vendor/bootstrap/button.js"></script>
+<script src="js/vendor/switchery.js"></script>
+
+<script src="js/main.js"></script>
 <script type="text/jsx" src="js/iodized.js"></script>
+
+
 </body>
 </html>

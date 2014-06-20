@@ -8,7 +8,9 @@
 instructions](http://elixir-lang.org/getting_started/1.html)
 - Run `mix deps.get`
 - Run `mix compile`
+- Run `mix iodized.install`
 - Start app with `iex -S mix`
+- Go to http://localhost:8080
 - **PROFIT!**
 
 ## overview
@@ -73,3 +75,9 @@ without affecting prod response.
 - feature name/description/global state
 - feature created if new one requested in do?
 - param names stored when passed in do? request
+
+## Development
+
+### UI
+- you will need SASS (3.3) installed
+- from the `priv/static/` directory run the command `sass --watch sass/main.sass:css/main.css`
