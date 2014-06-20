@@ -52,7 +52,7 @@ var FeatureBox = React.createClass({
     return (
       <div className="featureBox">
         <h2>Features</h2>
-          <div className="new-feature is-expanded">
+          <div className="new-feature">
               <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
                   <span className="glyphicon glyphicon-plus"></span>
               </button>
@@ -109,6 +109,11 @@ var Feature = React.createClass({
     false;
   },
 
+  rowan: function() {
+      $(this.getDOMNode()).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed')
+      return false;
+  },
+
   render: function() {
     var feature = this.props.feature;
 
@@ -129,7 +134,7 @@ var Feature = React.createClass({
     return(
       <div className={this.switchState('feature')}>
           <div className="feature__view">
-              <a href="#" className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
+              <a href="#" onClick={this.rowan} className="feature__view-edit-button"><span className="glyphicon glyphicon-pencil"></span></a>
               <div className="feature__view-content">
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>

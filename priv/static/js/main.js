@@ -2,7 +2,6 @@ var iodized = {};
 
 iodized.init = function() {
     //iodized.switchery();
-    iodized.changeFeatureSettingsVisibility();
 }
 
 iodized.switchery = function() {
@@ -24,14 +23,6 @@ iodized.switchery = function() {
         };
     });
 };
-
-iodized.changeFeatureSettingsVisibility = function() {
-    $("#iodized").on( 'click', '.feature__view-edit-button', function(event) {
-        event.preventDefault();
-        $(this).closest('.feature--on, .feature--off').toggleClass('is-expanded is-collapsed');
-    });
-}
-
 
 $(document).ready(function() {
     iodized.init();
