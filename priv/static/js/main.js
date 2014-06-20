@@ -1,8 +1,8 @@
 var iodized = {};
 
 iodized.init = function() {
-    iodized.switchery();
-    iodized.addNewFeature();
+    //iodized.switchery();
+    //iodized.addNewFeature();
     iodized.changeFeatureSettingsVisibility();
 }
 

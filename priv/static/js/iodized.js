@@ -52,12 +52,14 @@ var FeatureBox = React.createClass({
     return (
       <div className="featureBox">
         <h2>Features</h2>
-        <div className="panel">
-          <button type="button" className="btn btn-primary" onClick={this.handleNewFeature}>New Feature</button>
-        </div>
-        <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
+          <div className="new-feature">
+              <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
+                  <span className="glyphicon glyphicon-plus"></span>
+              </button>
+              <FeatureForm ref="featureEditModal"/>
+          </div>
 
-        <FeatureForm ref="featureEditModal"/>
+          <FeatureList features={this.state.features} editFeature={this.editFeature} deleteFeature={this.deleteFeature}/>
       </div>
     );
   }
@@ -162,7 +164,7 @@ var FeatureForm = React.createClass({
   show: function(feature, onSave) {
     var editingFeature = $.extend({}, feature);
     this.setState({editingFeature: editingFeature, onSave: onSave, dirty: true}, function(){
-      $(this.getDOMNode()).modal({keyboard: false});
+        $('.new-feature').toggleClass('is-expanded is-collapsed');
     }.bind(this));
   },
 
@@ -176,14 +178,6 @@ var FeatureForm = React.createClass({
     return true;
   },
 
-  modalTitle: function() {
-    if (this.state.editingFeature === {}) {
-      return "Add Feature";
-    } else {
-      return "Edit Feature";
-    }
-  },
-
   handleSaveFeature: function() {
     var feature = this.state.editingFeature;
     this.state.onSave(feature);
@@ -194,46 +188,74 @@ var FeatureForm = React.createClass({
 
   handleCancel: function() {
     this.setState({dirty: false}, function(){
-      $(this.getDOMNode()).modal('hide');
+      $('.new-feature').toggleClass('is-expanded is-collapsed');
+        return false;
     }.bind(this));
   },
 
   render: function() {
     var feature = this.state.editingFeature;
     return (
-      <div className="featureEdit modal fade">
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3 className="modal-title">{this.modalTitle()}</h3>
-            </div>
-            <div className="modal-body">
-              <form className="featureEditForm" ref="form" role="form">
+        <div className="new-feature__content">
+            <a href="#" onClick={this.handleCancel} className="new-feature__close">
+                <span className="glyphicon glyphicon-remove"></span>
+            </a>
+            <form className="featureEditForm" ref="form" role="form">
                 <div className="form-group">
-                  <label>Feature title</label>
-                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={feature.title} onChange={this.handleChange}/>
+                    <label className="control-label" htmlFor="featureTitleInput">Feature Name*</label>
+                    <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" onChange={this.handleChange} />
+                    <small>Lower case and underscores only, no spaces</small>
                 </div>
                 <div className="form-group">
-                  <label for="featureDescriptionInput">Feature title</label>
-                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={feature.description} onChange={this.handleChange}/>
+                    <label className="control-label" htmlFor="featureDescriptionInput">Description</label>
+                    <textarea className="form-control input-lg" ref="description" rows="3" id="featureDescriptionInput" onChange={this.handleChange}></textarea>
+                    <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
                 </div>
                 <div className="form-group">
-                  <label for="featureMasterSwitchStateInput">Master Switch</label>
-                  <select id="featureMasterSwitchStateInput" value={feature.master_switch_state} className="form-control" ref="master_switch_state" onChange={this.handleChange}>
-                    <option value="dynamic">Dynamic</option>
-                    <option value="on">On</option>
-                    <option value="off">Off</option>
-                  </select>
+                    <label htmlFor="featureMasterSwitchStateInput">Master Switch</label>
+                    <select id="featureMasterSwitchStateInput" value={feature.master_switch_state} className="form-control" ref="master_switch_state" onChange={this.handleChange}>
+                        <option value="dynamic">Dynamic</option>
+                        <option value="on">On</option>
+                        <option value="off">Off</option>
+                    </select>
                 </div>
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn" onClick={this.handleCancel}>Cancel</button>
-              <button type="button" className="btn btn-primary" onClick={this.handleSaveFeature}>Save</button>
-            </div>
-          </div>
+                <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.handleSaveFeature}>Add feature toggle</button>
+            </form>
         </div>
-      </div>
+//old:
+//      <div className="featureEdit modal fade">
+//        <div className="modal-dialog modal-lg">
+//          <div className="modal-content">
+//            <div className="modal-header">
+//              <h3 className="modal-title">Add Feature</h3>
+//            </div>
+//            <div className="modal-body">
+//              <form className="featureEditForm" ref="form" role="form">
+//                <div className="form-group">
+//                  <label>Feature title</label>
+//                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={feature.title} onChange={this.handleChange}/>
+//                </div>
+//                <div className="form-group">
+//                  <label for="featureDescriptionInput">Feature title</label>
+//                  <textarea id="featureDescriptionInput" className="form-control" type="text" ref="description" value={feature.description} onChange={this.handleChange}/>
+//                </div>
+//                <div className="form-group">
+//                  <label for="featureMasterSwitchStateInput">Master Switch</label>
+//                  <select id="featureMasterSwitchStateInput" value={feature.master_switch_state} className="form-control" ref="master_switch_state" onChange={this.handleChange}>
+//                    <option value="dynamic">Dynamic</option>
+//                    <option value="on">On</option>
+//                    <option value="off">Off</option>
+//                  </select>
+//                </div>
+//              </form>
+//            </div>
+//            <div className="modal-footer">
+//              <button type="button" className="btn" onClick={this.handleCancel}>Cancel</button>
+//              <button type="button" className="btn btn-primary" onClick={this.handleSaveFeature}>Save</button>
+//            </div>
+//          </div>
+//        </div>
+//      </div>
     );
   }
 });
