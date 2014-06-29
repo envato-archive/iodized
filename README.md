@@ -1,6 +1,6 @@
 # Iodized
 
-[![Build Status](https://travis-ci.org/envato/yodado.png)](https://travis-ci.org/envato/yodado)
+[![Build Status](https://travis-ci.org/envato/iodized.png)](https://travis-ci.org/envato/iodized)
 
 ## Getting Started
 
