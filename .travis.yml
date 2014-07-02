@@ -15,3 +15,7 @@ before_script:
 
 script:
   - mix test
+
+notifications:
+  slack:
+    secure: xIM2HrA7vtUnANvsk0377fFgrMUgcTTOQm2rNF5PkowvhWkai/J/wFZ9+KZpouWfXX/F8/JPTpyyNPYJgr9PT0EqNN/TOEqWRrWFpynAefgub2JI9HZjH8r/RIgGSNbn8h2SyiFS8bGiL5laI/lRBPb8ajm4JODGsoAGf6QwzXY=
