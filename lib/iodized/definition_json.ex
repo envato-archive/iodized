@@ -60,7 +60,7 @@ defmodule Iodized.DefinitionJson do
     threshold = Dict.fetch!(definition, :value)
     %Iodized.Definition.Percentage{
       actual_state_param_name: actual_state_param_name,
-      threshold: binary_to_integer(threshold),
+      threshold: String.to_integer(threshold),
     }
   end
   defimpl Json, for: Iodized.Definition.Percentage do

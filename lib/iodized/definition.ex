@@ -55,8 +55,10 @@ defmodule Iodized.Definition do
       @powers Enum.map(15..0, fn(x) -> :math.pow(16, x) |> trunc end)
 
       def digest_int(s) do
-        md5 = :crypto.hash(:md5, s)
-        Enum.zip(bitstring_to_list(md5), @powers) |> Enum.reduce(0, fn({byte, power}, acc) -> byte * power + acc end)
+        :crypto.hash(:md5, s) |>
+          :erlang.bitstring_to_list |>
+          Enum.zip(@powers) |>
+          Enum.reduce(0, fn({byte, power}, acc) -> byte * power + acc end)
       end
 
       def matches?(percentage, state) do
