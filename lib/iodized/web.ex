@@ -5,8 +5,8 @@ defmodule Iodized.Web do
       {"/api/features", Iodized.Transport.FeatureSetRestHandler, []},
       {"/admin/api/features", Iodized.Web.Admin.FeatureListHandler, []},
       {"/admin/api/features/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
-      {"/", :cowboy_static, {:priv_file, :iodized, "static/index.html"}},
-      {"/[...]", :cowboy_static, {:priv_dir, :iodized, "static"}}
+      {"/", :cowboy_static, {:priv_file, :iodized, "ui/public/index.html"}},
+      {"/[...]", :cowboy_static, {:priv_dir, :iodized, "ui/public"}}
     ]
 
     dispatch = [ {:_, routes } ] |> :cowboy_router.compile
