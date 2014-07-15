@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "This command will setup your local dev environment"
+mix local.hex --force
 mix deps.get
 mix compile
 mix iodized.install
