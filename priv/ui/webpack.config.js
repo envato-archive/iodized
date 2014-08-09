@@ -24,5 +24,6 @@ module.exports = {
       { test: /\.js$/,    loader: "jsx-loader" },
       { test: /\.jsx$/,   loader: "jsx-loader?insertPragma=React.DOM" },
     ]
-  }
+  },
+  plugins: []
 };
