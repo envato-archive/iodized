@@ -4,7 +4,7 @@ var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
 var sass = require('gulp-ruby-sass');
 
-gulp.task("default", ["build-dev"]);
+gulp.task("default", ["build"]);
 
 gulp.task("build-dev", ["webpack:build-dev", "sass", "images", "html", "css"], function() {
   gulp.watch(["app/js/**/*"], ["webpack:build-dev"]);
