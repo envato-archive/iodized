@@ -4,11 +4,6 @@ var FeatureBox = require("./react/feature_box.jsx");
 var Switchery = require("./vendor/switchery");
 var jquery = require("jquery");
 
-var featureRepo = new FeatureRepo("admin/api/features");
-React.renderComponent(
-  <FeatureBox featureRepo={featureRepo}/>,
-  document.getElementById("iodized")
-);
 
 var iodized = {};
 
@@ -38,5 +33,10 @@ iodized.switchery = function() {
 
 jquery(document).ready(function() {
     iodized.init();
+    var featureRepo = new FeatureRepo("admin/api/features");
+    React.renderComponent(
+      <FeatureBox featureRepo={featureRepo}/>,
+      document.getElementById("iodized")
+    );
 });
 
