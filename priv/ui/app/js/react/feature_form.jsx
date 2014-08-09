@@ -57,7 +57,7 @@ var FeatureForm = React.createClass({
             <a href="#" onClick={this.handleCancel} className="new-feature__close">
                 <span className="glyphicon glyphicon-remove"></span>
             </a>
-            <form className="featureEditForm" ref="form" role="form">
+            <form ref="form" role="form">
                 <div className="form-group">
                     <label className="control-label" htmlFor="featureTitleInput">Feature Name*</label>
                     <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" onChange={this.handleChange} />
@@ -87,7 +87,7 @@ var FeatureForm = React.createClass({
 //              <h3 className="modal-title">Add Feature</h3>
 //            </div>
 //            <div className="modal-body">
-//              <form className="featureEditForm" ref="form" role="form">
+//              <form ref="form" role="form">
 //                <div className="form-group">
 //                  <label>Feature title</label>
 //                  <input id="featureTitleInput" className="form-control" type="text" ref="title" value={feature.title} onChange={this.handleChange}/>

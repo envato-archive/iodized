@@ -10,7 +10,7 @@ var FeatureList = React.createClass({
       )
     }.bind(this));
     return (
-      <div className="featureList">{featureNodes}</div>
+      <div>{featureNodes}</div>
     );
   }
 });

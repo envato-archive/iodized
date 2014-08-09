@@ -48,7 +48,7 @@ var FeatureBox = React.createClass({
 
   render: function() {
     return (
-      <div className="featureBox">
+      <div>
         <h2>Features</h2>
           <div className="new-feature">
               <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">

@@ -82,7 +82,7 @@ var Feature = React.createClass({
               </div>
           </div>
           <div className="feature__edit">
-              <form className="featureEditForm" ref="form" role="form">
+              <form ref="form" role="form">
                   <div className="form-group">
                       <label className="control-label" htmlFor="featureTitleInput">Feature Name*</label>
                       <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" value={feature.title} onChange={this.handleChange}/>
