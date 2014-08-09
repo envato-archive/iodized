@@ -64,20 +64,20 @@ gulp.task('sass', function () {
   return gulp.src('app/sass/main.sass')
     .pipe(sass({sourcemap: true, sourcemapPath: '../sass'}))
     .on('error', function (err) { console.log(err.message); })
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('public/css'));
 });
 
 gulp.task("images", function() {
   return gulp.src("app/img/*")
-    .pipe(gulp.dest('dist/img'));
+    .pipe(gulp.dest('public/img'));
 });
 
 gulp.task("html", function() {
   return gulp.src("app/**/*.html")
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('public'));
 });
 
 gulp.task("css", function() {
   return gulp.src("app/css/**/*")
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('public/css'));
 });

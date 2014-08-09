@@ -4,8 +4,8 @@ module.exports = {
   cache: true,
   entry: "./app/js/main.jsx",
   output: {
-    path: path.join(__dirname, "dist/js"),
-    publicPath: "dist/js/",
+    path: path.join(__dirname, "public/js"),
+    publicPath: "public/js/",
     filename: "[name].js",
     chunkFilename: "[chunkhash].js"
   },
