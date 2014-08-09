@@ -15,4 +15,4 @@ var FeatureList = React.createClass({
   }
 });
 
-module.exports = Feature;
+module.exports = FeatureList;
