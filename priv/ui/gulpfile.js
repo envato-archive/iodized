@@ -3,6 +3,7 @@ var gutil = require("gulp-util");
 var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
 var sass = require('gulp-ruby-sass');
+var del = require('del');
 
 gulp.task("default", ["build"]);
 
@@ -15,7 +16,15 @@ gulp.task("build-dev", ["webpack:build-dev", "sass", "images", "html", "css"], f
 });
 
 // Production build
-gulp.task("build", ["webpack:build", "sass", "images", "html", "css"]);
+gulp.task("build", ["clean_public", "webpack:build", "sass", "images", "html", "css"]);
+
+gulp.task("clean_public", function() {
+  del(["!public/*"], function(err) {
+    if (err !== undefined) {
+      console.log("Problem cleaning public=" + err);
+    }
+  });
+});
 
 gulp.task("webpack:build", function(callback) {
   // modify some webpack config options
