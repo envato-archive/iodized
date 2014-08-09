@@ -1,0 +1,29 @@
+{
+  "name": "iodized",
+  "version": "0.0.0",
+  "description": "Iodine rich feature toggling",
+  "main": "iodized.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:envato/iodized.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/envato/iodized/issues"
+  },
+  "homepage": "https://github.com/envato/iodized",
+  "devDependencies": {
+    "webpack": "^1.3.1-beta8",
+    "gulp": "^3.8.6",
+    "gulp-util": "^3.0.0",
+    "jsx-loader": "^0.11.0",
+    "react": "^0.11.1",
+    "gulp-ruby-sass": "^0.7.1",
+    "jquery": "^2.1.1"
+  }
+}
