@@ -30,7 +30,7 @@ iodized.switchery = function() {
             }
         );
         elem.onchange = function() {
-            $elem = $(elem);
+            $elem = jquery(elem);
             $elem.closest('.feature--on, .feature--off').toggleClass('feature--on feature--off');
         };
     });
