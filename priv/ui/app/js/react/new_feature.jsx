@@ -27,14 +27,19 @@ var NewFeature = React.createClass({
     return false;
   },
 
-  createFeature: function(feature) {
-    this.props.createFeature(feature);
+  handleSaveFeature: function() {
+    this.props.createFeature(this.state.feature);
     this.reset();
+    return false;
   },
 
   handleCancel: function() {
     this.reset();
     return false;
+  },
+
+  onFeatureEdited: function(feature) {
+    this.setState({feature: feature});
   },
 
   reset: function() {
@@ -49,10 +54,6 @@ var NewFeature = React.createClass({
     }
   },
 
-  markDirty: function() {
-    this.setState({dirty: true});
-  },
-
   render: function() {
     var className = "new-feature " + this.visibilityClass();
     return (
@@ -64,7 +65,7 @@ var NewFeature = React.createClass({
           <a href="#" onClick={this.handleCancel} className="new-feature__close">
             <span className="glyphicon glyphicon-remove"></span>
           </a>
-          <FeatureForm feature={this.state.feature} isNewFeature={true} saveFeature={this.createFeature} markDirty={this.markDirty} dirty={this.state.dirty}/>
+          <FeatureForm feature={this.state.feature} isNewFeature={true} onFeatureEdited={this.onFeatureEdited} handleSaveFeature={this.handleSaveFeature}/>
         </div>
       </div>
     );
