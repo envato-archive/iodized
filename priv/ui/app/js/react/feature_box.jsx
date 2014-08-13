@@ -1,5 +1,5 @@
 var React = require("react");
-var FeatureForm = require("./feature_form.jsx");
+var NewFeature = require("./new_feature.jsx");
 var FeatureList = require("./feature_list.jsx");
 
 var FeatureBox = React.createClass({
@@ -14,7 +14,7 @@ var FeatureBox = React.createClass({
 
   refresh: function() {
     this.props.featureRepo.fetchFeatures(function(featureData){
-      this.setState({features: featureData});
+      this.replaceState({features: featureData});
     }.bind(this));
   },
 
@@ -50,14 +50,8 @@ var FeatureBox = React.createClass({
     return (
       <div>
         <h2>Features</h2>
-          <div className="new-feature">
-              <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
-                  <span className="glyphicon glyphicon-plus"></span>
-              </button>
-              <FeatureForm ref="featureForm"/>
-          </div>
-
-          <FeatureList features={this.state.features} updateFeature={this.updateFeature} deleteFeature={this.deleteFeature}/>
+        <NewFeature ref="featureForm" createFeature={this.createFeature}/>
+        <FeatureList features={this.state.features} updateFeature={this.updateFeature} deleteFeature={this.deleteFeature}/>
       </div>
     );
   }
