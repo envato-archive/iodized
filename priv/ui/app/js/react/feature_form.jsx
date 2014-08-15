@@ -24,7 +24,6 @@ var FeatureForm = React.createClass({
 
   render: function() {
     var feature = this.props.feature;
-    console.log("this", this.props.feature);
     return (
       <form ref="form" role="form">
         <div className="form-group">
