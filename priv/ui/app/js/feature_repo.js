@@ -9,7 +9,7 @@ FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
     dataType: 'json',
     success: onSuccess,
     error: onError || function(xhr, status, err) {
-      console.log(status, err);
+      console.error(status, err);
     }
   });
 };
@@ -22,7 +22,7 @@ FeatureRepo.prototype.createFeature = function(feature, onSuccess, onError){
     data: JSON.stringify(feature),
     success: onSuccess,
     error: onError || function(xhr, status, err) {
-      console.log(status, err);
+      console.error(status, err);
     }
   });
 }
@@ -35,7 +35,7 @@ FeatureRepo.prototype.updateFeature = function(feature, onSuccess, onError){
     data: JSON.stringify(feature),
     error: onError || function(xhr, status, err) {
     success: onSuccess,
-      console.log(status, err);
+      console.error(status, err);
     }
   });
 }
@@ -46,7 +46,7 @@ FeatureRepo.prototype.deleteFeature = function(feature, onSuccess, onError){
     type: 'DELETE',
     success: onSuccess,
     error: onError || function(xhr, status, err) {
-      console.log(status, err);
+      console.error(status, err);
     }
   })
 }
