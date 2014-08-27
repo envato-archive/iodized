@@ -5,4 +5,4 @@
   "ranch": {:package, "1.0.0"},
   "thrift": {:git, "git://github.com/envato/thrift-erlang.git", "b5d82063e183a51afe126edc06fe588c73b10d5a", [tag: "0.9.1.envato"]},
   "timex": {:package, "0.12.4"},
-  "uuid": {:git, "git://github.com/avtobiff/erlang-uuid.git", "7c8a3bb79d8a0a3092ffa75332a91958d5438c39", [tag: "v0.4.6"]}}
+  "uuid": {:package, "0.1.5"}}
