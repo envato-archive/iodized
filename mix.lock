@@ -1,8 +1,8 @@
-%{"cowboy": {:git, "git://github.com/extend/cowboy.git", "ee3ad5e51005b453230804036e092e1d2ceebe4f", [tag: "0.10.0"]},
-  "cowlib": {:git, "git://github.com/extend/cowlib.git", "e2ffefe828b918486e2cd76e44c54ae9b62c616e", [ref: "0.6.2"]},
+%{"cowboy": {:package, "1.0.0"},
+  "cowlib": {:package, "1.0.0"},
   "jsex": {:package, "2.0.0"},
   "jsx": {:package, "2.0.4"},
-  "ranch": {:git, "git://github.com/extend/ranch.git", "3189ef2d47843945efc96c224963380462c33d40", [ref: "0.10.0"]},
+  "ranch": {:package, "1.0.0"},
   "thrift": {:git, "git://github.com/envato/thrift-erlang.git", "b5d82063e183a51afe126edc06fe588c73b10d5a", [tag: "0.9.1.envato"]},
-  "timex": {:package, "0.10.0"},
+  "timex": {:package, "0.12.4"},
   "uuid": {:git, "git://github.com/avtobiff/erlang-uuid.git", "7c8a3bb79d8a0a3092ffa75332a91958d5438c39", [tag: "v0.4.6"]}}
