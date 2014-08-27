@@ -40,9 +40,7 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
     feature = feature_json |>
       JSEX.decode!(labels: :atom) |>
       Iodized.Feature.from_json
-    id = :uuid.uuid4 |>
-      :uuid.to_string |>  # to erlang string (aka elixir list of chars)
-      List.to_string      # to elixir string (aka bitstring)
+    id = UUID.uuid4
     feature = %{feature | id: id}
 
     {:ok, true} = @persistence.save_feature(feature)

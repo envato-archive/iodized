@@ -5,7 +5,7 @@ defmodule Iodized.Mixfile do
     [
       app: :iodized,
       version: "0.0.1",
-      elixir: "~> 0.14.3",
+      elixir: "~> 0.15.1",
       deps: deps
     ]
   end
@@ -29,11 +29,11 @@ defmodule Iodized.Mixfile do
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
     [
-      {:cowboy, github: "extend/cowboy", tag: "0.10.0"},
+      {:cowboy, "~> 1.0.0"},
       {:jsex, "~> 2.0.0"},
       {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"}, # TODO need nicer way of managing thrift
-      {:uuid, github: "avtobiff/erlang-uuid", tag: "v0.4.6"},
-      {:timex, "~> 0.10.0"}
+      {:uuid, "~> 0.1.5"},
+      {:timex, "~> 0.12.4"}
     ]
   end
 end
