@@ -4,5 +4,5 @@
   "jsx": {:package, "2.0.4"},
   "ranch": {:package, "1.0.0"},
   "thrift": {:git, "git://github.com/envato/thrift-erlang.git", "b5d82063e183a51afe126edc06fe588c73b10d5a", [tag: "0.9.1.envato"]},
-  "timex": {:package, "0.12.4"},
+  "timex": {:package, "0.12.7"},
   "uuid": {:package, "0.1.5"}}

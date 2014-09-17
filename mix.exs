@@ -5,7 +5,7 @@ defmodule Iodized.Mixfile do
     [
       app: :iodized,
       version: "0.0.1",
-      elixir: "~> 0.15.1",
+      elixir: "~> 1.0.0",
       deps: deps
     ]
   end
@@ -33,7 +33,7 @@ defmodule Iodized.Mixfile do
       {:jsex, "~> 2.0.0"},
       {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"}, # TODO need nicer way of managing thrift
       {:uuid, "~> 0.1.5"},
-      {:timex, "~> 0.12.4"}
+      {:timex, "~> 0.12.7"}
     ]
   end
 end
