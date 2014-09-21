@@ -8,7 +8,6 @@ This is still very alpha quality, and not fully feature complete yet.
 
 ## Features:
 - Handles high throughput of requests
-  requests/minute with dozens of features checked per request)
 - Flexible logic to allow for complex business rules _"this feature is on for
   these 4 sites, but only for 50% of users, and on for 20% of users on these
 other 2 sites, but it's always on for these specific users, and always on for
