@@ -1,8 +1,19 @@
 var React = require("react/addons");
 
 var FeatureForm = React.createClass({
+
+  getInitialState: function(){
+    return {editingFeature: this.props.feature};
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.feature !== this.props.feature) {
+      this.setState({editingFeature: this.props.feature});
+    }
+  },
+
   handleChange: function() {
-    var feature = React.addons.update(this.props.feature, {
+    var editingFeature = React.addons.update(this.state.editingFeature, {
       $merge: {
         title: this.refs.title.getDOMNode().value,
         description: this.refs.description.getDOMNode().value,
@@ -10,20 +21,25 @@ var FeatureForm = React.createClass({
         definition: null
       }
     });
-    this.props.onFeatureEdited(feature);
+    this.setState({editingFeature: editingFeature});
+    this.props.onFeatureEdited();
     return false;
   },
 
   submitButtonTitle: function() {
-    if (this.props.isNewFeature) {
+    if (this.state.editingFeature.isNew()) {
       return "Add new feature";
     } else {
       return "Update feature";
     }
   },
 
+  handleSaveFeature: function() {
+    this.props.saveFeature(this.state.editingFeature);
+  },
+
   render: function() {
-    var feature = this.props.feature;
+    var feature = this.state.editingFeature;
     return (
       <form ref="form" role="form">
         <div className="form-group">
@@ -44,7 +60,7 @@ var FeatureForm = React.createClass({
             <option value="off">Off</option>
           </select>
         </div>
-        <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.props.handleSaveFeature}>{this.submitButtonTitle()}</button>
+        <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.handleSaveFeature}>{this.submitButtonTitle()}</button>
       </form>
     );
   }
