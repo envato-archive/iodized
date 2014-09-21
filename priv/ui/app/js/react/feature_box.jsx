@@ -18,22 +18,17 @@ var FeatureBox = React.createClass({
     }.bind(this));
   },
 
-  handleNewFeature: function() {
-    this.newFeature();
-    return false;
-  },
-
-  newFeature: function() {
-    var emptyFeature = {
-      title: "",
-      description: "",
-      master_switch_state: "dynamic"
-    }
-    this.refs.featureForm.show(emptyFeature, this.createFeature);
-  },
-
   createFeature: function(feature) {
     this.props.featureRepo.createFeature(feature, this.refresh);
+  },
+
+  updateFeature: function(feature) {
+    this.props.featureRepo.updateFeature(feature, this.refresh);
+  },
+
+  toggleFeature: function(feature, toggleState){
+    feature.toggle(toggleState);
+    this.props.featureRepo.updateFeature(feature, this.refresh);
   },
 
   deleteFeature: function(feature) {
@@ -42,16 +37,12 @@ var FeatureBox = React.createClass({
     }
   },
 
-  updateFeature: function(feature) {
-    this.props.featureRepo.updateFeature(feature, this.refresh);
-  },
-
   render: function() {
     return (
       <div>
         <h2>Features</h2>
-        <NewFeature ref="featureForm" createFeature={this.createFeature}/>
-        <FeatureList features={this.state.features} updateFeature={this.updateFeature} deleteFeature={this.deleteFeature}/>
+        <NewFeature createFeature={this.createFeature}/>
+        <FeatureList features={this.state.features} updateFeature={this.updateFeature} toggleFeature={this.toggleFeature} deleteFeature={this.deleteFeature}/>
       </div>
     );
   }
