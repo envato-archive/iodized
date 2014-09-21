@@ -1,13 +1,22 @@
 var jquery = require('jquery')
+var FeatureModel = require("./feature_model");
+
 var FeatureRepo = function(url){
   this.url = url;
 };
 
 FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
+  var featureModelBuilder = function(featureData){
+    var featureModelData = featureData.map(function(feature){
+      return new FeatureModel(feature);
+    });
+    onSuccess(featureModelData);
+  };
+
   jquery.ajax({
     url: this.url,
     dataType: 'json',
-    success: onSuccess,
+    success: featureModelBuilder,
     error: onError || function(xhr, status, err) {
       console.error(status, err);
     }

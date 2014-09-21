@@ -1,10 +1,11 @@
 var React = require("react");
 var FeatureForm = require("./feature_form.jsx");
+var FeatureModel = require("../feature_model.js");
 var jquery = require("jquery");
 
 var NewFeature = React.createClass({
   getInitialState: function() {
-    return {feature: {}, dirty: false, expanded: false}
+    return {dirty: false, expanded: false, feature: new FeatureModel()};
   },
 
   componentDidMount: function() {
@@ -20,9 +21,8 @@ var NewFeature = React.createClass({
   },
 
   handleNewFeature: function() {
-    this.replaceState({feature: {}, dirty: false, expanded: true}, function(){
-      jquery('.new-feature')
-      .find("input:first-of-type").focus();
+    this.setState({dirty: false, expanded: true, feature: new FeatureModel()}, function(){
+      jquery('.new-feature').find("input:first-of-type").focus();
     }.bind(this));
     return false;
   },
@@ -43,7 +43,7 @@ var NewFeature = React.createClass({
   },
 
   reset: function() {
-    this.replaceState({feature: {}, dirty: false, expanded: false});
+    this.setState({dirty: false, expanded: false, feature: new FeatureModel()});
   },
 
   visibilityClass: function() {
