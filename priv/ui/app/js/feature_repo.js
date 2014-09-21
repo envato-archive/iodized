@@ -1,4 +1,4 @@
-var jquery = require('jquery')
+var jquery = require('jquery');
 var FeatureModel = require("./feature_model");
 
 var FeatureRepo = function(url){
