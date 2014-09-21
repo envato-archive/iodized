@@ -1,8 +1,12 @@
 var React = require("react");
-var FeatureForm = require("./feature_form.jsx");
+var NewFeature = require("./new_feature.jsx");
 var FeatureList = require("./feature_list.jsx");
 
 var FeatureBox = React.createClass({
+
+  propTypes: {
+    featureRepo: React.PropTypes.object.isRequired
+  },
 
   getInitialState: function() {
     return {features: []};
@@ -14,26 +18,21 @@ var FeatureBox = React.createClass({
 
   refresh: function() {
     this.props.featureRepo.fetchFeatures(function(featureData){
-      this.setState({features: featureData});
+      this.replaceState({features: featureData});
     }.bind(this));
-  },
-
-  handleNewFeature: function() {
-    this.newFeature();
-    return false;
-  },
-
-  newFeature: function() {
-    var emptyFeature = {
-      title: "",
-      description: "",
-      master_switch_state: "dynamic"
-    }
-    this.refs.featureForm.show(emptyFeature, this.createFeature);
   },
 
   createFeature: function(feature) {
     this.props.featureRepo.createFeature(feature, this.refresh);
+  },
+
+  updateFeature: function(feature) {
+    this.props.featureRepo.updateFeature(feature, this.refresh);
+  },
+
+  toggleFeature: function(feature, toggleState){
+    feature.toggle(toggleState);
+    this.props.featureRepo.updateFeature(feature, this.refresh);
   },
 
   deleteFeature: function(feature) {
@@ -42,22 +41,12 @@ var FeatureBox = React.createClass({
     }
   },
 
-  updateFeature: function(feature) {
-    this.props.featureRepo.updateFeature(feature, this.refresh);
-  },
-
   render: function() {
     return (
       <div>
         <h2>Features</h2>
-          <div className="new-feature">
-              <button type="button" className="btn new-feature__add" onClick={this.handleNewFeature} tabIndex="0">
-                  <span className="glyphicon glyphicon-plus"></span>
-              </button>
-              <FeatureForm ref="featureForm"/>
-          </div>
-
-          <FeatureList features={this.state.features} updateFeature={this.updateFeature} deleteFeature={this.deleteFeature}/>
+        <NewFeature createFeature={this.createFeature}/>
+        <FeatureList features={this.state.features} updateFeature={this.updateFeature} toggleFeature={this.toggleFeature} deleteFeature={this.deleteFeature}/>
       </div>
     );
   }
