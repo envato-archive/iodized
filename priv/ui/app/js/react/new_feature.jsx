@@ -4,6 +4,10 @@ var FeatureModel = require("../feature_model.js");
 var jquery = require("jquery");
 
 var NewFeature = React.createClass({
+  propTypes: {
+    createFeature: React.PropTypes.func.isRequired
+  },
+
   getInitialState: function() {
     return {dirty: false, expanded: false, feature: new FeatureModel()};
   },

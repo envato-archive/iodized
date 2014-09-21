@@ -1,6 +1,18 @@
 var React = require("react/addons");
 
 var FeatureForm = React.createClass({
+  propTypes: {
+    feature: React.PropTypes.object.isRequired,
+    onFeatureEdited: React.PropTypes.func,
+    saveFeature: React.PropTypes.func.isRequired,
+    deleteFeature: React.PropTypes.func
+  },
+
+  getDefaultProps: function(){
+    return {
+      onFeatureEdited: function(){}
+    }
+  },
 
   getInitialState: function(){
     return {editingFeature: this.props.feature};

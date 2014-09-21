@@ -4,6 +4,10 @@ var FeatureList = require("./feature_list.jsx");
 
 var FeatureBox = React.createClass({
 
+  propTypes: {
+    featureRepo: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return {features: []};
   },
