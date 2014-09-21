@@ -42,8 +42,8 @@ FeatureRepo.prototype.updateFeature = function(feature, onSuccess, onError){
     contentType: 'application/json',
     type: 'PUT',
     data: JSON.stringify(feature),
-    error: onError || function(xhr, status, err) {
     success: onSuccess,
+    error: onError || function(xhr, status, err) {
       console.error(status, err);
     }
   });
