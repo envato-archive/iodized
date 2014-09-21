@@ -55,7 +55,7 @@ var FeatureForm = React.createClass({
     return (
       <form ref="form" role="form">
         <div className="form-group">
-          <label className="control-label" htmlFor="featureTitleInput">Feature Name*</label>
+          <label className="control-label" htmlFor="featureTitleInput">Feature Name</label>
           <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" value={feature.title || ""} onChange={this.handleChange} />
           <small>Lower case and underscores only, no spaces</small>
         </div>
