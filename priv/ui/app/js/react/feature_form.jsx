@@ -72,6 +72,9 @@ var FeatureForm = React.createClass({
             <option value="off">Off</option>
           </select>
         </div>
+        <div>
+          <strong>TODO: FEATURE DEFINITION AWESOMENESS GETS BUILT HERE!</strong>
+        </div>
         <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.handleSaveFeature}>{this.submitButtonTitle()}</button>
       </form>
     );
