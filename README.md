@@ -59,12 +59,9 @@ client (web) library
 ## Getting Started
 
 - Install Erlang/Elixir [using these
-instructions](http://elixir-lang.org/getting_started/1.html)
+instructions](http://elixir-lang.org/install.html)
 - `git clone https://github.com/envato/iodized.git`
-- `mix deps.get`
-- `mix compile`
-- `mix iodized.install`
-- `iex -S mix`
+- `cd iodized && ./script/setup.sh`
 - open [http://localhost:8080](http://localhost:8080) for admin
 - check out [iodized_ruby_client](https://github.com/envato/iodized_ruby_client)
   for how to use iodized in your code
