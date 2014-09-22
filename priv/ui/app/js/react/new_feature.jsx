@@ -1,5 +1,5 @@
 var React = require("react");
-var FeatureForm = require("./feature_form.jsx");
+var FeatureForm = require("./feature/form.jsx");
 var FeatureModel = require("../feature_model.js");
 var jquery = require("jquery");
 

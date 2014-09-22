@@ -1,6 +1,6 @@
 var React = require("react");
 var jquery = require("jquery");
-var FeatureForm = require("./feature_form.jsx");
+var FeatureForm = require("./form.jsx");
 
 var Feature = React.createClass({
   propTypes: {
