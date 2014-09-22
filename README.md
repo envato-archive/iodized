@@ -72,4 +72,4 @@ instructions](http://elixir-lang.org/install.html)
 - node/npm
 - Ruby SASS gem installed
 - from `priv/ui/` directory run `npm install`
-- run `gulp build-dev` to build admin assets
+- run `npm run gulp-build-dev` to build admin assets
