@@ -1,5 +1,5 @@
 var React = require("react");
-var Feature = require("./feature.jsx");
+var Feature = require("./feature/feature.jsx");
 
 var FeatureList = React.createClass({
   propTypes: {
