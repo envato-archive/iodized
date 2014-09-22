@@ -7,7 +7,6 @@ var Definition = React.createClass({
   },
 
   handleAddBtn: function (event) {
-    console.log("here", this.state.children);
     var children = this.state.children;
     this.setState({children: children.concat([children.length + 1])});
   },
