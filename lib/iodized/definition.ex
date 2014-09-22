@@ -70,6 +70,16 @@ defmodule Iodized.Definition do
   end
 
 
+  # Not
+  defmodule Not do
+    defstruct definition: nil
+    defimpl Rule, for: Not do
+      def matches?(not_value, state) do
+        not Rule.matches?(not_value.definition, state)
+      end
+    end
+  end
+
   # boolean/nil
   defimpl Rule, for: Atom do
     def matches?(bool, _state) when is_boolean(bool), do: bool
