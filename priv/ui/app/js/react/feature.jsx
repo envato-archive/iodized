@@ -83,7 +83,7 @@ var FeatureToggle = React.createClass({
     },
     render: function() {
         return(
-            <label className="feature__toggle">
+            <label className="feature-toggle">
                 <input type="checkbox" checked={this.props.checkedState} onChange={this.handleToggle} /><i></i>
             </label>
         )
