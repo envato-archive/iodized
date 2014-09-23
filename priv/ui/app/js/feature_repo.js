@@ -14,7 +14,7 @@ FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
   };
 
   jquery.ajax({
-    url: 'rowan/',
+    url: this.url,
     dataType: 'json',
     success: featureModelBuilder,
     error: onError || function(xhr, status, err) {
