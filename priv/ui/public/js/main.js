@@ -30761,17 +30761,25 @@
 	/** @jsx React.DOM */var React = __webpack_require__(152);
 	
 	var FeatureToggle = React.createClass({displayName: 'FeatureToggle',
+	  propTypes: {
+	    feature: React.PropTypes.object.isRequired,
+	    cssClass: React.PropTypes.string.isRequired,
+	    checkedState: React.PropTypes.bool,
+	    toggleFeature: React.PropTypes.func.isRequired
+	  },
+	
 	  handleToggle: function (e) {
 	    this.props.toggleFeature(this.props.feature, e.target.checked);
 	    return false;
 	  },
+	
 	  render: function () {
 	    return(
-	        React.DOM.label({className: this.props.cssClass}, 
-	          React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), 
-	          React.DOM.i(null)
-	        )
-	        )
+	      React.DOM.label({className: this.props.cssClass}, 
+	        React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), 
+	        React.DOM.i(null)
+	      )
+	    )
 	  }
 	});
 	
