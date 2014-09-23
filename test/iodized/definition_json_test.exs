@@ -14,6 +14,20 @@ defmodule Iodized.DefinitionJsonTest do
     end
   end
 
+
+  defmodule NoneTest do
+    use ExUnit.Case, async: true
+    alias Iodized.Definition.None, as: None
+
+    test "it generates JSON" do
+      definition = %None{definitions: [true, false]}
+      expected_json = "{\"definitions\":[{\"operand\":\"boolean\",\"value\":true},{\"operand\":\"boolean\",\"value\":false}],\"operand\":\"none\"}"
+      actual_json = Json.to_json(definition) |> JSEX.encode!
+      assert actual_json == expected_json
+    end
+  end
+
+
   defmodule AnyTest do
     use ExUnit.Case, async: true
     alias Iodized.Definition.Any, as: Any

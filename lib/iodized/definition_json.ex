@@ -30,6 +30,15 @@ defmodule Iodized.DefinitionJson do
     end
   end
 
+  defp from_json("none", definition) do
+    %Iodized.Definition.None{definitions: Enum.map(Dict.fetch!(definition, :definitions), &from_json/1)}
+  end
+  defimpl Json, for: Iodized.Definition.None do
+    def to_json(none) do
+      %{operand: "none", definitions: Enum.map(none.definitions || [], &Json.to_json(&1))}
+    end
+  end
+
   defp from_json("included_in", definition) do
     actual_state_param_name = Dict.fetch!(definition, :param_name)
     allowed_values = Dict.fetch!(definition, :value)

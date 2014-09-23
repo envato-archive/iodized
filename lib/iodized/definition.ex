@@ -26,6 +26,17 @@ defmodule Iodized.Definition do
   end
 
 
+  ## None
+  defmodule None do
+    defstruct definitions: []
+    defimpl Rule, for: None do
+      def matches?(none, state) do
+        !Enum.any?(none.definitions, &Rule.matches?(&1, state))
+      end
+    end
+  end
+
+
   ## IncludedIn
   defmodule IncludedIn do
     defstruct actual_state_param_name: nil, allowed_values: []
