@@ -30666,6 +30666,7 @@
 	/** @jsx React.DOM */var React = __webpack_require__(1);
 	var jquery = __webpack_require__(147);
 	var FeatureForm = __webpack_require__(151);
+	var FeatureToggle = __webpack_require__(170);
 	
 	var Feature = React.createClass({displayName: 'Feature',
 	  propTypes: {
@@ -30750,22 +30751,31 @@
 	  }
 	});
 	
-	var FeatureToggle = React.createClass({displayName: 'FeatureToggle',
-	    handleToggle: function(e){
-	        this.props.toggleFeature(this.props.feature, e.target.checked);
-	        return false;
-	    },
-	    render: function() {
-	        return(
-	            React.DOM.label({className: this.props.cssClass}, 
-	                React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), React.DOM.i(null)
-	            )
-	        )
-	    }
-	});
-	
 	module.exports = Feature;
 
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(152);
+	
+	var FeatureToggle = React.createClass({displayName: 'FeatureToggle',
+	  handleToggle: function (e) {
+	    this.props.toggleFeature(this.props.feature, e.target.checked);
+	    return false;
+	  },
+	  render: function () {
+	    return(
+	        React.DOM.label({className: this.props.cssClass}, 
+	          React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), 
+	          React.DOM.i(null)
+	        )
+	        )
+	  }
+	});
+	
+	module.exports = FeatureToggle;
 
 /***/ }
 /******/ ])
