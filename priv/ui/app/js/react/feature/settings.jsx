@@ -18,22 +18,11 @@ var FeatureSettings = React.createClass({
 
   render: function() {
     return (
-      <ul className="list-group">
-        <li className="list-group-item">
-          <div className="form-inline" role="form">
-            <label>If </label>
-            <div className="form-group">
-              <label className="sr-only" htmlFor="">Main Condition</label>
-              <select className="form-control">
-                <option>all</option>
-                <option>any</option>
-              </select>
-            </div>
-            <label> of the following is true:</label>
-            <div className="pull-right">
-              <button type="button" className="btn btn-default" onClick={this.handleAddNewBtn}>Add New</button>
-              <button type="button" className="btn btn-default" onClick={this.handleClearAllBtn}>Clear All</button>
-            </div>
+      <ul className="list-group feature-settings">
+        <li className="list-group-item feature-settings__controls">
+          <div className="pull-right">
+            <button type="button" className="btn btn-default" onClick={this.handleAddNewBtn}>Add New</button>
+            <button type="button" className="btn btn-default" onClick={this.handleClearAllBtn}>Clear All</button>
           </div>
         </li>
         

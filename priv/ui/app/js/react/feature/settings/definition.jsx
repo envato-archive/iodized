@@ -15,6 +15,9 @@ var Definition = React.createClass({
     this.setState({children: []});
   },
 
+  handleConditionChange: function (event) {
+  },
+
   render: function() {
     return (
       <li className="list-group-item">
@@ -25,7 +28,9 @@ var Definition = React.createClass({
           </div>
           <div className="form-group">
             <label className="sr-only" htmlFor="">Condition</label>
-            <select className="form-control">
+            <select className="form-control" onChange={this.handleConditionChange}>
+              <option value="all">all</option>
+              <option value="any">any</option>
               <option value="includeIn">include in</option>
               <option value="is">is</option>
               <option value="percentage">percentage</option>
