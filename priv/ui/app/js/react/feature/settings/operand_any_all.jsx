@@ -56,7 +56,7 @@ var OperandAnyAll = React.createClass({
           }
 
           return (
-            <div className="list-group-item">
+            <div className="list-group-item feature-settings__child-node">
               { node }
             </div>
           );
