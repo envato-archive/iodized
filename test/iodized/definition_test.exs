@@ -133,18 +133,4 @@ defmodule Iodized.DefinitionTest do
     end
   end
 
-  defmodule NotTest do
-    use ExUnit.Case, async: true
-    alias Iodized.Definition.Not, as: Not
-
-    test "is true if the nested definition is false" do
-      definition = %Not{definition: false}
-      assert(Rule.matches?(definition, []))
-    end
-
-    test "is false if the nested definition is true" do
-      definition = %Not{definition: true}
-      refute(Rule.matches?(definition, []))
-    end
-  end
 end
