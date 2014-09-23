@@ -1,31 +1,36 @@
 var React = require("react/addons");
-var Definition = require("./settings/definition.jsx");
-var Controls = require("./settings/controls.jsx");
+var OperandAnyAll = require("./settings/operand_any_all.jsx");
+var OperandIs = require("./settings/operand_is.jsx");
+var OperandNot = require("./settings/operand_not.jsx");
+var OperandIncludedIn = require("./settings/operand_included_in.jsx");
+var OperandPercentage = require("./settings/operand_percentage.jsx");
 
 var FeatureSettings = React.createClass({
 
   getInitialState: function() {
-    return {definition: []};
-  },
-
-  handleAddNewBtn: function (event) {
-    var defs = this.state.definitions;
-    this.setState({definitions: defs.concat([defs.length + 1])});
-  },
-
-  handleClearAllBtn: function (event) {
-    this.setState({definitions: []});
+    return {definition: this.props.definition};
   },
 
   render: function() {
+    var rootNode;
+    var definition = this.state.definition;
+    console.log(definition);
+
+    if (definition.operand === "any" || definition.operand === "all") {
+      rootNode = <OperandAnyAll definition={definition} />;
+    } else if (definition.operand === "is") {
+      rootNode = <OperandIs definition={definition} />;
+    } else if (definition.operand === "not") {
+      rootNode = <OperandNot definition={definition} />;
+    } else if (definition.operand === "included_in") {
+      rootNode = <OperandIncludedIn definition={definition} />;
+    } else if (definition.operand === "percentage") {
+      rootNode = <OperandPercentage definition={definition} />;
+    }
+
     return (
       <ul className="list-group feature-settings">
-        {this.state.definitions.map(function(i) {
-          return (
-            <Definition id={i}/>
-          );
-        }, this)}
-
+        { rootNode }
       </ul>
     );
   }

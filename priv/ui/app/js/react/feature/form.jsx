@@ -54,6 +54,38 @@ var FeatureForm = React.createClass({
 
   render: function() {
     var feature = this.state.editingFeature;
+
+    var definition = {
+      "operand": "any",
+      "definitions": [
+      {
+        "operand": "all",
+        "definitions": [
+        {
+          "operand": "included_in",
+          "param_name": "username",
+          "value": [ "madlep", "gstamp" ]
+        },
+        {
+          "operand": "included_in",
+          "param_name": "host",
+          "value": [ "themeforest.net", "codecanyon.net" ]
+        }
+        ]
+      },
+      {
+        "operand": "is",
+        "param_name": "session_on",
+        "value": "true"
+      },
+      {
+        "operand": "included_in",
+        "param_name": "role",
+        "value": [ "developer" ]
+      }
+      ]
+    };
+
     return (
       <form ref="form" role="form">
         <div className="form-group">
@@ -76,7 +108,7 @@ var FeatureForm = React.createClass({
         </div>
         <div className="feature__setting">
           <label className="control-label">Feature Settings</label>
-          <FeatureSettings />
+          <FeatureSettings definition={definition} />
         </div>
         <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.handleSaveFeature}>{this.submitButtonTitle()}</button>
       </form>

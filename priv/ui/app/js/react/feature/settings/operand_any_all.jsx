@@ -1,6 +1,6 @@
 var React = require("react/addons");
 
-var Definition = React.createClass({
+var OperandAnyAll = React.createClass({
 
   getInitialState: function() {
     return {children: []};
@@ -16,17 +16,17 @@ var Definition = React.createClass({
   },
 
   handleConditionChange: function (event) {
+    console.log(event)
   },
 
   render: function() {
     return (
       <li className="list-group-item">
         <div className="form-inline" role="form">
-          <div className="form-group">
-            <label className="sr-only" htmlFor="">Attributes</label>
-            <input type="email" className="form-control" id="" placeholder="Main Attributes" />
+          <div className="form-group feature-settings__condition-pre">
+            <label>If</label>
           </div>
-          <div className="form-group">
+          <div className="form-group feature-settings__condition">
             <label className="sr-only" htmlFor="">Condition</label>
             <select className="form-control" onChange={this.handleConditionChange}>
               <option value="all">all</option>
@@ -36,9 +36,8 @@ var Definition = React.createClass({
               <option value="percentage">percentage</option>
             </select>
           </div>
-          <div className="form-group">
-            <label className="sr-only" htmlFor="">Free text</label>
-            <input type="email" className="form-control" id="" placeholder="Free Text" size="40" />
+          <div className="form-group feature-settings__condition-post">
+            <label>of the following is true:</label>
           </div>
           <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
           <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
@@ -53,5 +52,4 @@ var Definition = React.createClass({
   }
 });
 
-module.exports = Definition;
-
+module.exports = OperandAnyAll;
