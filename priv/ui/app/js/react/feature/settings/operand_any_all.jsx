@@ -8,7 +8,10 @@ var OperandPercentage = require("./operand_percentage.jsx");
 var OperandAnyAll = React.createClass({
 
   getInitialState: function() {
-    return {definitions: this.props.definition.definitions};
+    return {
+      definition: this.props.definition,
+      definitions: this.props.definition.definitions || []
+    };
   },
 
   handleAddBtn: function (event) {
@@ -21,26 +24,13 @@ var OperandAnyAll = React.createClass({
   },
 
   handleConditionChange: function (event) {
-    console.log(event)
   },
 
   render: function() {
     
     return (
       <div className="form-inline" role="form">
-        <div className="form-group feature-settings__condition-pre">
-          <label>If</label>
-        </div>
-        <div className="form-group feature-settings__condition">
-          <label className="sr-only" htmlFor="">Condition</label>
-          <select value={this.props.definition.operand} className="form-control" onChange={this.handleConditionChange}>
-            <option value="all">all</option>
-            <option value="any">any</option>
-          </select>
-        </div>
-        <div className="form-group feature-settings__condition-post">
-          <label>of the following is true:</label>
-        </div>
+        <label>If {this.state.definition.operand} of the following is true:</label>
         <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
         <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
 

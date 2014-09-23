@@ -11,6 +11,9 @@ var FeatureSettings = React.createClass({
     return {definition: this.props.definition};
   },
 
+  handleConditionChange: function() {
+  },
+
   render: function() {
     var rootNode;
     var definition = this.state.definition;
