@@ -83,7 +83,9 @@ var FeatureSwitch = React.createClass({
     },
     render: function() {
         return(
-            <input type="checkbox" className="js-switch" checked={this.props.checkedState} onChange={this.handleToggle} />
+            <label className="switch">
+                <input type="checkbox" checked={this.props.checkedState} onChange={this.handleToggle} /><i></i>
+            </label>
         )
     }
 });
