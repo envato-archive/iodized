@@ -1,5 +1,6 @@
 var React = require("react/addons");
 var Definition = require("./settings/definition.jsx");
+var Controls = require("./settings/controls.jsx");
 
 var FeatureSettings = React.createClass({
 
@@ -19,12 +20,7 @@ var FeatureSettings = React.createClass({
   render: function() {
     return (
       <ul className="list-group feature-settings">
-        <li className="list-group-item feature-settings__controls">
-          <div className="pull-right">
-            <button type="button" className="btn btn-default" onClick={this.handleAddNewBtn}>Add New</button>
-            <button type="button" className="btn btn-default" onClick={this.handleClearAllBtn}>Clear All</button>
-          </div>
-        </li>
+        <Controls handleAddNewBtn={this.handleAddNewBtn} handleClearAllBtn={this.handleClearAllBtn} />
         
         {this.state.definitions.map(function(i) {
           return (
