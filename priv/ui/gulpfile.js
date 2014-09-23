@@ -71,7 +71,7 @@ gulp.task("webpack:build-dev", function(callback) {
 
 gulp.task('sass', function () {
   return gulp.src('app/sass/main.sass')
-    .pipe(sass({sourcemap: true, sourcemapPath: '../sass'}))
+    .pipe(sass())
     .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest('public/css'));
 });
