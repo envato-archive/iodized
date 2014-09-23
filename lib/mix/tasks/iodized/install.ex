@@ -53,11 +53,13 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
   defp install(:local, []) do
     configure_mnesia_dir
     ensure!(:local, :feature_table_created, [node])
+    ensure!(:local, :webhook_table_created, [node])
   end
 
   defp install(:clustered, nodes) do
     ensure_nodes_online!(nodes)
     ensure!(:clustered, :feature_table_created, nodes)
+    ensure!(:clustered, :webhook_table_created, nodes)
   end
 
   defp configure_mnesia_dir do
@@ -97,6 +99,12 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     not (:mnesia.system_info(:tables) |> Enum.member?(:feature))
   end
 
+  defp work?(:local, :webhook_table_created, work_nodes) do
+    ensure!(:local, :schema_created, work_nodes)
+    :application.ensure_started(:mnesia)
+    not (:mnesia.system_info(:tables) |> Enum.member?(:webhook))
+  end
+
   defp work?(:clustered, :schema_created, work_nodes) do
     ensure_mnesia_started(work_nodes)
 
@@ -115,6 +123,16 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     not (table_info |> Enum.member?(:feature))
   end
 
+  defp work?(:clustered, :webhook_table_created, work_nodes) do
+    ensure!(:clustered, :schema_created, work_nodes)
+
+    ensure_mnesia_started(work_nodes)
+
+    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
+    table_info = :rpc.call(primary_node, :mnesia, :system_info, [:tables])
+    not (table_info |> Enum.member?(:webhook))
+  end
+
   defp work!(:local, :schema_created, work_nodes) do
     :application.stop :mnesia
     :mnesia.create_schema(work_nodes)
@@ -129,13 +147,21 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     end
   end
 
+  defp work!(:local, :webhook_table_created, work_nodes) do
+    :application.ensure_started(:mnesia)
+    tab_def = [ attributes: [:id, :webhook], disc_copies: work_nodes]
+    case :mnesia.create_table(:webhook, tab_def) do
+      {:atomic, :ok}      -> :ok
+                             {:aborted, reason}  -> {:error, reason}
+    end
+  end
+
   defp work!(:clustered, :schema_created, work_nodes) do
     mnesia_stop(work_nodes)
 
     [primary_node | _nodes] = work_nodes # not actually primary, just the first one
     :rpc.call(primary_node, :mnesia, :create_schema, [work_nodes])
   end
-
 
   defp work!(:clustered, :feature_table_created, work_nodes) do
     ensure_mnesia_started(work_nodes)
@@ -145,6 +171,17 @@ usage: mix iodized.install [--node name1@server1 --node name2@server2] [--help]
     case :rpc.call(primary_node, :mnesia, :create_table, [:feature, tab_def]) do
       {:atomic, :ok}      -> :ok
       {:aborted, reason}  -> {:error, reason}
+    end
+  end
+
+  defp work!(:clustered, :webhook_table_created, work_nodes) do
+    ensure_mnesia_started(work_nodes)
+
+    [primary_node | _nodes] = work_nodes # not actually primary, just the first one
+    tab_def = [ attributes: [:id, :webhook], disc_copies: work_nodes]
+    case :rpc.call(primary_node, :mnesia, :create_table, [:webhook, tab_def]) do
+      {:atomic, :ok}      -> :ok
+                             {:aborted, reason}  -> {:error, reason}
     end
   end
 
