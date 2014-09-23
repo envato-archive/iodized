@@ -19,4 +19,10 @@
     &:checked + i
       padding-right: 0
       padding-left: 40px
-      background: orange
+      background: $dark-blue
+
+.feature-toggle--dynamic
+  @extend .feature-toggle
+  input
+    &:checked + i
+      background: $orange

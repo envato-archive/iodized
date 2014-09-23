@@ -5386,14 +5386,14 @@ button.close {
     background-color: #E6E6E5;
     border-color: #942c2c; }
 
-.feature-toggle i {
+.feature-toggle i, .feature-toggle--dynamic i {
   display: inline-block;
   cursor: pointer;
   padding-right: 40px;
   transition: all ease 0.2s;
   border-radius: 20px;
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5); }
-  .feature-toggle i:before {
+  .feature-toggle i:before, .feature-toggle--dynamic i:before {
     display: block;
     content: "";
     width: 35px;
@@ -5401,12 +5401,15 @@ button.close {
     border-radius: 20px;
     background: #fff;
     box-shadow: 0 1px 2px black; }
-.feature-toggle input {
+.feature-toggle input, .feature-toggle--dynamic input {
   display: none; }
-  .feature-toggle input:checked + i {
+  .feature-toggle input:checked + i, .feature-toggle--dynamic input:checked + i {
     padding-right: 0;
     padding-left: 40px;
     background: #2e507f; }
+
+.feature-toggle--dynamic input:checked + i {
+  background: orange; }
 
 .new-feature {
   margin-bottom: 25px;

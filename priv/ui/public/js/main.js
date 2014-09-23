@@ -30748,7 +30748,7 @@
 	    },
 	    render: function() {
 	        return(
-	            React.DOM.label({className: "feature-toggle feature-toggle--dynamic"}, 
+	            React.DOM.label({className: "feature-toggle"}, 
 	                React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), React.DOM.i(null)
 	            )
 	        )
