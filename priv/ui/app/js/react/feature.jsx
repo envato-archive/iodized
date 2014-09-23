@@ -64,7 +64,7 @@ var Feature = React.createClass({
             <p>{feature.description}</p>
           </div>
           <div className="feature__switch">
-            <FeatureSwitch checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
+            <FeatureToggle checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
           </div>
         </div>
         <div className="feature__edit">
@@ -76,14 +76,14 @@ var Feature = React.createClass({
   }
 });
 
-var FeatureSwitch = React.createClass({
+var FeatureToggle = React.createClass({
     handleToggle: function(e){
         this.props.toggleFeature(this.props.feature, e.target.checked);
         return false;
     },
     render: function() {
         return(
-            <label className="switch">
+            <label className="feature__toggle">
                 <input type="checkbox" checked={this.props.checkedState} onChange={this.handleToggle} /><i></i>
             </label>
         )

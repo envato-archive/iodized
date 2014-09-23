@@ -30729,7 +30729,7 @@
 	            React.DOM.p(null, feature.description)
 	          ), 
 	          React.DOM.div({className: "feature__switch"}, 
-	            FeatureSwitch({checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
+	            FeatureToggle({checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
 	          )
 	        ), 
 	        React.DOM.div({className: "feature__edit"}, 
@@ -30741,14 +30741,14 @@
 	  }
 	});
 	
-	var FeatureSwitch = React.createClass({displayName: 'FeatureSwitch',
+	var FeatureToggle = React.createClass({displayName: 'FeatureToggle',
 	    handleToggle: function(e){
 	        this.props.toggleFeature(this.props.feature, e.target.checked);
 	        return false;
 	    },
 	    render: function() {
 	        return(
-	            React.DOM.label({className: "switch"}, 
+	            React.DOM.label({className: "feature__toggle"}, 
 	                React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), React.DOM.i(null)
 	            )
 	        )
