@@ -5,7 +5,7 @@ var Controls = require("./settings/controls.jsx");
 var FeatureSettings = React.createClass({
 
   getInitialState: function() {
-    return {definitions: []};
+    return {definition: []};
   },
 
   handleAddNewBtn: function (event) {
@@ -20,8 +20,6 @@ var FeatureSettings = React.createClass({
   render: function() {
     return (
       <ul className="list-group feature-settings">
-        <Controls handleAddNewBtn={this.handleAddNewBtn} handleClearAllBtn={this.handleClearAllBtn} />
-        
         {this.state.definitions.map(function(i) {
           return (
             <Definition id={i}/>
