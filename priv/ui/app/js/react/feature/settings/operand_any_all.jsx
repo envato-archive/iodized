@@ -16,13 +16,23 @@ var OperandAnyAll = React.createClass({
 
   handleAddBtn: function (event) {
     var definitions = this.state.definitions;
-    this.setState({definitions: definitions.concat([definitions.length + 1])});
+    this.setState({definitions: definitions.concat([{
+        operand: 'is'
+      }]
+    )});
   },
 
   handleRemoveBtn: function (event) {
     this.setState({definitions: []});
   },
 
+  handleAddParent: function (event) {
+    var definitions = this.state.definitions;
+    this.setState({definitions: definitions.concat([{
+        operand: 'any'
+      }]
+    )});
+  },
   handleConditionChange: function (event) {
   },
 
@@ -39,6 +49,7 @@ var OperandAnyAll = React.createClass({
         <label>of the following is true:</label>
         <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
         <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
+        <a onClick={this.handleAddParent}><span className="glyphicon glyphicon-download feature__setting-icon pull-right"></span></a>
 
         {this.state.definitions.map(function(definition) {
           var node;
