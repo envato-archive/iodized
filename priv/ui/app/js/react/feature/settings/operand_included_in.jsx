@@ -17,7 +17,13 @@ var OperandIncludedIn = React.createClass({
           <input type="textfield" className="form-control" id="" value={this.state.definition.param_name} placeholder="Main Attributes" />
         </div>
         <div className="form-group feature-settings__condition">
-          included in
+          <label className="sr-only" htmlFor="">Condition</label>
+          <select value={this.state.definition.operand} className="form-control feature-settings__condition" onChange={this.handleConditionChange}>
+            <option value="is">is</option>
+            <option value="not">not</option>
+            <option value="included_in">included in</option>
+            <option value="percentage">percentage</option>
+          </select>
         </div>
         <div className="form-group feature-settings__condition-post--field">
           <label className="sr-only" htmlFor="">Free text</label>

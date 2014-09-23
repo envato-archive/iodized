@@ -30,7 +30,13 @@ var OperandAnyAll = React.createClass({
     
     return (
       <div className="form-inline" role="form">
-        <label>If {this.state.definition.operand} of the following is true:</label>
+        <label>If </label>
+        <label className="sr-only" htmlFor="">Condition</label>
+        <select value={this.state.definition.operand} className="form-control feature-settings__condition" onChange={this.handleConditionChange}>
+          <option value="all">all</option>
+          <option value="any">any</option>
+        </select>
+        <label>of the following is true:</label>
         <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
         <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
 
@@ -50,7 +56,7 @@ var OperandAnyAll = React.createClass({
           }
 
           return (
-            <div className="list-group-item">
+            <div className="list-group-item feature-settings__child-node">
               { node }
             </div>
           );

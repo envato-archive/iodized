@@ -31,11 +31,11 @@ var FeatureSettings = React.createClass({
     }
 
     return (
-      <ul className="list-group feature-settings">
-        <li className="list-group-item">
+      <div className="list-group feature-settings">
+        <div className="list-group-item">
           { rootNode }
-        </li>
-      </ul>
+        </div>
+      </div>
     );
   }
 });
