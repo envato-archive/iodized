@@ -2,31 +2,33 @@ defmodule Iodized.WebhookPersistence.Mnesia do
 
   @table :webhook
 
-  @webhook_id 1
+  def all() do
+    id_wildcard = webhook_wildcard = :_
+    match = {@table, id_wildcard, webhook_wildcard}
+    webhooks = :mnesia.dirty_match_object(match) |>
+      Enum.map(fn({@table, _id, webhook}) -> webhook end)
+    {:ok, webhooks}
+  end
 
-  def save_webhooks(webhooks) do
-    IO.puts "Writing out webhooks"
-
+  def save_webhook(webhook) do
     {:atomic, :ok} = :mnesia.transaction(fn() ->
-                                           :mnesia.write({@table, @webhook_id, webhooks})
+                                           :mnesia.write({@table, webhook.id, webhook})
                                          end)
     {:ok, true}
   end
 
-  def delete_webhooks() do
+  def delete_webhook(id) do
     {:atomic, :ok} = :mnesia.transaction(fn() ->
-      :mnesia.delete({@table, @webhook_id})
+      :mnesia.delete({@table, id})
     end)
     {:ok, true}
   end
 
-  def load_webhooks() do
-    webhooks = :mnesia.dirty_read(@table, @webhook_id)
-    case webhooks do
-      [{@table, _id, webhooks}] ->
-        {:ok, webhooks}
-      [] ->
-        :not_found
+  def find_webhook(id) do
+    webhook = :mnesia.dirty_read(@table, id)
+    case webhook do
+      [{@table, _id, webhook}] -> {:ok, webhook}
+      [] -> :not_found
     end
   end
 

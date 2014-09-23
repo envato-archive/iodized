@@ -3,7 +3,8 @@ defmodule Iodized.Web do
   def start() do
     routes = [
       {"/api/features", Iodized.Transport.FeatureSetRestHandler, []},
-      {"/admin/api/webhooks", Iodized.Web.Admin.WebhooksHandler, []},
+      {"/admin/api/webhooks", Iodized.Web.Admin.WebhookListHandler, []},
+      {"/admin/api/webhooks/:webhook_id", Iodized.Web.Admin.WebhookStatusHandler, []},
       {"/admin/api/features", Iodized.Web.Admin.FeatureListHandler, []},
       {"/admin/api/features/:feature_id", Iodized.Web.Admin.FeatureStatusHandler, []},
       {"/", :cowboy_static, {:priv_file, :iodized, "ui/public/index.html"}},
