@@ -73,6 +73,21 @@ defmodule Iodized.DefinitionJson do
     end
   end
 
+  defp from_json("not", definition) do
+    definition = Dict.fetch!(definition, :definition)
+    %Iodized.Definition.Not{
+      definition: from_json(definition)
+    }
+  end
+  defimpl Json, for: Iodized.Definition.Not do
+    def to_json(not_key) do
+      %{
+        operand: "not",
+        definition: Json.to_json(not_key.definition)
+      }
+    end
+  end
+
   defimpl Json, for: Atom do
     def to_json(true), do: %{operand: "boolean", value: true}
     def to_json(false), do: %{operand: "boolean", value: false}
