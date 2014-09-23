@@ -41,11 +41,6 @@ var Feature = React.createClass({
     return false;
   },
 
-  handleToggle: function(e){
-    this.props.toggleFeature(this.props.feature, e.target.checked);
-    return false;
-  },
-
   updateFeature: function (feature) {
     this.props.updateFeature(feature);
     this.setState({expanded: false});
@@ -69,7 +64,7 @@ var Feature = React.createClass({
             <p>{feature.description}</p>
           </div>
           <div className="feature__switch">
-            <input type="checkbox" checked={this.switchState('checkbox')} className="js-switch" onChange={this.handleToggle}/>
+            <FeatureSwitch checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
           </div>
         </div>
         <div className="feature__edit">
@@ -79,6 +74,18 @@ var Feature = React.createClass({
       </div>
     )
   }
+});
+
+var FeatureSwitch = React.createClass({
+    handleToggle: function(e){
+        this.props.toggleFeature(this.props.feature, e.target.checked);
+        return false;
+    },
+    render: function() {
+        return(
+            <input type="checkbox" className="js-switch" checked={this.props.checkedState} onChange={this.handleToggle} />
+        )
+    }
 });
 
 module.exports = Feature;
