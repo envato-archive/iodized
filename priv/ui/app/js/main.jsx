@@ -31,12 +31,12 @@ iodized.switchery = function() {
     });
 };
 
-jquery(document).ready(function() {
+
+document.addEventListener("DOMContentLoaded", function () {
     iodized.init();
     var featureRepo = new FeatureRepo("admin/api/features");
     React.renderComponent(
-      <FeatureBox featureRepo={featureRepo}/>,
-      document.getElementById("iodized")
+        <FeatureBox featureRepo={featureRepo}/>, document.getElementById("iodized")
     );
 });
 
