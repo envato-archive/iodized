@@ -1,7 +1,10 @@
 require IEx
 
 defmodule Iodized.Web.Admin.WebhooksHandler do
-  defstruct webhooks: nil
+
+  defmodule Status do
+    defstruct webhooks: nil
+  end
 
   @persistence Iodized.WebhookPersistence.Mnesia
 
@@ -10,7 +13,7 @@ defmodule Iodized.Web.Admin.WebhooksHandler do
   end
 
   def rest_init(req, _opts) do
-    state = %Iodized.Web.Admin.WebhooksHandler{}
+    state = %Iodized.Web.Admin.WebhooksHandler.Status{}
     {:ok, req, state}
   end
 
