@@ -14,7 +14,6 @@ var FeatureSettings = React.createClass({
   render: function() {
     var rootNode;
     var definition = this.state.definition;
-    console.log(definition);
 
     if (definition.operand === "any" || definition.operand === "all") {
       rootNode = <OperandAnyAll definition={definition} />;
@@ -30,7 +29,9 @@ var FeatureSettings = React.createClass({
 
     return (
       <ul className="list-group feature-settings">
-        { rootNode }
+        <li className="list-group-item">
+          { rootNode }
+        </li>
       </ul>
     );
   }
