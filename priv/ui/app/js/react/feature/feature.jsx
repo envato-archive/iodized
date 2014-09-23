@@ -1,6 +1,7 @@
 var React = require("react");
 var jquery = require("jquery");
 var FeatureForm = require("./form.jsx");
+var FeatureToggle = require("./feature_toggle.jsx");
 
 var Feature = React.createClass({
   propTypes: {
@@ -36,13 +37,17 @@ var Feature = React.createClass({
       }
   },
 
-  handleEdit: function(){
-    this.setState({expanded: !this.state.expanded})
-    return false;
+  toggleCSSClass: function () {
+      switch (this.props.feature.master_switch_state) {
+          case "dynamic":
+              return 'feature-toggle--dynamic';
+          default:
+              return 'feature-toggle';
+      }
   },
 
-  handleToggle: function(e){
-    this.props.toggleFeature(this.props.feature, e.target.checked);
+  handleEdit: function(){
+    this.setState({expanded: !this.state.expanded})
     return false;
   },
 
@@ -69,7 +74,7 @@ var Feature = React.createClass({
             <p>{feature.description}</p>
           </div>
           <div className="feature__switch">
-            <input type="checkbox" checked={this.switchState('checkbox')} className="js-switch" onChange={this.handleToggle}/>
+            <FeatureToggle cssClass={this.toggleCSSClass()} checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
           </div>
         </div>
         <div className="feature__edit">
