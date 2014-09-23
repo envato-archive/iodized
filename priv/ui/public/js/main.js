@@ -30701,6 +30701,15 @@
 	      }
 	  },
 	
+	  toggleCSSClass: function () {
+	      switch (this.props.feature.master_switch_state) {
+	          case "dynamic":
+	              return 'feature-toggle--dynamic';
+	          default:
+	              return 'feature-toggle';
+	      }
+	  },
+	
 	  handleEdit: function(){
 	    this.setState({expanded: !this.state.expanded})
 	    return false;
@@ -30729,7 +30738,7 @@
 	            React.DOM.p(null, feature.description)
 	          ), 
 	          React.DOM.div({className: "feature__switch"}, 
-	            FeatureToggle({checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
+	            FeatureToggle({cssClass: this.toggleCSSClass(), checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
 	          )
 	        ), 
 	        React.DOM.div({className: "feature__edit"}, 
@@ -30748,7 +30757,7 @@
 	    },
 	    render: function() {
 	        return(
-	            React.DOM.label({className: "feature-toggle"}, 
+	            React.DOM.label({className: this.props.cssClass}, 
 	                React.DOM.input({type: "checkbox", checked: this.props.checkedState, onChange: this.handleToggle}), React.DOM.i(null)
 	            )
 	        )

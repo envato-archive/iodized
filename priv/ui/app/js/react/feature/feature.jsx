@@ -36,6 +36,15 @@ var Feature = React.createClass({
       }
   },
 
+  toggleCSSClass: function () {
+      switch (this.props.feature.master_switch_state) {
+          case "dynamic":
+              return 'feature-toggle--dynamic';
+          default:
+              return 'feature-toggle';
+      }
+  },
+
   handleEdit: function(){
     this.setState({expanded: !this.state.expanded})
     return false;
@@ -64,7 +73,7 @@ var Feature = React.createClass({
             <p>{feature.description}</p>
           </div>
           <div className="feature__switch">
-            <FeatureToggle checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
+            <FeatureToggle cssClass={this.toggleCSSClass()} checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
           </div>
         </div>
         <div className="feature__edit">
@@ -83,7 +92,7 @@ var FeatureToggle = React.createClass({
     },
     render: function() {
         return(
-            <label className="feature-toggle">
+            <label className={this.props.cssClass}>
                 <input type="checkbox" checked={this.props.checkedState} onChange={this.handleToggle} /><i></i>
             </label>
         )
