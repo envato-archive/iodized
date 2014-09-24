@@ -19384,25 +19384,24 @@
 	
 	var AlertHeader = React.createClass({displayName: 'AlertHeader',
 	  propTypes: {
-	    xhrResponse: React.PropTypes.object,
-	    visible: React.PropTypes.string
+	    xhrResponse: React.PropTypes.object
 	  },
 	  getDefaultProps: function() {
 	    return {
-	      xhrResponse: {},
-	      visible: 'hide'
+	      xhrResponse: {}
 	    }
 	  },
 	  render: function () {
+	    if (!Object.keys(this.props.xhrResponse).length) {
+	      return null;
+	    }
 	    var responseMessage = this.props.xhrResponse.status + ' ' + this.props.xhrResponse.statusText;
 	    return(
-	        React.DOM.div({className: this.props.visible}, 
 	          React.DOM.div({className: "navbar-fixed-top"}, 
 	            React.DOM.div({className: "alert alert-danger text-center", role: "alert"}, 
 	              "Ajax Error: ", responseMessage
 	            )
 	          )
-	        )
 	        )
 	  }
 	});
