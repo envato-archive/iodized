@@ -1,4 +1,5 @@
 var React = require("react");
+var AlertHeader = require("./alert_header.jsx");
 var NewFeature = require("./new_feature.jsx");
 var FeatureList = require("./feature_list.jsx");
 
@@ -44,6 +45,8 @@ var FeatureBox = React.createClass({
   render: function() {
     return (
       <div>
+        <AlertHeader />
+
         <h2>Features</h2>
         <NewFeature createFeature={this.createFeature}/>
         <FeatureList features={this.state.features} updateFeature={this.updateFeature} toggleFeature={this.toggleFeature} deleteFeature={this.deleteFeature}/>
