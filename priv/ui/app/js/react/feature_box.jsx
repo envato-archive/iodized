@@ -18,33 +18,31 @@ var FeatureBox = React.createClass({
   },
 
   refresh: function() {
-    this.props.featureRepo.fetchFeatures(
-        function(featureData){
-          this.replaceState({features: featureData});
-        }.bind(this)
-    ,
-        function(xhr) {
-          this.setState({alertXHR: xhr})
-        }.bind(this)
-    );
+    this.props.featureRepo.fetchFeatures(function(featureData){
+      this.replaceState({features: featureData});
+    }.bind(this));
+  },
+
+  ajaxError: function(xhr) {
+    this.setState({alertXHR: xhr})
   },
 
   createFeature: function(feature) {
-    this.props.featureRepo.createFeature(feature, this.refresh);
+    this.props.featureRepo.createFeature(feature, this.refresh, this.ajaxError);
   },
 
   updateFeature: function(feature) {
-    this.props.featureRepo.updateFeature(feature, this.refresh);
+    this.props.featureRepo.updateFeature(feature, this.refresh, this.ajaxError);
   },
 
   toggleFeature: function(feature, toggleState){
     feature.toggle(toggleState);
-    this.props.featureRepo.updateFeature(feature, this.refresh);
+    this.props.featureRepo.updateFeature(feature, this.refresh, this.ajaxError);
   },
 
   deleteFeature: function(feature) {
     if(confirm("really delete " + feature.title + "?")) {
-      this.props.featureRepo.deleteFeature(feature, this.refresh);
+      this.props.featureRepo.deleteFeature(feature, this.refresh, this.ajaxError);
     }
   },
 

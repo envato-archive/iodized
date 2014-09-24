@@ -47,7 +47,6 @@
 	/** @jsx React.DOM */var React = __webpack_require__(1);
 	var FeatureRepo = __webpack_require__(146);
 	var FeatureBox = __webpack_require__(149);
-	var jquery = __webpack_require__(147);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	    var featureRepo = new FeatureRepo("admin/api/features");
@@ -28536,8 +28535,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */var React = __webpack_require__(1);
-	var NewFeature = __webpack_require__(150);
-	var FeatureList = __webpack_require__(169);
+	var AlertHeader = __webpack_require__(150);
+	var NewFeature = __webpack_require__(151);
+	var FeatureList = __webpack_require__(152);
 	
 	var FeatureBox = React.createClass({displayName: 'FeatureBox',
 	
@@ -28559,28 +28559,33 @@
 	    }.bind(this));
 	  },
 	
+	  ajaxError: function(xhr) {
+	    this.setState({alertXHR: xhr})
+	  },
+	
 	  createFeature: function(feature) {
-	    this.props.featureRepo.createFeature(feature, this.refresh);
+	    this.props.featureRepo.createFeature(feature, this.refresh, this.ajaxError);
 	  },
 	
 	  updateFeature: function(feature) {
-	    this.props.featureRepo.updateFeature(feature, this.refresh);
+	    this.props.featureRepo.updateFeature(feature, this.refresh, this.ajaxError);
 	  },
 	
 	  toggleFeature: function(feature, toggleState){
 	    feature.toggle(toggleState);
-	    this.props.featureRepo.updateFeature(feature, this.refresh);
+	    this.props.featureRepo.updateFeature(feature, this.refresh, this.ajaxError);
 	  },
 	
 	  deleteFeature: function(feature) {
 	    if(confirm("really delete " + feature.title + "?")) {
-	      this.props.featureRepo.deleteFeature(feature, this.refresh);
+	      this.props.featureRepo.deleteFeature(feature, this.refresh, this.ajaxError);
 	    }
 	  },
 	
 	  render: function() {
 	    return (
 	      React.DOM.div(null, 
+	        AlertHeader({xhrResponse: this.state.alertXHR}), 
 	        React.DOM.h2(null, "Features"), 
 	        NewFeature({createFeature: this.createFeature}), 
 	        FeatureList({features: this.state.features, updateFeature: this.updateFeature, toggleFeature: this.toggleFeature, deleteFeature: this.deleteFeature})
@@ -28597,7 +28602,42 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */var React = __webpack_require__(1);
-	var FeatureForm = __webpack_require__(151);
+	
+	var AlertHeader = React.createClass({displayName: 'AlertHeader',
+	  propTypes: {
+	    xhrResponse: React.PropTypes.object
+	  },
+	  getDefaultProps: function() {
+	    return {
+	      xhrResponse: {}
+	    }
+	  },
+	  render: function () {
+	    if (!Object.keys(this.props.xhrResponse).length) {
+	      return null;
+	    }
+	    var responseMessage = this.props.xhrResponse.status + ' ' + this.props.xhrResponse.statusText;
+	    return(
+	          React.DOM.div({className: "navbar-fixed-top"}, 
+	            React.DOM.div({className: "alert alert-danger text-center", role: "alert"}, 
+	              "Ajax Error: ", responseMessage
+	            )
+	          )
+	        )
+	  }
+	});
+	
+	module.exports = AlertHeader;
+	
+	
+
+
+/***/ },
+/* 151 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(1);
+	var FeatureForm = __webpack_require__(154);
 	var FeatureModel = __webpack_require__(148);
 	var jquery = __webpack_require__(147);
 	
@@ -28631,6 +28671,7 @@
 	
 	  createFeature: function(feature) {
 	    this.props.createFeature(feature, this.reset);
+	    this.setState({expanded: false});
 	  },
 	
 	  handleCancel: function() {
@@ -28676,11 +28717,135 @@
 
 
 /***/ },
-/* 151 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	var FeatureSettings = __webpack_require__(168);
+	/** @jsx React.DOM */var React = __webpack_require__(1);
+	var Feature = __webpack_require__(153);
+	
+	var FeatureList = React.createClass({displayName: 'FeatureList',
+	  propTypes: {
+	    features: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+	    updateFeature: React.PropTypes.func.isRequired,
+	    toggleFeature: React.PropTypes.func.isRequired,
+	    deleteFeature: React.PropTypes.func.isRequired
+	  },
+	
+	  render: function() {
+	    var featureNodes = this.props.features.map(function (feature, index) {
+	      return (
+	        Feature({key: feature.id, feature: feature, updateFeature: this.props.updateFeature, toggleFeature: this.props.toggleFeature, deleteFeature: this.props.deleteFeature})
+	      )
+	    }.bind(this));
+	    return (
+	      React.DOM.div(null, featureNodes)
+	    );
+	  }
+	});
+	
+	module.exports = FeatureList;
+
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(1);
+	var jquery = __webpack_require__(147);
+	var FeatureForm = __webpack_require__(154);
+	var FeatureToggle = __webpack_require__(178);
+	
+	var Feature = React.createClass({displayName: 'Feature',
+	  propTypes: {
+	    feature: React.PropTypes.object.isRequired,
+	    updateFeature: React.PropTypes.func.isRequired,
+	    toggleFeature: React.PropTypes.func.isRequired,
+	    deleteFeature: React.PropTypes.func.isRequired
+	  },
+	
+	  getInitialState: function() {
+	    return {expanded: false};
+	  },
+	
+	  switchState: function (element) {
+	      if (element === 'checkbox') {
+	          switch (this.props.feature.master_switch_state) {
+	              case "on":
+	              case "dynamic":
+	                  return true;
+	              case "off":
+	                  return false;
+	          }
+	      }
+	      else {
+	          var expanded_class = this.state.expanded ? "is-expanded" : "is-collapsed";
+	          switch (this.props.feature.master_switch_state) {
+	              case "on":
+	              case "dynamic":
+	                  return 'feature--on ' + expanded_class;
+	              case "off":
+	                  return 'feature--off ' + expanded_class;
+	          }
+	      }
+	  },
+	
+	  toggleCSSClass: function () {
+	      switch (this.props.feature.master_switch_state) {
+	          case "dynamic":
+	              return 'feature-toggle--dynamic';
+	          default:
+	              return 'feature-toggle';
+	      }
+	  },
+	
+	  handleEdit: function(){
+	    this.setState({expanded: !this.state.expanded})
+	    return false;
+	  },
+	
+	  updateFeature: function (feature) {
+	    this.props.updateFeature(feature);
+	    this.setState({expanded: false});
+	  },
+	
+	  handleDelete: function(){
+	    this.props.deleteFeature(this.props.feature);
+	    this.setState({expanded: false});
+	    return false;
+	  },
+	
+	  render: function() {
+	    var feature = this.props.feature;
+	    return(
+	      React.DOM.div({className: this.switchState('feature')}, 
+	        React.DOM.div({className: "feature__view"}, 
+	          React.DOM.a({href: "#", onClick: this.handleEdit, className: "feature__view-edit-button"}, React.DOM.span({className: "glyphicon glyphicon-pencil"})), 
+	          React.DOM.div({className: "feature__view-content"}, 
+	            React.DOM.h3(null, feature.title), 
+	            React.DOM.p(null, feature.description)
+	          ), 
+	          React.DOM.div({className: "feature__switch"}, 
+	            FeatureToggle({cssClass: this.toggleCSSClass(), checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
+	          )
+	        ), 
+	        React.DOM.div({className: "feature__edit"}, 
+	          FeatureForm({'data-rowan': "please", feature: this.props.feature, saveFeature: this.updateFeature}), 
+	          React.DOM.button({className: "btn btn-delete", onClick: this.handleDelete, type: "submit"}, "Delete Feature")
+	        )
+	      )
+	    )
+	  }
+	});
+	
+	module.exports = Feature;
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	var FeatureSettings = __webpack_require__(171);
 	
 	
 	var FeatureForm = React.createClass({displayName: 'FeatureForm',
@@ -28731,6 +28896,7 @@
 	
 	  handleSaveFeature: function() {
 	    this.props.saveFeature(this.state.editingFeature);
+	    return false;
 	  },
 	
 	  render: function() {
@@ -28801,14 +28967,14 @@
 
 
 /***/ },
-/* 152 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(153);
+	module.exports = __webpack_require__(156);
 
 
 /***/ },
-/* 153 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28838,16 +29004,16 @@
 	
 	"use strict";
 	
-	var LinkedStateMixin = __webpack_require__(154);
+	var LinkedStateMixin = __webpack_require__(157);
 	var React = __webpack_require__(2);
 	var ReactComponentWithPureRenderMixin =
-	  __webpack_require__(157);
-	var ReactCSSTransitionGroup = __webpack_require__(158);
-	var ReactTransitionGroup = __webpack_require__(159);
+	  __webpack_require__(160);
+	var ReactCSSTransitionGroup = __webpack_require__(161);
+	var ReactTransitionGroup = __webpack_require__(162);
 	
-	var cx = __webpack_require__(165);
-	var cloneWithProps = __webpack_require__(161);
-	var update = __webpack_require__(166);
+	var cx = __webpack_require__(168);
+	var cloneWithProps = __webpack_require__(164);
+	var update = __webpack_require__(169);
 	
 	React.addons = {
 	  CSSTransitionGroup: ReactCSSTransitionGroup,
@@ -28862,7 +29028,7 @@
 	
 	if ("production" !== process.env.NODE_ENV) {
 	  React.addons.Perf = __webpack_require__(139);
-	  React.addons.TestUtils = __webpack_require__(167);
+	  React.addons.TestUtils = __webpack_require__(170);
 	}
 	
 	module.exports = React;
@@ -28871,7 +29037,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 154 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28895,8 +29061,8 @@
 	
 	"use strict";
 	
-	var ReactLink = __webpack_require__(155);
-	var ReactStateSetters = __webpack_require__(156);
+	var ReactLink = __webpack_require__(158);
+	var ReactStateSetters = __webpack_require__(159);
 	
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -28923,7 +29089,7 @@
 
 
 /***/ },
-/* 155 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29007,7 +29173,7 @@
 
 
 /***/ },
-/* 156 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29124,7 +29290,7 @@
 
 
 /***/ },
-/* 157 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29184,7 +29350,7 @@
 
 
 /***/ },
-/* 158 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29210,8 +29376,8 @@
 	
 	var React = __webpack_require__(2);
 	
-	var ReactTransitionGroup = __webpack_require__(159);
-	var ReactCSSTransitionGroupChild = __webpack_require__(162);
+	var ReactTransitionGroup = __webpack_require__(162);
+	var ReactCSSTransitionGroupChild = __webpack_require__(165);
 	
 	var ReactCSSTransitionGroup = React.createClass({
 	  displayName: 'ReactCSSTransitionGroup',
@@ -29257,7 +29423,7 @@
 
 
 /***/ },
-/* 159 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29281,9 +29447,9 @@
 	"use strict";
 	
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(160);
+	var ReactTransitionChildMapping = __webpack_require__(163);
 	
-	var cloneWithProps = __webpack_require__(161);
+	var cloneWithProps = __webpack_require__(164);
 	var emptyFunction = __webpack_require__(10);
 	var merge = __webpack_require__(35);
 	
@@ -29453,7 +29619,7 @@
 
 
 /***/ },
-/* 160 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29565,7 +29731,7 @@
 
 
 /***/ },
-/* 161 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29633,7 +29799,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 162 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29659,8 +29825,8 @@
 	
 	var React = __webpack_require__(2);
 	
-	var CSSCore = __webpack_require__(163);
-	var ReactTransitionEvents = __webpack_require__(164);
+	var CSSCore = __webpack_require__(166);
+	var ReactTransitionEvents = __webpack_require__(167);
 	
 	var onlyChild = __webpack_require__(145);
 	
@@ -29775,7 +29941,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 163 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29897,7 +30063,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 164 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30019,7 +30185,7 @@
 
 
 /***/ },
-/* 165 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30069,7 +30235,7 @@
 
 
 /***/ },
-/* 166 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -30247,7 +30413,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
-/* 167 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30665,15 +30831,12 @@
 
 
 /***/ },
-/* 168 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	var OperandAnyAll = __webpack_require__(172);
-	var OperandIs = __webpack_require__(173);
-	var OperandNot = __webpack_require__(174);
-	var OperandIncludedIn = __webpack_require__(175);
-	var OperandPercentage = __webpack_require__(176);
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	var SettingsBranch = __webpack_require__(172);
+	var SettingsNode = __webpack_require__(173);
 	
 	var FeatureSettings = React.createClass({displayName: 'FeatureSettings',
 	
@@ -30681,23 +30844,14 @@
 	    return {definition: this.props.definition};
 	  },
 	
-	  handleConditionChange: function() {
-	  },
-	
 	  render: function() {
 	    var rootNode;
 	    var definition = this.state.definition;
 	
-	    if (definition.operand === "any" || definition.operand === "all") {
-	      rootNode = OperandAnyAll({definition: definition});
-	    } else if (definition.operand === "is") {
-	      rootNode = OperandIs({definition: definition});
-	    } else if (definition.operand === "not") {
-	      rootNode = OperandNot({definition: definition});
-	    } else if (definition.operand === "included_in") {
-	      rootNode = OperandIncludedIn({definition: definition});
-	    } else if (definition.operand === "percentage") {
-	      rootNode = OperandPercentage({definition: definition});
+	    if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
+	      rootNode = SettingsBranch({definition: definition});
+	    } else {
+	      rootNode = SettingsNode({definition: definition, removeHandler: this.handleRemoveChild.bind(this, i)});
 	    }
 	
 	    return (
@@ -30714,135 +30868,250 @@
 
 
 /***/ },
-/* 169 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */var React = __webpack_require__(1);
-	var Feature = __webpack_require__(170);
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	var SettingsBranch = __webpack_require__(172);
+	var SettingsNode = __webpack_require__(173);
+	var BranchOperand = __webpack_require__(177);
 	
-	var FeatureList = React.createClass({displayName: 'FeatureList',
-	  propTypes: {
-	    features: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-	    updateFeature: React.PropTypes.func.isRequired,
-	    toggleFeature: React.PropTypes.func.isRequired,
-	    deleteFeature: React.PropTypes.func.isRequired
+	
+	var SettingsBranch = React.createClass({displayName: 'SettingsBranch',
+	
+	  getInitialState: function() {
+	    return {
+	      definition: this.props.definition,
+	      definitions: this.props.definition.definitions || []
+	    };
+	  },
+	
+	  handleAddBtn: function (event) {
+	    var definitions = this.state.definitions;
+	    this.setState({definitions: definitions.concat([{
+	        operand: 'is',
+	        param_name: '',
+	        value: ''
+	      }]
+	    )});
+	  },
+	
+	  handleRemoveBtn: function (event) {
+	    this.setState({definitions: []});
+	  },
+	
+	  handleAddParent: function (event) {
+	    var definitions = this.state.definitions;
+	    this.setState({definitions: definitions.concat([{
+	        operand: 'any',
+	        definitions: []
+	      }]
+	    )});
+	  },
+	
+	  handleRemoveChild: function (i, key) {
+	    var definitions = this.state.definitions;
+	    console.log("remove at index", i, key);
+	
+	    definitions.splice(i, 1);
+	    this.forceUpdate();
 	  },
 	
 	  render: function() {
-	    var featureNodes = this.props.features.map(function (feature, index) {
-	      return (
-	        Feature({key: feature.id, feature: feature, updateFeature: this.props.updateFeature, toggleFeature: this.props.toggleFeature, deleteFeature: this.props.deleteFeature})
-	      )
-	    }.bind(this));
+	    
 	    return (
-	      React.DOM.div(null, featureNodes)
+	      React.DOM.div({className: "list-group-item feature-settings__child-node"}, 
+	        React.DOM.div({className: "form-inline", role: "form"}, 
+	
+	          BranchOperand({handleRemoveBtn: this.handleRemoveBtn, handleAddBtn: this.handleAddBtn, handleAddParent: this.handleAddParent}), 
+	
+	          this.state.definitions.map(function(definition, i) {
+	            var node;
+	            var key = definition.operand + i + Math.random();
+	
+	            if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
+	              node = SettingsBranch({key: key, definition: definition});
+	            } else {
+	              node = SettingsNode({key: key, definition: definition, removeHandler: this.handleRemoveChild.bind(this, i, key)});
+	            }
+	
+	            return ( node );
+	          }, this)
+	        )
+	      )
 	    );
 	  }
 	});
 	
-	module.exports = FeatureList;
+	module.exports = SettingsBranch;
+	
 
 
 /***/ },
-/* 170 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */var React = __webpack_require__(1);
-	var jquery = __webpack_require__(147);
-	var FeatureForm = __webpack_require__(151);
-	var FeatureToggle = __webpack_require__(171);
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	var NodeParameter = __webpack_require__(174);
+	var NodeOperand = __webpack_require__(175);
+	var NodeValue = __webpack_require__(176);
 	
-	var Feature = React.createClass({displayName: 'Feature',
-	  propTypes: {
-	    feature: React.PropTypes.object.isRequired,
-	    updateFeature: React.PropTypes.func.isRequired,
-	    toggleFeature: React.PropTypes.func.isRequired,
-	    deleteFeature: React.PropTypes.func.isRequired
-	  },
+	var SettingsNode = React.createClass({displayName: 'SettingsNode',
 	
 	  getInitialState: function() {
-	    return {expanded: false};
-	  },
-	
-	  switchState: function (element) {
-	      if (element === 'checkbox') {
-	          switch (this.props.feature.master_switch_state) {
-	              case "on":
-	              case "dynamic":
-	                  return true;
-	              case "off":
-	                  return false;
-	          }
-	      }
-	      else {
-	          var expanded_class = this.state.expanded ? "is-expanded" : "is-collapsed";
-	          switch (this.props.feature.master_switch_state) {
-	              case "on":
-	              case "dynamic":
-	                  return 'feature--on ' + expanded_class;
-	              case "off":
-	                  return 'feature--off ' + expanded_class;
-	          }
-	      }
-	  },
-	
-	  toggleCSSClass: function () {
-	      switch (this.props.feature.master_switch_state) {
-	          case "dynamic":
-	              return 'feature-toggle--dynamic';
-	          default:
-	              return 'feature-toggle';
-	      }
-	  },
-	
-	  handleEdit: function(){
-	    this.setState({expanded: !this.state.expanded})
-	    return false;
-	  },
-	
-	  updateFeature: function (feature) {
-	    this.props.updateFeature(feature);
-	    this.setState({expanded: false});
-	    return false;
-	  },
-	
-	  handleDelete: function(){
-	    this.props.deleteFeature(this.props.feature);
-	    this.setState({expanded: false});
-	    return false;
+	    return { definition: this.props.definition};
 	  },
 	
 	  render: function() {
-	    var feature = this.props.feature;
-	    return(
-	      React.DOM.div({className: this.switchState('feature')}, 
-	        React.DOM.div({className: "feature__view"}, 
-	          React.DOM.a({href: "#", onClick: this.handleEdit, className: "feature__view-edit-button"}, React.DOM.span({className: "glyphicon glyphicon-pencil"})), 
-	          React.DOM.div({className: "feature__view-content"}, 
-	            React.DOM.h3(null, feature.title), 
-	            React.DOM.p(null, feature.description)
-	          ), 
-	          React.DOM.div({className: "feature__switch"}, 
-	            FeatureToggle({cssClass: this.toggleCSSClass(), checkedState: this.switchState('checkbox'), toggleFeature: this.props.toggleFeature, feature: this.props.feature})
-	          )
-	        ), 
-	        React.DOM.div({className: "feature__edit"}, 
-	          FeatureForm({feature: this.props.feature, saveFeature: this.updateFeature}), 
-	          React.DOM.button({className: "btn btn-delete", onClick: this.handleDelete, type: "submit"}, "Delete Feature")
-	        )
+	    return (
+	      React.DOM.div({className: "list-group-item feature-settings__child-node"}, 
+	        NodeParameter({param_name: this.state.definition.param_name}), 
+	        NodeOperand({operand: this.state.definition.operand}), 
+	        NodeValue({value: this.state.definition.value}), 
+	        React.DOM.a({onClick: this.props.removeHandler}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"}))
 	      )
-	    )
+	    );
 	  }
 	});
 	
-	module.exports = Feature;
+	module.exports = SettingsNode;
 
 
 /***/ },
-/* 171 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */var React = __webpack_require__(152);
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	
+	var NodeParameter = React.createClass({displayName: 'NodeParameter',
+	
+	  getInitialState: function() {
+	    return { param_name: this.props.param_name};
+	  },
+	
+	  handleParamChange: function (event) {
+	    this.setState({ param_name: event.target.value });
+	  },
+	
+	  render: function() {
+	    return (
+	      React.DOM.div({className: "form-group feature-settings__condition-pre--field"}, 
+	        React.DOM.label({className: "sr-only", htmlFor: ""}, "Parameter"), 
+	        React.DOM.input({type: "text", className: "form-control", value: this.state.param_name, onChange: this.handleParamChange, placeholder: "Main Attributes"})
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NodeParameter;
+
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	
+	var NodeOperand = React.createClass({displayName: 'NodeOperand',
+	
+	  getInitialState: function() {
+	    return { operand: this.props.operand};
+	  },
+	
+	  handleOperandChange: function (event) {
+	    this.setState({ operand: event.target.value });
+	  },
+	
+	  render: function() {
+	    return (
+	      React.DOM.div({className: "form-group feature-settings__condition"}, 
+	        React.DOM.label({className: "sr-only", htmlFor: ""}, "Condition"), 
+	        React.DOM.select({value: this.state.operand, className: "form-control feature-settings__condition", onChange: this.handleOperandChange}, 
+	          React.DOM.option({value: "is"}, "is"), 
+	          React.DOM.option({value: "not"}, "not"), 
+	          React.DOM.option({value: "included_in"}, "included in"), 
+	          React.DOM.option({value: "percentage"}, "percentage")
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NodeOperand;
+
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	
+	var NodeValue = React.createClass({displayName: 'NodeValue',
+	
+	  getInitialState: function() {
+	    return { value: this.props.value};
+	  },
+	
+	  handleValueChange: function (event) {
+	    this.setState({ value: event.target.value });
+	  },
+	
+	  render: function() {
+	    return (
+	      React.DOM.div({className: "form-group feature-settings__condition-post--field"}, 
+	        React.DOM.label({className: "sr-only", htmlFor: ""}, "Value"), 
+	        React.DOM.input({type: "text", className: "form-control", id: "", value: this.state.value, onChange: this.handleValueChange, placeholder: "Free Text", size: "40"})
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NodeValue;
+
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(155);
+	
+	var BranchOperand = React.createClass({displayName: 'BranchOperand',
+	
+	  getInitialState: function() {
+	    return { operand: this.props.operand};
+	  },
+	
+	  handleOperandChange: function (event) {
+	    this.setState({ operand: event.target.value });
+	  },
+	
+	  render: function() {
+	    return (
+	      React.DOM.div(null, 
+	        React.DOM.label(null, "If "), 
+	        React.DOM.label({className: "sr-only", htmlFor: ""}, "Condition"), 
+	        React.DOM.select({value: this.state.operand, className: "form-control feature-settings__condition", onChange: this.handleOperandChange}, 
+	          React.DOM.option({value: "all"}, "all"), 
+	          React.DOM.option({value: "any"}, "any"), 
+	          React.DOM.option({value: "none"}, "none")
+	        ), 
+	        React.DOM.label(null, "of the following is true:"), 
+	        React.DOM.a({onClick: this.props.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"})), 
+	        React.DOM.a({onClick: this.props.handleAddBtn}, React.DOM.span({className: "glyphicon glyphicon-plus-sign feature__setting-icon pull-right"})), 
+	        React.DOM.a({onClick: this.props.handleAddParent}, React.DOM.span({className: "glyphicon glyphicon-download feature__setting-icon pull-right"}))
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BranchOperand;
+
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */var React = __webpack_require__(155);
 	
 	var FeatureToggle = React.createClass({displayName: 'FeatureToggle',
 	  propTypes: {
@@ -30868,264 +31137,6 @@
 	});
 	
 	module.exports = FeatureToggle;
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	var OperandAnyAll = __webpack_require__(172);
-	var OperandIs = __webpack_require__(173);
-	var OperandNot = __webpack_require__(174);
-	var OperandIncludedIn = __webpack_require__(175);
-	var OperandPercentage = __webpack_require__(176);
-	
-	var OperandAnyAll = React.createClass({displayName: 'OperandAnyAll',
-	
-	  getInitialState: function() {
-	    return {
-	      definition: this.props.definition,
-	      definitions: this.props.definition.definitions || []
-	    };
-	  },
-	
-	  handleAddBtn: function (event) {
-	    var definitions = this.state.definitions;
-	    this.setState({definitions: definitions.concat([{
-	        operand: 'is'
-	      }]
-	    )});
-	  },
-	
-	  handleRemoveBtn: function (event) {
-	    this.setState({definitions: []});
-	  },
-	
-	  handleAddParent: function (event) {
-	    var definitions = this.state.definitions;
-	    this.setState({definitions: definitions.concat([{
-	        operand: 'any'
-	      }]
-	    )});
-	  },
-	  handleConditionChange: function (event) {
-	  },
-	
-	  render: function() {
-	    
-	    return (
-	      React.DOM.div({className: "form-inline", role: "form"}, 
-	        React.DOM.label(null, "If "), 
-	        React.DOM.label({className: "sr-only", htmlFor: ""}, "Condition"), 
-	        React.DOM.select({value: this.state.definition.operand, className: "form-control feature-settings__condition", onChange: this.handleConditionChange}, 
-	          React.DOM.option({value: "all"}, "all"), 
-	          React.DOM.option({value: "any"}, "any")
-	        ), 
-	        React.DOM.label(null, "of the following is true:"), 
-	        React.DOM.a({onClick: this.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"})), 
-	        React.DOM.a({onClick: this.handleAddBtn}, React.DOM.span({className: "glyphicon glyphicon-plus-sign feature__setting-icon pull-right"})), 
-	        React.DOM.a({onClick: this.handleAddParent}, React.DOM.span({className: "glyphicon glyphicon-download feature__setting-icon pull-right"})), 
-	
-	        this.state.definitions.map(function(definition) {
-	          var node;
-	
-	          if (definition.operand === "any" || definition.operand === "all") {
-	            node = OperandAnyAll({definition: definition});
-	          } else if (definition.operand === "is") {
-	            node = OperandIs({definition: definition});
-	          } else if (definition.operand === "not") {
-	            node = OperandNot({definition: definition});
-	          } else if (definition.operand === "included_in") {
-	            node = OperandIncludedIn({definition: definition});
-	          } else if (definition.operand === "percentage") {
-	            node = OperandPercentage({definition: definition});
-	          }
-	
-	          return (
-	            React.DOM.div({className: "list-group-item feature-settings__child-node"}, 
-	              node 
-	            )
-	          );
-	        }, this)
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = OperandAnyAll;
-	
-
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	
-	var OperandIs = React.createClass({displayName: 'OperandIs',
-	
-	  getInitialState: function() {
-	    return { definition: this.props.definition };
-	  },
-	
-	  handleConditionChange: function (event) {
-	  },
-	
-	  handleRemoveBtn: function (event) {
-	  },
-	
-	  render: function() {
-	    return (
-	      React.DOM.div(null, 
-	        React.DOM.div({className: "form-group feature-settings__condition-pre--field"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Attributes"), 
-	          React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.param_name, placeholder: "Main Attributes"})
-	        ), 
-	        React.DOM.div({className: "form-group feature-settings__condition"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Condition"), 
-	          React.DOM.select({value: this.state.definition.operand, className: "form-control feature-settings__condition", onChange: this.handleConditionChange}, 
-	            React.DOM.option({value: "is"}, "is"), 
-	            React.DOM.option({value: "not"}, "not"), 
-	            React.DOM.option({value: "included_in"}, "included in"), 
-	            React.DOM.option({value: "percentage"}, "percentage")
-	          )
-	        ), 
-	        React.DOM.div({className: "form-group feature-settings__condition-post--field"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Free text"), 
-	          React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.value, placeholder: "Free Text", size: "40"})
-	        ), 
-	        React.DOM.a({onClick: this.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"}))
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = OperandIs;
-
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	
-	var OperandNot = React.createClass({displayName: 'OperandNot',
-	
-	  getInitialState: function() {
-	    return { definition: this.props.definition};
-	  },
-	
-	  handleRemoveBtn: function (event) {
-	  },
-	
-	  render: function() {
-	    return (
-	      React.DOM.li({className: "list-group-item"}, 
-	        React.DOM.div({className: "form-inline", role: "form"}, 
-	          React.DOM.div({className: "form-group feature-settings__condition-pre--field"}, 
-	            React.DOM.label({className: "sr-only", htmlFor: ""}, "Attributes"), 
-	            React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.param_name, placeholder: "Main Attributes"})
-	          ), 
-	          React.DOM.div({className: "form-group feature-settings__condition"}, 
-	            "not"
-	          ), 
-	          React.DOM.div({className: "form-group feature-settings__condition-post--field"}, 
-	            React.DOM.label({className: "sr-only", htmlFor: ""}, "Free text"), 
-	            React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.value, placeholder: "Free Text", size: "40"})
-	          ), 
-	          React.DOM.a({onClick: this.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"}))
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = OperandNot;
-
-
-/***/ },
-/* 175 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	
-	var OperandIncludedIn = React.createClass({displayName: 'OperandIncludedIn',
-	
-	  getInitialState: function() {
-	    return { definition: this.props.definition};
-	  },
-	
-	  handleRemoveBtn: function (event) {
-	  },
-	
-	  render: function() {
-	    return (
-	      React.DOM.div(null, 
-	        React.DOM.div({className: "form-group feature-settings__condition-pre--field"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Attributes"), 
-	          React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.param_name, placeholder: "Main Attributes"})
-	        ), 
-	        React.DOM.div({className: "form-group feature-settings__condition"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Condition"), 
-	          React.DOM.select({value: this.state.definition.operand, className: "form-control feature-settings__condition", onChange: this.handleConditionChange}, 
-	            React.DOM.option({value: "is"}, "is"), 
-	            React.DOM.option({value: "not"}, "not"), 
-	            React.DOM.option({value: "included_in"}, "included in"), 
-	            React.DOM.option({value: "percentage"}, "percentage")
-	          )
-	        ), 
-	        React.DOM.div({className: "form-group feature-settings__condition-post--field"}, 
-	          React.DOM.label({className: "sr-only", htmlFor: ""}, "Free text"), 
-	          React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.value, placeholder: "Free Text", size: "40"})
-	        ), 
-	        React.DOM.a({onClick: this.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"}))
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = OperandIncludedIn;
-
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */var React = __webpack_require__(152);
-	
-	var OperandPercentage = React.createClass({displayName: 'OperandPercentage',
-	
-	  getInitialState: function() {
-	    return { definition: this.props.definition};
-	  },
-	
-	  handleRemoveBtn: function (event) {
-	  },
-	
-	  render: function() {
-	    return (
-	      React.DOM.li({className: "list-group-item"}, 
-	        React.DOM.div({className: "form-inline", role: "form"}, 
-	          React.DOM.div({className: "form-group feature-settings__condition-pre--field"}, 
-	            React.DOM.label({className: "sr-only", htmlFor: ""}, "Attributes"), 
-	            React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.param_name, placeholder: "Main Attributes"})
-	          ), 
-	          React.DOM.div({className: "form-group feature-settings__condition"}, 
-	            "percentage"
-	          ), 
-	          React.DOM.div({className: "form-group feature-settings__condition-post--field"}, 
-	            React.DOM.label({className: "sr-only", htmlFor: ""}, "Free text"), 
-	            React.DOM.input({type: "textfield", className: "form-control", id: "", value: this.state.definition.value, placeholder: "Free Text", size: "40"})
-	          ), 
-	          React.DOM.a({onClick: this.handleRemoveBtn}, React.DOM.span({className: "glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"}))
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = OperandPercentage;
-
 
 /***/ }
 /******/ ])
