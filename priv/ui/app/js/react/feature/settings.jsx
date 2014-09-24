@@ -1,9 +1,6 @@
 var React = require("react/addons");
-var OperandAnyAll = require("./settings/operand_any_all.jsx");
-var OperandIs = require("./settings/operand_is.jsx");
-var OperandNot = require("./settings/operand_not.jsx");
-var OperandIncludedIn = require("./settings/operand_included_in.jsx");
-var OperandPercentage = require("./settings/operand_percentage.jsx");
+var SettingsBranch = require("./settings/branch.jsx");
+var SettingsNode = require("./settings/node.jsx");
 
 var FeatureSettings = React.createClass({
 
@@ -16,9 +13,9 @@ var FeatureSettings = React.createClass({
     var definition = this.state.definition;
 
     if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
-      rootNode = <OperandAnyAll definition={definition} />;
+      rootNode = <SettingsBranch definition={definition} />;
     } else {
-      rootNode = <OperandIncludedIn definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
+      rootNode = <SettingsNode definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
     }
 
     return (

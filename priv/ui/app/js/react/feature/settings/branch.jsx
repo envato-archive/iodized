@@ -1,11 +1,9 @@
 var React = require("react/addons");
-var OperandAnyAll = require("./operand_any_all.jsx");
-var OperandIs = require("./operand_is.jsx");
-var OperandNot = require("./operand_not.jsx");
-var OperandIncludedIn = require("./operand_included_in.jsx");
-var OperandPercentage = require("./operand_percentage.jsx");
+var SettingsBranch = require("./branch.jsx");
+var SettingsNode = require("./node.jsx");
 
-var OperandAnyAll = React.createClass({
+
+var SettingsBranch = React.createClass({
 
   getInitialState: function() {
     return {
@@ -65,9 +63,9 @@ var OperandAnyAll = React.createClass({
           console.log("operand", definition.operand, "definition index:", i);
 
           if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
-            node = <OperandAnyAll definition={definition} />;
+            node = <SettingsBranch definition={definition} />;
           } else {
-            node = <OperandIncludedIn definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
+            node = <SettingsNode definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
           }
 
           return (
@@ -81,5 +79,5 @@ var OperandAnyAll = React.createClass({
   }
 });
 
-module.exports = OperandAnyAll;
+module.exports = SettingsBranch;
 

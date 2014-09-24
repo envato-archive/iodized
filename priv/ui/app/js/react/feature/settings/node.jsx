@@ -1,15 +1,26 @@
 var React = require("react/addons");
 
-var OperandIs = React.createClass({
+var SettingsNode = React.createClass({
 
   getInitialState: function() {
-    return { definition: this.props.definition };
+    return { definition: this.props.definition};
+  },
+
+  handleParamChange: function (event) {
+    this.setState({
+      definition: {
+        param_name: event.target.value
+      }
+    });
   },
 
   handleConditionChange: function (event) {
-  },
-
-  handleRemoveBtn: function (event) {
+    console.log("param change");
+    this.setState({
+      definition: {
+        operand: event.target.value
+      }
+    });
   },
 
   render: function() {
@@ -17,7 +28,7 @@ var OperandIs = React.createClass({
       <div>
         <div className="form-group feature-settings__condition-pre--field">
           <label className="sr-only" htmlFor="">Attributes</label>
-          <input type="text" className="form-control" id="" value={this.state.definition.param_name} placeholder="Main Attributes" />
+          <input type="text" className="form-control" value={this.state.definition.param_name} onChange={this.handleParamChange} placeholder="Main Attributes" />
         </div>
         <div className="form-group feature-settings__condition">
           <label className="sr-only" htmlFor="">Condition</label>
@@ -38,4 +49,4 @@ var OperandIs = React.createClass({
   }
 });
 
-module.exports = OperandIs;
+module.exports = SettingsNode;
