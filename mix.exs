@@ -33,7 +33,9 @@ defmodule Iodized.Mixfile do
       {:jsex, "~> 2.0.0"},
       {:thrift, github: "envato/thrift-erlang", tag: "0.9.1.envato"}, # TODO need nicer way of managing thrift
       {:uuid, "~> 0.1.5"},
-      {:timex, "~> 0.12.7"}
+      {:timex, "~> 0.12.7"},
+      {:httpoison, "~> 0.4"},
+      {:mock, github: "jjh42/mock", ref: "275109db347caf3449b6d123bd4da720fb08b28e"}
     ]
   end
 end

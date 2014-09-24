@@ -48,12 +48,19 @@ defmodule Iodized.Web.Admin.FeatureStatusHandler do
     {:ok, feature_json, req} = :cowboy_req.body(req)
     feature = feature_json |> JSEX.decode!(labels: :atom) |> Iodized.Feature.from_json
     @persistence.save_feature(feature)
+    Iodized.Notification.notify_event("update",
+                                      "Updated feature " <> Iodized.Feature.feature_description(feature))
     {true, req, state}
   end
 
   def delete_resource(req, state) do
     {feature_id, req} = :cowboy_req.binding(:feature_id, req)
+
+    {:ok, feature} = @persistence.find_feature(feature_id)
+
     @persistence.delete_feature(feature_id)
+    Iodized.Notification.notify_event("delete",
+                                      "Deleted feature " <> Iodized.Feature.feature_description(feature))
     {true, req, state}
   end
 end
