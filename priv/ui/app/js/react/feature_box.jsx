@@ -18,9 +18,15 @@ var FeatureBox = React.createClass({
   },
 
   refresh: function() {
-    this.props.featureRepo.fetchFeatures(function(featureData){
-      this.replaceState({features: featureData});
-    }.bind(this));
+    this.props.featureRepo.fetchFeatures(
+        function(featureData){
+          this.replaceState({features: featureData});
+        }.bind(this)
+    ,
+        function(xhr) {
+          this.setState({alertXHR: xhr})
+        }.bind(this)
+    );
   },
 
   createFeature: function(feature) {
@@ -45,8 +51,7 @@ var FeatureBox = React.createClass({
   render: function() {
     return (
       <div>
-        <AlertHeader />
-
+        <AlertHeader xhrResponse={this.state.alertXHR} />
         <h2>Features</h2>
         <NewFeature createFeature={this.createFeature}/>
         <FeatureList features={this.state.features} updateFeature={this.updateFeature} toggleFeature={this.toggleFeature} deleteFeature={this.deleteFeature}/>
