@@ -17,7 +17,7 @@ var OperandIs = React.createClass({
       <div>
         <div className="form-group feature-settings__condition-pre--field">
           <label className="sr-only" htmlFor="">Attributes</label>
-          <input type="textfield" className="form-control" id="" value={this.state.definition.param_name} placeholder="Main Attributes" />
+          <input type="text" className="form-control" id="" value={this.state.definition.param_name} placeholder="Main Attributes" />
         </div>
         <div className="form-group feature-settings__condition">
           <label className="sr-only" htmlFor="">Condition</label>
@@ -30,9 +30,9 @@ var OperandIs = React.createClass({
         </div>
         <div className="form-group feature-settings__condition-post--field">
           <label className="sr-only" htmlFor="">Free text</label>
-          <input type="textfield" className="form-control" id="" value={this.state.definition.value} placeholder="Free Text" size="40" />
+          <input type="text" className="form-control" id="" value={this.state.definition.value} placeholder="Free Text" size="40" />
         </div>
-        <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
+        <a onClick={this.props.removeHandler}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
       </div>
     );
   }

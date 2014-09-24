@@ -11,23 +11,14 @@ var FeatureSettings = React.createClass({
     return {definition: this.props.definition};
   },
 
-  handleConditionChange: function() {
-  },
-
   render: function() {
     var rootNode;
     var definition = this.state.definition;
 
-    if (definition.operand === "any" || definition.operand === "all") {
+    if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
       rootNode = <OperandAnyAll definition={definition} />;
-    } else if (definition.operand === "is") {
-      rootNode = <OperandIs definition={definition} />;
-    } else if (definition.operand === "not") {
-      rootNode = <OperandNot definition={definition} />;
-    } else if (definition.operand === "included_in") {
-      rootNode = <OperandIncludedIn definition={definition} />;
-    } else if (definition.operand === "percentage") {
-      rootNode = <OperandPercentage definition={definition} />;
+    } else {
+      rootNode = <OperandIncludedIn definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
     }
 
     return (

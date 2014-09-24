@@ -36,6 +36,15 @@ var OperandAnyAll = React.createClass({
   handleConditionChange: function (event) {
   },
 
+  handleRemoveChild: function (i) {
+    var definitions = this.state.definitions;
+    // TODO make this work
+    console.log("remove at index", i, definitions[i].operand);
+    var definitionsClone = definitions.slice(0);
+    definitionsClone.splice(i, 1);
+    this.setState({definitions: definitionsClone});
+  },
+
   render: function() {
     
     return (
@@ -51,19 +60,14 @@ var OperandAnyAll = React.createClass({
         <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
         <a onClick={this.handleAddParent}><span className="glyphicon glyphicon-download feature__setting-icon pull-right"></span></a>
 
-        {this.state.definitions.map(function(definition) {
+        {this.state.definitions.map(function(definition, i) {
           var node;
+          console.log("operand", definition.operand, "definition index:", i);
 
-          if (definition.operand === "any" || definition.operand === "all") {
+          if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
             node = <OperandAnyAll definition={definition} />;
-          } else if (definition.operand === "is") {
-            node = <OperandIs definition={definition} />;
-          } else if (definition.operand === "not") {
-            node = <OperandNot definition={definition} />;
-          } else if (definition.operand === "included_in") {
-            node = <OperandIncludedIn definition={definition} />;
-          } else if (definition.operand === "percentage") {
-            node = <OperandPercentage definition={definition} />;
+          } else {
+            node = <OperandIncludedIn definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
           }
 
           return (
