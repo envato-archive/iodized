@@ -1,6 +1,7 @@
 var React = require("react/addons");
 var SettingsBranch = require("./branch.jsx");
 var SettingsNode = require("./node.jsx");
+var BranchOperand = require("./branch/operand.jsx");
 
 
 var SettingsBranch = React.createClass({
@@ -34,8 +35,6 @@ var SettingsBranch = React.createClass({
       }]
     )});
   },
-  handleConditionChange: function (event) {
-  },
 
   handleRemoveChild: function (i, key) {
     var definitions = this.state.definitions;
@@ -50,17 +49,8 @@ var SettingsBranch = React.createClass({
     return (
       <div className="list-group-item feature-settings__child-node">
         <div className="form-inline" role="form">
-          <label>If </label>
-          <label className="sr-only" htmlFor="">Condition</label>
-          <select value={this.state.definition.operand} className="form-control feature-settings__condition" onChange={this.handleConditionChange}>
-            <option value="all">all</option>
-            <option value="any">any</option>
-            <option value="none">none</option>
-          </select>
-          <label>of the following is true:</label>
-          <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
-          <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
-          <a onClick={this.handleAddParent}><span className="glyphicon glyphicon-download feature__setting-icon pull-right"></span></a>
+
+          <BranchOperand handleRemoveBtn={this.handleRemoveBtn} handleAddBtn={this.handleAddBtn} handleAddParent={this.handleAddParent} />
 
           {this.state.definitions.map(function(definition, i) {
             var node;
