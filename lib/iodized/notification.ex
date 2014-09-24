@@ -4,6 +4,10 @@ defmodule Iodized.Notification do
 
   def notify_event(event, message) do
     {:ok, webhooks} = @persistence.all()
+    notify_event(event, message, webhooks)
+  end
+
+  def notify_event(event, message, webhooks) do
 
     replace_message = fn url ->
       encoded_message = URI.encode(message)
