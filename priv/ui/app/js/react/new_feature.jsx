@@ -33,6 +33,7 @@ var NewFeature = React.createClass({
 
   createFeature: function(feature) {
     this.props.createFeature(feature, this.reset);
+    this.setState({expanded: false});
   },
 
   handleCancel: function() {

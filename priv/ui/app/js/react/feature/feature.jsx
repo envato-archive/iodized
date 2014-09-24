@@ -54,7 +54,6 @@ var Feature = React.createClass({
   updateFeature: function (feature) {
     this.props.updateFeature(feature);
     this.setState({expanded: false});
-    return false;
   },
 
   handleDelete: function(){
@@ -78,7 +77,7 @@ var Feature = React.createClass({
           </div>
         </div>
         <div className="feature__edit">
-          <FeatureForm feature={this.props.feature} saveFeature={this.updateFeature}/>
+          <FeatureForm data-rowan="please" feature={this.props.feature} saveFeature={this.updateFeature}/>
           <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
         </div>
       </div>

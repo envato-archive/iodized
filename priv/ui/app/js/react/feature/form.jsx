@@ -50,6 +50,7 @@ var FeatureForm = React.createClass({
 
   handleSaveFeature: function() {
     this.props.saveFeature(this.state.editingFeature);
+    return false;
   },
 
   render: function() {
