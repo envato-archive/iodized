@@ -28601,13 +28601,25 @@
 	/** @jsx React.DOM */var React = __webpack_require__(1);
 	
 	var AlertHeader = React.createClass({displayName: 'AlertHeader',
+	  getInitialState: function() {
+	    return {visible: false};
+	  },
+	  propTypes: {
+	    message: React.PropTypes.string
+	  },
+	  getDefaultProps: function() {
+	    return {
+	      message: ''
+	    }
+	  },
 	  render: function () {
+	    var visible = this.state.visible ? '' : 'hide';
 	    return(
-	        React.DOM.div({className: "navbar-fixed-top"}, 
-	          React.DOM.div({className: "alert alert-danger text-center", role: "alert"}, 
-	          "Fatalis fides solite dignuss armarium est.Boreass mori, tanquam brevis" + ' ' +
-	          "demissio.Clabulares observare in copinga!Finis ires, tanquam altus bubo.Salvus gluten aliquando magicaes" + ' ' +
-	          "danista est"
+	        React.DOM.div({className: visible}, 
+	          React.DOM.div({className: "navbar-fixed-top"}, 
+	            React.DOM.div({className: "alert alert-danger text-center", role: "alert"}, 
+	              this.props.message
+	            )
 	          )
 	        )
 	        )
