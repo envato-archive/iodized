@@ -4,6 +4,7 @@ var FeatureSettings = require("./settings.jsx");
 
 var FeatureForm = React.createClass({
   propTypes: {
+    deleteButtonVisible: React.PropTypes.bool,
     feature: React.PropTypes.object.isRequired,
     onFeatureEdited: React.PropTypes.func,
     saveFeature: React.PropTypes.func.isRequired,
@@ -12,6 +13,7 @@ var FeatureForm = React.createClass({
 
   getDefaultProps: function(){
     return {
+      deleteButtonVisible: true,
       onFeatureEdited: function(){}
     }
   },
@@ -51,6 +53,10 @@ var FeatureForm = React.createClass({
   handleSaveFeature: function() {
     this.props.saveFeature(this.state.editingFeature);
     return false;
+  },
+
+  handleDelete: function() {
+    this.props.deleteFeature(this.state.editingFeature);
   },
 
   render: function() {
@@ -111,7 +117,11 @@ var FeatureForm = React.createClass({
           <label className="control-label">Feature Settings</label>
           <FeatureSettings definition={definition} />
         </div>
-        <button type="submit" className="btn btn-default btn-lg new-feature__submit" onClick={this.handleSaveFeature}>{this.submitButtonTitle()}</button>
+
+        <button type="submit" className="btn btn-default btn-lg pull-left new-feature__submit" onClick={this.handleSaveFeature}>{this.submitButtonTitle()}</button>
+        <div className={!this.props.deleteButtonVisible ? 'hide' : 'pull-right'}>
+          <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
+        </div>
       </form>
     );
   }
