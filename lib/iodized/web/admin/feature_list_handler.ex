@@ -45,6 +45,9 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
 
     {:ok, true} = @persistence.save_feature(feature)
 
+    Iodized.Notification.notify_event("create",
+                                      "Created feature " <> Iodized.Feature.feature_description(feature))
+
     {true, req, state}
   end
 end
