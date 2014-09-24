@@ -7,7 +7,7 @@ var BranchOperand = require("./branch/operand.jsx");
 var SettingsBranch = React.createClass({
 
   handleAddBtn: function (event) {
-    var definitions = this.state.definitions;
+    var definitions = this.props.definition.definitions;
     this.setState({definitions: definitions.concat([{
         operand: 'is',
         param_name: '',
@@ -21,7 +21,7 @@ var SettingsBranch = React.createClass({
   },
 
   handleAddParent: function (event) {
-    var definitions = this.state.definitions;
+    var definitions = this.props.definition.definitions;
     this.setState({definitions: definitions.concat([{
         operand: 'any',
         definitions: []
@@ -30,11 +30,13 @@ var SettingsBranch = React.createClass({
   },
 
   handleRemoveChild: function (i, key) {
-    var definitions = this.state.definitions;
+    var definitions = this.props.definition.definitions;
     console.log("remove at index", i, key);
 
     definitions.splice(i, 1);
-    this.forceUpdate();
+    //this.forceUpdate();
+    
+    this.props.onSettingsEdited();
   },
 
   buildDefinition: function() {
@@ -59,7 +61,9 @@ var SettingsBranch = React.createClass({
 
           {this.props.definition.definitions.map(function(definition, i) {
             var node;
-            var key = definition.operand + i + Math.random();
+            // var key = definition.operand + '_' + i;
+            var key = i + '.' + definition.operand;
+            console.log(key);
 
             if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
               node = <SettingsBranch ref={"definition" + i} key={key} definition={definition} onSettingsEdited={this.props.onSettingsEdited}/>;

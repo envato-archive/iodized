@@ -8,7 +8,7 @@ var NodeValue = React.createClass({
 
   handleValueChange: function (event) {
     this.setState({ value: event.target.value });
-    this.props.onSettingsChange();
+    //this.props.onSettingsChange();
   },
 
   render: function() {

@@ -10,18 +10,19 @@ var FeatureSettings = React.createClass({
 
   onSettingsEdited: function () {
     
-    var currentDefinitions = this.state.definition.definitions;
-
     var newDefinition = this.refs.branch.buildDefinition();
 
+    console.log(newDefinition);
+    
     this.setState({definition: newDefinition});
+
   },
 
   render: function() {
     return (
       <div className="list-group feature-settings">
         <div className="list-group-item">
-          <SettingsBranch definition={this.props.definition} onSettingsEdited={this.onSettingsEdited}/>
+          <SettingsBranch ref="branch" definition={this.props.definition} onSettingsEdited={this.onSettingsEdited}/>
         </div>
       </div>
     );
