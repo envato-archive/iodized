@@ -15,7 +15,7 @@ var BranchOperand = React.createClass({
       <div>
         <label>If </label>
         <label className="sr-only" htmlFor="">Condition</label>
-        <select value={this.state.operand} className="form-control feature-settings__condition" onChange={this.handleOperandChange}>
+        <select ref="operand" value={this.state.operand} className="form-control feature-settings__condition" onChange={this.handleOperandChange}>
           <option value="all">all</option>
           <option value="any">any</option>
           <option value="none">none</option>

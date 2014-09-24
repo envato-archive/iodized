@@ -13,14 +13,14 @@ var NodeParameter = React.createClass({
     //this.props.param_name = event.target.value;
     //console.log(this.props);
     
-    //this.props.onSettingsEdited();
+    // this.props.onSettingsEdited();
   },
 
   render: function() {
     return (
       <div className="form-group feature-settings__condition-pre--field">
         <label className="sr-only" htmlFor="">Parameter</label>
-        <input type="text" className="form-control" value={this.state.param_name} onChange={this.handleParamChange} placeholder="Main Attributes" />
+        <input ref="parameter" type="text" className="form-control" value={this.state.param_name} onChange={this.handleParamChange} placeholder="Main Attributes" />
       </div>
     );
   }

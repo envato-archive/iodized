@@ -6,13 +6,6 @@ var BranchOperand = require("./branch/operand.jsx");
 
 var SettingsBranch = React.createClass({
 
-  getInitialState: function() {
-    return {
-      definition: this.props.definition,
-      definitions: this.props.definition.definitions || []
-    };
-  },
-
   handleAddBtn: function (event) {
     var definitions = this.state.definitions;
     this.setState({definitions: definitions.concat([{
@@ -44,22 +37,34 @@ var SettingsBranch = React.createClass({
     this.forceUpdate();
   },
 
+  buildDefinition: function() {
+    return {
+      operand: this.refs.operand.refs.operand.getDOMNode().value,
+      definitions: this.props.definition.definitions.map(function(definition, i){
+        return this.refs["definition" + i].buildDefinition();
+      }, this)
+    }
+    //return definitionComponents.map(function(component){
+    //  return component.buildDefinition();
+    //});
+  },
+
   render: function() {
     
     return (
       <div className="list-group-item feature-settings__child-node">
         <div className="form-inline" role="form">
 
-          <BranchOperand handleRemoveBtn={this.handleRemoveBtn} handleAddBtn={this.handleAddBtn} handleAddParent={this.handleAddParent} />
+          <BranchOperand ref="operand" handleRemoveBtn={this.handleRemoveBtn} handleAddBtn={this.handleAddBtn} handleAddParent={this.handleAddParent} />
 
-          {this.state.definitions.map(function(definition, i) {
+          {this.props.definition.definitions.map(function(definition, i) {
             var node;
             var key = definition.operand + i + Math.random();
 
             if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
-              node = <SettingsBranch key={key} definition={definition} onSettingsEdited={this.props.onSettingsEdited}/>;
+              node = <SettingsBranch ref={"definition" + i} key={key} definition={definition} onSettingsEdited={this.props.onSettingsEdited}/>;
             } else {
-              node = <SettingsNode key={key} definition={definition} removeHandler={this.handleRemoveChild.bind(this, i, key)} onSettingsEdited={this.props.onSettingsEdited}/>;
+              node = <SettingsNode ref={"definition" + i} key={key} definition={definition} removeHandler={this.handleRemoveChild.bind(this, i, key)} onSettingsEdited={this.props.onSettingsEdited}/>;
             }
 
             return ( node );
