@@ -5353,10 +5353,6 @@ button.close {
     position: absolute;
     top: -13px;
     width: 0; }
-  .feature__edit small {
-    color: #999999; }
-  .feature__edit textarea {
-    max-width: 100%; }
 
 .feature__setting {
   height: auto;
