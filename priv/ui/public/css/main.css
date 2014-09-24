@@ -5488,10 +5488,11 @@ button.close {
     top: -9px;
     transition: none; }
 
-small {
-  color: #999999; }
+.feature-settings__condition {
+  margin: 0 10px; }
 
-textarea {
-  max-width: 100%; }
+.feature-settings__child-node {
+  padding: 10px;
+  margin: 10px 0 0 40px; }
 
 /*# sourceMappingURL=main.css.map */
