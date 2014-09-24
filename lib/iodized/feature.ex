@@ -35,4 +35,18 @@ defmodule Iodized.Feature do
     end
     {:ok, match}
   end
+
+  def feature_description(feature = %Iodized.Feature{master_switch_state: "on"}) do
+    feature.title <> " in state on"
+  end
+
+  def feature_description(feature = %Iodized.Feature{master_switch_state: "off"}) do
+    feature.title <> " in state off"
+  end
+
+  def feature_description(feature = %Iodized.Feature{master_switch_state: "dynamic"}) do
+    # TODO: Extend this in the future to provide a description of the dynamic state
+    feature.title <> " with a dynamically calculated state"
+  end
+
 end
