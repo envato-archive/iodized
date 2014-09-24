@@ -1,9 +1,6 @@
 var React = require("react/addons");
-var OperandAnyAll = require("./settings/operand_any_all.jsx");
-var OperandIs = require("./settings/operand_is.jsx");
-var OperandNot = require("./settings/operand_not.jsx");
-var OperandIncludedIn = require("./settings/operand_included_in.jsx");
-var OperandPercentage = require("./settings/operand_percentage.jsx");
+var SettingsBranch = require("./settings/branch.jsx");
+var SettingsNode = require("./settings/node.jsx");
 
 var FeatureSettings = React.createClass({
 
@@ -11,23 +8,14 @@ var FeatureSettings = React.createClass({
     return {definition: this.props.definition};
   },
 
-  handleConditionChange: function() {
-  },
-
   render: function() {
     var rootNode;
     var definition = this.state.definition;
 
-    if (definition.operand === "any" || definition.operand === "all") {
-      rootNode = <OperandAnyAll definition={definition} />;
-    } else if (definition.operand === "is") {
-      rootNode = <OperandIs definition={definition} />;
-    } else if (definition.operand === "not") {
-      rootNode = <OperandNot definition={definition} />;
-    } else if (definition.operand === "included_in") {
-      rootNode = <OperandIncludedIn definition={definition} />;
-    } else if (definition.operand === "percentage") {
-      rootNode = <OperandPercentage definition={definition} />;
+    if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
+      rootNode = <SettingsBranch definition={definition} />;
+    } else {
+      rootNode = <SettingsNode definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
     }
 
     return (
