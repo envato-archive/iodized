@@ -7,7 +7,13 @@ var NodeParameter = React.createClass({
   },
 
   handleParamChange: function (event) {
-    this.setState({ param_name: event.target.value });
+
+    this.setState({param_name: event.target.value});
+    //this.setState({param_name: event.target.value});
+    //this.props.param_name = event.target.value;
+    //console.log(this.props);
+    
+    //this.props.onSettingsEdited();
   },
 
   render: function() {

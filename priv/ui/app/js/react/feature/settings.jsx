@@ -8,14 +8,24 @@ var FeatureSettings = React.createClass({
     return {definition: this.props.definition};
   },
 
+  onSettingsEdited: function () {
+    /*var definition = React.addons.update(this.state.definition, {
+      $merge: { this.props.definition }
+    });*/
+    //this.setState({definition: this.props.definition});
+    
+    // this.forceUpdate();
+    //return false;
+  },
+
   render: function() {
     var rootNode;
     var definition = this.state.definition;
 
     if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
-      rootNode = <SettingsBranch definition={definition} />;
+      rootNode = <SettingsBranch definition={definition} onSettingsEdited={this.onSettingsEdited} />;
     } else {
-      rootNode = <SettingsNode definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)}/>;
+      rootNode = <SettingsNode definition={definition} removeHandler={this.handleRemoveChild.bind(this, i)} onSettingsEdited={this.onSettingsEdited} />;
     }
 
     return (

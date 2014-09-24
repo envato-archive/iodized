@@ -57,9 +57,9 @@ var SettingsBranch = React.createClass({
             var key = definition.operand + i + Math.random();
 
             if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
-              node = <SettingsBranch key={key} definition={definition} />;
+              node = <SettingsBranch key={key} definition={definition} onSettingsEdited={this.props.onSettingsEdited}/>;
             } else {
-              node = <SettingsNode key={key} definition={definition} removeHandler={this.handleRemoveChild.bind(this, i, key)}/>;
+              node = <SettingsNode key={key} definition={definition} removeHandler={this.handleRemoveChild.bind(this, i, key)} onSettingsEdited={this.props.onSettingsEdited}/>;
             }
 
             return ( node );

@@ -12,9 +12,9 @@ var SettingsNode = React.createClass({
   render: function() {
     return (
       <div className="list-group-item feature-settings__child-node">
-        <NodeParameter param_name={this.state.definition.param_name} />
-        <NodeOperand operand={this.state.definition.operand} />
-        <NodeValue value={this.state.definition.value} />
+        <NodeParameter definition={this.state.definition} param_name={this.state.definition.param_name} onSettingsEdited={this.props.onSettingsEdited} />
+        <NodeOperand operand={this.state.definition.operand} onSettingsEdited={this.props.onSettingsEdited} />
+        <NodeValue value={this.state.definition.value} onSettingsEdited={this.props.onSettingsEdited} />
         <a onClick={this.props.removeHandler}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
       </div>
     );
