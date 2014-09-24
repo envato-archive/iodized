@@ -26,6 +26,17 @@ defmodule Iodized.Definition do
   end
 
 
+  ## None
+  defmodule None do
+    defstruct definitions: []
+    defimpl Rule, for: None do
+      def matches?(none, state) do
+        !Enum.any?(none.definitions, &Rule.matches?(&1, state))
+      end
+    end
+  end
+
+
   ## IncludedIn
   defmodule IncludedIn do
     defstruct actual_state_param_name: nil, allowed_values: []
@@ -65,17 +76,6 @@ defmodule Iodized.Definition do
         id = state[percentage.actual_state_param_name]
         value = digest_int(id) |> rem(100)
         value < percentage.threshold
-      end
-    end
-  end
-
-
-  # Not
-  defmodule Not do
-    defstruct definition: nil
-    defimpl Rule, for: Not do
-      def matches?(not_value, state) do
-        not Rule.matches?(not_value.definition, state)
       end
     end
   end

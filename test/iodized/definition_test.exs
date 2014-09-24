@@ -26,6 +26,35 @@ defmodule Iodized.DefinitionTest do
     end
   end
 
+  defmodule NoneTest do
+    use ExUnit.Case, async: true
+    alias Iodized.Definition.None, as: None
+
+    test "is true if none conditions match" do
+      definition = %None{definitions: [false, false]}
+      assert Rule.matches?(definition, [])
+    end
+
+    test "is false if any conditions match" do
+      definition = %None{definitions: [true, false]}
+      assert !Rule.matches?(definition, [])
+    end
+
+    test "is false if all conditions match" do
+      definition = %None{definitions: [true, true]}
+      assert !Rule.matches?(definition, [])
+    end
+
+    test "it passes the state through to child conditions" do
+      definition = %None{definitions: [
+        fn(state) -> state[:foo] == 2 end,
+        fn(state) -> state[:bar] == 3 end
+      ]}
+      state = [foo: 1, bar: 2]
+      assert Rule.matches?(definition, state)
+    end
+  end
+
   defmodule AnyTest do
     use ExUnit.Case, async: true
     alias Iodized.Definition.Any, as: Any
@@ -104,18 +133,4 @@ defmodule Iodized.DefinitionTest do
     end
   end
 
-  defmodule NotTest do
-    use ExUnit.Case, async: true
-    alias Iodized.Definition.Not, as: Not
-
-    test "is true if the nested definition is false" do
-      definition = %Not{definition: false}
-      assert(Rule.matches?(definition, []))
-    end
-
-    test "is false if the nested definition is true" do
-      definition = %Not{definition: true}
-      refute(Rule.matches?(definition, []))
-    end
-  end
 end
