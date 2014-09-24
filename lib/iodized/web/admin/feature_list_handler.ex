@@ -43,11 +43,22 @@ defmodule Iodized.Web.Admin.FeatureListHandler do
     id = UUID.uuid4
     feature = %{feature | id: id}
 
-    {:ok, true} = @persistence.save_feature(feature)
+    if Iodized.Feature.valid_title?(feature.title) && title_unique(feature.title) do
+      {:ok, true} = @persistence.save_feature(feature)
 
-    Iodized.Notification.notify_event("create",
-                                      "Created feature " <> Iodized.Feature.feature_description(feature))
+      Iodized.Notification.notify_event("create",
+                                        "Created feature " <> Iodized.Feature.feature_description(feature))
 
-    {true, req, state}
+      {true, req, state}
+    else
+      {false, req, state}
+    end
+
+  end
+
+  defp title_unique(title) do
+    {:ok, features} = @persistence.all()
+
+    !Enum.any?(features, fn feature -> feature.title == title end)
   end
 end
