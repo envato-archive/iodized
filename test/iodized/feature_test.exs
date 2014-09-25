@@ -10,7 +10,8 @@ defmodule Iodized.FeatureTest do
             id: 1,
             title: "always on feature",
             description: "Does stuff",
-            master_switch_state: "on",
+            master_state: true,
+            dynamic_state: false,
             definition: nil
           },
 
@@ -18,7 +19,8 @@ defmodule Iodized.FeatureTest do
             id: 2,
             title: "always off feature",
             description: "Does nothing",
-            master_switch_state: "off",
+            master_state: false,
+            dynamic_state: false,
             definition: nil
           },
 
@@ -26,7 +28,8 @@ defmodule Iodized.FeatureTest do
             id: 3,
             title: "Pete's Feature",
             description: "Does stuff",
-            master_switch_state: "dynamic",
+            master_state: true,
+            dynamic_state: true,
             definition: %Iodized.Definition.All{definitions: [
                 %Iodized.Definition.Is{actual_state_param_name: "username", allowed_value: "paj"}
               ]
@@ -37,7 +40,8 @@ defmodule Iodized.FeatureTest do
             id: 3,
             title: "Pete's Feature",
             description: "Does stuff",
-            master_switch_state: "dynamic",
+            master_state: true,
+            dynamic_state: true,
             definition: %{
               operand: "all",
               definitions: [
@@ -72,21 +76,21 @@ defmodule Iodized.FeatureTest do
       assert(Iodized.Feature.from_json(serialized_feature) == feature)
     end
 
-    test "do?/2 is false when no state is sent and master_switch_state is nil", context do
+    test "do?/2 is false when no state is sent and master_state is false", context do
       feature = context[:useful_feature]
       state = context[:dummy_state]
       {:ok, result} = Iodized.Feature.do?(feature, state)
       refute(result)
     end
 
-    test "do?/2 is true when master_switch_state is true", context do
+    test "do?/2 is true when master_state is true and dynamic_state is false", context do
       feature = context[:always_on_feature]
       state = context[:dummy_state]
       {:ok, result} = Iodized.Feature.do?(feature, state)
       assert(result)
     end
 
-    test "do?/2 is true when master_switch_state is false", context do
+    test "do?/2 is false when master_state is false", context do
       feature = context[:always_off_feature]
       state = context[:dummy_state]
       {:ok, result} = Iodized.Feature.do?(feature, state)

@@ -2,7 +2,8 @@
 {
   "title": "foo_bar",
   "description": "super foo",
-  "master_switch_state": "dynamic",
+  "master_state": true,
+  "dynamic_state": true,
   "definition": {
     "operand":"any",
     "definitions":[
@@ -45,7 +46,8 @@
 {
   "title": "fuz_boz",
   "description": "not foo",
-  "master_switch_state": "dynamic",
+  "master_state": true,
+  "dynamic_state": true,
   "definition": {
     "operand":"any",
     "definitions":[
@@ -88,7 +90,8 @@
 {
   "title": "super_awesome_redesign",
   "description": "make the marketplace look COOL",
-  "master_switch_state": "dynamic",
+  "master_state": true,
+  "dynamic_state": true,
   "definition": {
     "operand":"any",
     "definitions":[
@@ -131,11 +134,13 @@
 {
   "title": "force_off_no_definition",
   "description": "foo",
-  "master_switch_state": "off"
+  "master_state": false,
+  "dynamic_state": false
 },
 {
   "title": "force_on_no_definition",
   "description": "foo",
-  "master_switch_state": "on"
+  "master_state": true,
+  "dynamic_state": false,
 }
 ]
