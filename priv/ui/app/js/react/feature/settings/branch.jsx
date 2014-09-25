@@ -62,7 +62,7 @@ var SettingsBranch = React.createClass({
   render: function() {
     
     return (
-      <div className="list-group-item feature-settings__child-node">
+      <div className="list-group-item feature-settings__tree-node">
         <div className="form-inline" role="form">
 
           <label>If </label>

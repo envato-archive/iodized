@@ -22,7 +22,7 @@ var SettingsNode = React.createClass({
 
   render: function() {
     return (
-      <div className="list-group-item feature-settings__child-node">
+      <div className="list-group-item feature-settings__tree-node--end-point">
         <div className="form-group feature-settings__condition-pre--field">
           <label className="sr-only" htmlFor="">Parameter</label>
           <input ref="parameter" type="text" className="form-control" value={this.state.definition.param_name} onChange={this.handleChange} placeholder="Main Attributes" />

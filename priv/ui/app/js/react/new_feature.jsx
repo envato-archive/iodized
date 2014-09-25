@@ -33,6 +33,7 @@ var NewFeature = React.createClass({
 
   createFeature: function(feature) {
     this.props.createFeature(feature, this.reset);
+    this.setState({expanded: false});
   },
 
   handleCancel: function() {
@@ -67,7 +68,7 @@ var NewFeature = React.createClass({
           <a href="#" onClick={this.handleCancel} className="new-feature__close">
             <span className="glyphicon glyphicon-remove"></span>
           </a>
-          <FeatureForm feature={this.state.feature} saveFeature={this.createFeature} onFeatureEdited={this.markDirty}/>
+          <FeatureForm feature={this.state.feature} saveFeature={this.createFeature} onFeatureEdited={this.markDirty} deleteButtonVisible={false} />
         </div>
       </div>
     );

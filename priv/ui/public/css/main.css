@@ -5378,6 +5378,7 @@ button.close {
     color: #2e507f; }
 
 .btn-delete {
+  margin-top: 15px;
   color: #ca3a3a;
   background-color: #fff;
   border-color: #ca3a3a; }
@@ -5488,10 +5489,11 @@ button.close {
     top: -9px;
     transition: none; }
 
-small {
-  color: #999999; }
+.feature-settings__condition {
+  margin: 0 10px; }
 
-textarea {
-  max-width: 100%; }
+.feature-settings__child-node {
+  padding: 10px;
+  margin: 10px 0 0 40px; }
 
 /*# sourceMappingURL=main.css.map */
