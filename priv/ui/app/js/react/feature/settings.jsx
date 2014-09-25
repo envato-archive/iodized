@@ -22,7 +22,7 @@ var FeatureSettings = React.createClass({
     return (
       <div className="list-group feature-settings">
         <div className="list-group-item">
-          <SettingsBranch ref="branch" definition={this.props.definition} onSettingsEdited={this.onSettingsEdited}/>
+          <SettingsBranch ref="branch" definition={this.props.definition} onSettingsEdited={this.onSettingsEdited} key="1.0" />
         </div>
       </div>
     );
