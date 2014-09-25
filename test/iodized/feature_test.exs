@@ -107,5 +107,14 @@ defmodule Iodized.FeatureTest do
       refute(result)
     end
 
+    test "valid_title?/2 is true when lowercase alphanumeric with underscores or dashes" do
+      assert Iodized.Feature.valid_title?("abc123_valid-title")
+    end
+
+    test "valid_title?/2 is false when an invalid character is in the title" do
+      refute Iodized.Feature.valid_title?("abc123 invalid-title")
+      refute Iodized.Feature.valid_title?("XYZ")
+      refute Iodized.Feature.valid_title?("")
+    end
   end
 end
