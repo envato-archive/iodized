@@ -17,32 +17,23 @@ var Feature = React.createClass({
 
   switchState: function (element) {
       if (element === 'checkbox') {
-          switch (this.props.feature.master_switch_state) {
-              case "on":
-              case "dynamic":
-                  return true;
-              case "off":
-                  return false;
-          }
+          return this.props.feature.master_state;
       }
       else {
           var expanded_class = this.state.expanded ? "is-expanded" : "is-collapsed";
-          switch (this.props.feature.master_switch_state) {
-              case "on":
-              case "dynamic":
-                  return 'feature--on ' + expanded_class;
-              case "off":
-                  return 'feature--off ' + expanded_class;
+          if (this.props.feature.master_state) {
+              return 'feature--on ' + expanded_class;
+          } else {
+              return 'feature--off ' + expanded_class;
           }
       }
   },
 
   toggleCSSClass: function () {
-      switch (this.props.feature.master_switch_state) {
-          case "dynamic":
-              return 'feature-toggle--dynamic';
-          default:
-              return 'feature-toggle';
+      if (this.props.feature.dynamic_state) {
+          return 'feature-toggle--dynamic';
+      } else {
+          return 'feature-toggle';
       }
   },
 
