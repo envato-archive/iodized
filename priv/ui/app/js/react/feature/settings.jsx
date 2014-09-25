@@ -6,8 +6,8 @@ var FeatureSettings = React.createClass({
 
   render: function() {
     return (
-      <div className="list-group feature-settings">
-        <div className="list-group-item">
+      <div className="feature-settings">
+        <div className="list-group">
           <SettingsBranch definition={this.props.definition} />
         </div>
       </div>
