@@ -1,6 +1,6 @@
 var React = require("react/addons");
 var FeatureSettings = require("./settings.jsx");
-
+var Dispatcher = require('flux').Dispatcher;
 
 var FeatureForm = React.createClass({
   propTypes: {

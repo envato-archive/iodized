@@ -1,6 +1,7 @@
 var React = require("react/addons");
 var SettingsBranch = require("./settings/branch.jsx");
 var SettingsNode = require("./settings/node.jsx");
+var Dispatcher = require('flux').Dispatcher;
 
 var FeatureSettings = React.createClass({
 

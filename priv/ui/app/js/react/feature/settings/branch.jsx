@@ -6,6 +6,10 @@ var BranchOperand = require("./branch/operand.jsx");
 
 var SettingsBranch = React.createClass({
 
+  getInitialState: function () {
+    return { definition: this.props.definition };
+  },
+
   handleAddBtn: function (event) {
     var definitions = this.props.definition.definitions;
     this.setState({definitions: definitions.concat([{
@@ -48,13 +52,30 @@ var SettingsBranch = React.createClass({
     }
   },
 
+  handleOperandChange: function (event) {
+    var definition = this.props.definition;
+    this.setState({ definition: { 
+      operand: event.target.value
+    }});
+  },
+
   render: function() {
     
     return (
       <div className="list-group-item feature-settings__child-node">
         <div className="form-inline" role="form">
 
-          <BranchOperand ref="operand" handleRemoveBtn={this.handleRemoveBtn} handleAddBtn={this.handleAddBtn} handleAddParent={this.handleAddParent} />
+          <label>If </label>
+          <label className="sr-only" htmlFor="">Condition</label>
+          <select ref="operand" value={this.state.definition.operand} className="form-control feature-settings__condition" onChange={this.handleOperandChange}>
+            <option value="all">all</option>
+            <option value="any">any</option>
+            <option value="none">none</option>
+          </select>
+          <label>of the following is true:</label>
+          <a onClick={this.handleRemoveBtn}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
+          <a onClick={this.handleAddBtn}><span className="glyphicon glyphicon-plus-sign feature__setting-icon pull-right"></span></a>
+          <a onClick={this.handleAddParent}><span className="glyphicon glyphicon-download feature__setting-icon pull-right"></span></a>
 
           {this.props.definition.definitions.map(function(definition, i) {
             var node, key, branchKey;

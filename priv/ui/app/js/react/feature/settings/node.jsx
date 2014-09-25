@@ -1,7 +1,4 @@
 var React = require("react/addons");
-var NodeParameter = require("./node/parameter.jsx");
-var NodeOperand = require("./node/operand.jsx");
-var NodeValue = require("./node/value.jsx");
 
 var SettingsNode = React.createClass({
 
@@ -17,12 +14,32 @@ var SettingsNode = React.createClass({
     }
   },
 
+  handleChange: function () {
+    
+    // this.setState({ value: event.target.value });
+    
+  },
+
   render: function() {
     return (
       <div className="list-group-item feature-settings__child-node">
-        <NodeParameter ref="parameter" param_name={this.state.definition.param_name} onSettingsEdited={this.props.onSettingsEdited} />
-        <NodeOperand ref="operand" operand={this.state.definition.operand} onSettingsEdited={this.props.onSettingsEdited} />
-        <NodeValue ref="value" value={this.state.definition.value} onSettingsEdited={this.props.onSettingsEdited} />
+        <div className="form-group feature-settings__condition-pre--field">
+          <label className="sr-only" htmlFor="">Parameter</label>
+          <input ref="parameter" type="text" className="form-control" value={this.state.definition.param_name} onChange={this.handleChange} placeholder="Main Attributes" />
+        </div>
+        <div className="form-group feature-settings__condition">
+          <label className="sr-only" htmlFor="">Condition</label>
+          <select ref="operand" value={this.state.definition.operand} className="form-control feature-settings__condition" onChange={this.handleChange}>
+            <option value="is">is</option>
+            <option value="not">not</option>
+            <option value="included_in">included in</option>
+            <option value="percentage">percentage</option>
+          </select>
+        </div>
+        <div className="form-group feature-settings__condition-post--field">
+          <label className="sr-only" htmlFor="">Value</label>
+          <input ref="value" type="text" className="form-control" id="" value={this.state.definition.value} onChange={this.handleChange} placeholder="Free Text" size="40" />
+        </div>
         <a onClick={this.props.removeHandler}><span className="glyphicon glyphicon-minus-sign feature__setting-icon  pull-right"></span></a>
       </div>
     );
