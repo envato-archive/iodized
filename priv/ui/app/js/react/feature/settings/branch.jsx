@@ -57,10 +57,10 @@ var SettingsBranch = React.createClass({
           <BranchOperand ref="operand" handleRemoveBtn={this.handleRemoveBtn} handleAddBtn={this.handleAddBtn} handleAddParent={this.handleAddParent} />
 
           {this.props.definition.definitions.map(function(definition, i) {
-            var node, key;
+            var node, key, branchKey;
 
-            var key = this.props.key + '.' + i;
-            var branchKey = (parseInt(this.props.key.charAt(0)) + 1) + '.' + i;
+            key = this.props.key + '.' + i;
+            branchKey = (parseInt(this.props.key.charAt(0)) + 1) + '.' + i;
 
             if (definition.operand === "any" || definition.operand === "all" || definition.operand === "none") {
               node = <SettingsBranch ref={"definition" + i} key={branchKey} definition={definition} onSettingsEdited={this.props.onSettingsEdited} parent={this} />;
