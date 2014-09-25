@@ -1,21 +1,13 @@
-@import "vendor/switchery"
-//needs to before as bootstrap uses !default
 @import "vendor-overrides/bootstrap-variables"
 @import "vendor/bootstrap/bootstrap"
 
-@import "custom-variables"
 @import "mixins"
 
-@import "animations"
-
-@import "vendor-overrides/switchery"
+@import "modules/colors"
+@import "modules/animations"
 
 @import "modules/branding"
 @import "modules/feature"
+@import "modules/feature-toggle"
 @import "modules/new-feature"
-
-small
-  color: $gray-light
-
-textarea
-  max-width: 100%
+@import "modules/feature-settings"

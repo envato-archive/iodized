@@ -1,6 +1,7 @@
 var React = require("react");
 var jquery = require("jquery");
 var FeatureForm = require("./form.jsx");
+var FeatureToggle = require("./feature_toggle.jsx");
 
 var Feature = React.createClass({
   propTypes: {
@@ -36,24 +37,27 @@ var Feature = React.createClass({
       }
   },
 
-  handleEdit: function(){
-    this.setState({expanded: !this.state.expanded})
-    return false;
+  toggleCSSClass: function () {
+      switch (this.props.feature.master_switch_state) {
+          case "dynamic":
+              return 'feature-toggle--dynamic';
+          default:
+              return 'feature-toggle';
+      }
   },
 
-  handleToggle: function(e){
-    this.props.toggleFeature(this.props.feature, e.target.checked);
+  handleEdit: function(){
+    this.setState({expanded: !this.state.expanded})
     return false;
   },
 
   updateFeature: function (feature) {
     this.props.updateFeature(feature);
     this.setState({expanded: false});
-    return false;
   },
 
-  handleDelete: function(){
-    this.props.deleteFeature(this.props.feature);
+  handleDelete: function(feature){
+    this.props.deleteFeature(feature);
     this.setState({expanded: false});
     return false;
   },
@@ -69,12 +73,11 @@ var Feature = React.createClass({
             <p>{feature.description}</p>
           </div>
           <div className="feature__switch">
-            <input type="checkbox" checked={this.switchState('checkbox')} className="js-switch" onChange={this.handleToggle}/>
+            <FeatureToggle cssClass={this.toggleCSSClass()} checkedState={this.switchState('checkbox')} toggleFeature={this.props.toggleFeature} feature={this.props.feature} />
           </div>
         </div>
         <div className="feature__edit">
-          <FeatureForm feature={this.props.feature} saveFeature={this.updateFeature}/>
-          <button className="btn btn-delete" onClick={this.handleDelete} type="submit">Delete Feature</button>
+          <FeatureForm feature={this.props.feature} deleteFeature={this.handleDelete} saveFeature={this.updateFeature}/>
         </div>
       </div>
     )

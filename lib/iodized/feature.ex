@@ -39,6 +39,10 @@ defmodule Iodized.Feature do
     {:ok, match}
   end
 
+  def valid_title?(title) do
+    Regex.match?(~r/^[a-z0-9_\-]+$/, title)
+  end
+
   def feature_description(feature = %Iodized.Feature{master_state: true}) do
     feature.title <> " in state on"
   end

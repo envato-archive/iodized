@@ -5,6 +5,8 @@
   "main": "iodized.js",
   "private": true,
   "scripts": {
+    "gulp": "gulp",
+    "gulp-build-dev": "gulp build-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -30,6 +30,15 @@ defmodule Iodized.DefinitionJson do
     end
   end
 
+  defp from_json("none", definition) do
+    %Iodized.Definition.None{definitions: Enum.map(Dict.fetch!(definition, :definitions), &from_json/1)}
+  end
+  defimpl Json, for: Iodized.Definition.None do
+    def to_json(none) do
+      %{operand: "none", definitions: Enum.map(none.definitions || [], &Json.to_json(&1))}
+    end
+  end
+
   defp from_json("included_in", definition) do
     actual_state_param_name = Dict.fetch!(definition, :param_name)
     allowed_values = Dict.fetch!(definition, :value)
@@ -69,21 +78,6 @@ defmodule Iodized.DefinitionJson do
         operand: "percentage",
         param_name: percentage.actual_state_param_name,
         value: percentage.threshold,
-      }
-    end
-  end
-
-  defp from_json("not", definition) do
-    definition = Dict.fetch!(definition, :definition)
-    %Iodized.Definition.Not{
-      definition: from_json(definition)
-    }
-  end
-  defimpl Json, for: Iodized.Definition.Not do
-    def to_json(not_key) do
-      %{
-        operand: "not",
-        definition: Json.to_json(not_key.definition)
       }
     end
   end
