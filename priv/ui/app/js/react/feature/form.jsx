@@ -66,29 +66,14 @@ var FeatureForm = React.createClass({
       "operand": "any",
       "definitions": [
       {
-        "operand": "all",
-        "definitions": [
-        {
-          "operand": "included_in",
-          "param_name": "username",
-          "value": [ "madlep", "gstamp" ]
-        },
-        {
-          "operand": "included_in",
-          "param_name": "host",
-          "value": [ "themeforest.net", "codecanyon.net" ]
-        }
-        ]
-      },
-      {
-        "operand": "is",
-        "param_name": "session_on",
-        "value": "true"
+        "operand": "included_in",
+        "param_name": "username",
+        "value": [ "bob", "alice", "john" ]
       },
       {
         "operand": "included_in",
-        "param_name": "role",
-        "value": [ "developer" ]
+        "param_name": "host",
+        "value": [ "themeforest.net", "codecanyon.net" ]
       }
       ]
     };
