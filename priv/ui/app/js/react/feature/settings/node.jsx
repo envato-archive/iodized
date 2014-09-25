@@ -11,7 +11,7 @@ var SettingsNode = React.createClass({
 
   render: function() {
     return (
-      <div className="list-group-item feature-settings__child-node">
+      <div className="list-group-item feature-settings__tree-node--end-point">
         <NodeParameter param_name={this.state.definition.param_name} />
         <NodeOperand operand={this.state.definition.operand} />
         <NodeValue value={this.state.definition.value} />

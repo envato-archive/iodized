@@ -14,7 +14,7 @@ var NodeOperand = React.createClass({
     return (
       <div className="form-group feature-settings__condition">
         <label className="sr-only" htmlFor="">Condition</label>
-        <select value={this.state.operand} className="form-control feature-settings__condition" onChange={this.handleOperandChange}>
+        <select value={this.state.operand} className="form-control" onChange={this.handleOperandChange}>
           <option value="is">is</option>
           <option value="not">not</option>
           <option value="included_in">included in</option>
