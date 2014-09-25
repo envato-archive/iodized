@@ -114,6 +114,7 @@ defmodule Iodized.FeatureTest do
     test "valid_title?/2 is false when an invalid character is in the title" do
       refute Iodized.Feature.valid_title?("abc123 invalid-title")
       refute Iodized.Feature.valid_title?("XYZ")
+      refute Iodized.Feature.valid_title?("")
     end
   end
 end
