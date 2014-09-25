@@ -19,7 +19,7 @@ var SettingsNode = React.createClass({
 
   render: function() {
     return (
-      <div className={this.props.hidden + " list-group-item feature-settings__child-node"}>
+      <div className="list-group-item feature-settings__child-node">
         <NodeParameter ref="parameter" param_name={this.state.definition.param_name} onSettingsEdited={this.props.onSettingsEdited} />
         <NodeOperand ref="operand" operand={this.state.definition.operand} onSettingsEdited={this.props.onSettingsEdited} />
         <NodeValue ref="value" value={this.state.definition.value} onSettingsEdited={this.props.onSettingsEdited} />
