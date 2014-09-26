@@ -4,6 +4,7 @@ var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
 var sass = require('gulp-ruby-sass');
 var del = require('del');
+var minifyCSS = require('gulp-minify-css');
 
 gulp.task("default", ["build"]);
 
@@ -16,7 +17,7 @@ gulp.task("build-dev", ["clean-public", "webpack:build-dev", "sass", "images", "
 });
 
 // Production build
-gulp.task("build", ["clean-public", "webpack:build", "sass", "images", "html", "css"]);
+gulp.task("build", ["clean-public", "webpack:build", "sass", "images", "html", "css", "minify-css"]);
 
 gulp.task("clean-public", function() {
   del(["!public/*"], function(err) {
@@ -89,4 +90,10 @@ gulp.task("html", function() {
 gulp.task("css", function() {
   return gulp.src("app/css/**/*")
     .pipe(gulp.dest('public/css'));
+});
+
+gulp.task('minify-css', ['css', 'sass'], function() {
+  gulp.src('./public/css/main.css')
+    .pipe(minifyCSS())
+    .pipe(gulp.dest('./public/css'))
 });
