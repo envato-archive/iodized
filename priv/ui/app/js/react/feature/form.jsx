@@ -72,9 +72,9 @@ var FeatureForm = React.createClass({
         "value": [ "bob", "alice", "john" ]
       },
       {
-        "operand": "included_in",
-        "param_name": "host",
-        "value": [ "themeforest.net", "codecanyon.net" ]
+        "operand": "percentage",
+        "param_name": "ip",
+        "value": "10"
       }
       ]
     };
