@@ -1,10 +1,17 @@
 # Iodized
+![Iodized logo](https://i.imgur.com/lLJPXum.png)
 
 [![Build Status](https://travis-ci.org/envato/iodized.png)](https://travis-ci.org/envato/iodized)
 
+Iodine rich feature toggling. Lack of iodine can lead to development delays, and stunted growth.
+
 Iodized is a [feature toggling](http://martinfowler.com/bliki/FeatureToggle.html) system built by [envato](http://www.envato.com/).
 
-This is still very alpha quality, and not fully feature complete yet.
+## Development status:
+
+This is still very alpha quality, and not fully feature complete yet. It is undergoing heavy, regular development though, and is very close to being used in production at Envato.
+
+If you're thinking about using Iodized, we would **LOVE** for you to tell us about it. Real users outside of Envato help enormously with deciding direction for Iodized. We're building this to solve our problems initially, but want it to solve common feature toggling problems across many organizations.
 
 ## Features:
 - Handles high throughput of requests
