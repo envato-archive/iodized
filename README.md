@@ -1,11 +1,9 @@
-# Iodized
 ![Iodized logo](https://i.imgur.com/lLJPXum.png)
 
+Iodine rich [feature toggling](http://martinfowler.com/bliki/FeatureToggle.html)
+by [envato](http://www.envato.com/). Lack of iodine can lead to development delays, and stunted growth.
+
 [![Build Status](https://travis-ci.org/envato/iodized.png)](https://travis-ci.org/envato/iodized)
-
-Iodine rich feature toggling. Lack of iodine can lead to development delays, and stunted growth.
-
-Iodized is a [feature toggling](http://martinfowler.com/bliki/FeatureToggle.html) system built by [envato](http://www.envato.com/).
 
 ## Development status:
 
@@ -33,6 +31,8 @@ can test and fix problems before re-enabling for everyone
 only want to turn it on for a set of named users, and only on those sites.
 - we're launching new experimental feature. we want to launch it to 1% of users,
   then gradually scale up
+- we've got multiple apps serving all these usecases across multiple domains,
+  and want to have one co-ordinated system to handle feature toggles across all of them
 
 
 ## overview
