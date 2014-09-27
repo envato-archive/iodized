@@ -23,6 +23,7 @@
     "del": "^0.1.1",
     "flux": "^2.0.1",
     "gulp": "^3.8.6",
+    "gulp-minify-css": "^0.3.10",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-util": "^3.0.0",
     "jquery": "^2.1.1",
