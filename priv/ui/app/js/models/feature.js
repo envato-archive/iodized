@@ -1,4 +1,4 @@
-var Feature = function(attrs){
+var FeatureModel = function(attrs){
   this.id            = (attrs && attrs.id) || null;
   this.title         = (attrs && attrs.title) || null;
   this.description   = (attrs && attrs.description) || null;
@@ -7,7 +7,7 @@ var Feature = function(attrs){
   this.definition    = (attrs && attrs.definition) || null;
 };
 
-Feature.prototype.toggle = function(toggleState) {
+FeatureModel.prototype.toggle = function(toggleState) {
   if (toggleState) {
     this.master_state = true;
   } else {
@@ -15,8 +15,8 @@ Feature.prototype.toggle = function(toggleState) {
   }
 }
 
-Feature.prototype.isNew = function() {
+FeatureModel.prototype.isNew = function() {
   return this.id === null;
 }
 
-module.exports = Feature;
+module.exports = FeatureModel;

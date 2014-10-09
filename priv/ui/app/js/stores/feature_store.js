@@ -2,7 +2,7 @@ var IodizedDispatcher = require('../dispatcher/iodized_dispatcher.js');
 var EventEmitter = require('events').EventEmitter;
 var FeatureConstants = require('../constants/feature_constants');
 var merge = require('react/lib/merge');
-var FeatureRepo = requrei('../feature_repo.js');
+var FeatureRepo = require('../feature_repo.js');
 
 var CHANGE_EVENT = 'change';
 
@@ -16,15 +16,18 @@ function update(feature) {
   _features[feature.id] = feature;
 }
 
-function destroy(feature.id) {
+function destroy(feature) {
   delete _features[feature.id];
 }
 
 var FeatureStore = merge(EventEmitter.prototype, {
 
-
   getAll: function() {
-    return _features.sort(function(f1, f2) {
+    var fs = Object.keys(_features).map(function(id){
+      return _features[id];
+    });
+
+    return fs.sort(function(f1, f2) {
       return f1.title > f2.title;
     });
   },

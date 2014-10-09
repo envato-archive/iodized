@@ -11,4 +11,4 @@ var IodizedDispatcher = copyProperties(new Dispatcher(), {
 
 });
 
-module.exports = AppDispatcher;
+module.exports = IodizedDispatcher;
