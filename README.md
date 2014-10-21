@@ -69,6 +69,7 @@ client (web) library
 instructions](http://elixir-lang.org/install.html)
 - `git clone https://github.com/envato/iodized.git`
 - `cd iodized && ./script/setup.sh`
+- `iex -S mix`
 - open [http://localhost:8080](http://localhost:8080) for admin
 - check out [iodized_ruby_client](https://github.com/envato/iodized_ruby_client)
   for how to use iodized in your code
