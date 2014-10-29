@@ -1,0 +1,97 @@
+.new-feature {
+  margin-bottom: 25px;
+  position: relative;
+  > div {
+    display: none;
+  }
+  &.is-collapsed {
+    > button {
+      @include animate(zoomOut, 0.2s);
+    }
+    > div {
+      display: none;
+    }
+  }
+  &.is-expanded {
+    > button {
+      display: none;
+    }
+    &:before {
+      display: none;
+    }
+    > div {
+      display: block;
+      @include animate(zoomIn, 0.2s);
+    }
+  }
+  &:before {
+    border-top: 1px solid darken($gray-lighter, 10%);
+    content: "";
+    left: 0;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    z-index: 0;
+  }
+}
+
+.new-feature__add {
+  background-color: darken($gray-lighter, 10%);
+  border-radius: 50%;
+  display: block;
+  height: 40px;
+  margin: 0 auto;
+  position: relative;
+  transition: background-color 0.2s;
+  width: 40px;
+  z-index: 1;
+  &:hover {
+    background-color: darken($gray-lighter, 15%);
+    span {
+      color: $black;
+    }
+  }
+  &:active, &:focus:active {
+    outline: none;
+  }
+}
+
+.new-feature__content {
+  @extend .row;
+  background-color: $white;
+  border-radius: $border-radius-base;
+  padding: 20px;
+  position: relative;
+  > input {
+    display: block;
+  }
+}
+
+.new-feature__close {
+  background-color: $white;
+  border: 5px solid $gray-lighter;
+  border-radius: 50%;
+  color: $gray-light;
+  font-size: 20px;
+  height: 40px;
+  position: absolute;
+  right: -10px;
+  text-align: center;
+  top: -10px;
+  width: 40px;
+  > span {
+    position: relative;
+    top: 4px;
+  }
+  &:hover {
+    color: $gray;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transition: all 0.2s;
+  }
+  &:active {
+    background-color: darken($white, 2%);
+    top: -9px;
+    transition: none;
+  }
+}
