@@ -1,0 +1,38 @@
+.branding {
+  @extend .row;
+  padding: 30px 0;
+}
+
+.branding__logo {
+  @extend .col-xs-10;
+  @extend .col-xs-offset-1;
+  @extend .col-md-4;
+  @extend .col-md-offset-0;
+  margin-bottom: 20px;
+  &:hover {
+    opacity: 0.95;
+  }
+  @media (min-width: $screen-md-min) {
+    margin-bottom: 0;
+  }
+}
+
+.branding__tagline {
+  @extend .col-xs-10;
+  @extend .col-xs-offset-1;
+  @extend .col-md-4;
+  @extend .col-md-offset-0;
+  text-align: center;
+  @media (min-width: $screen-md-min) {
+    margin-top: 3px;
+    text-align: left;
+  }
+}
+
+.branding__cta {
+  @extend .col-md-3;
+  @extend .col-md-offset-1;
+  @media (min-width: $screen-md-min) {
+    margin-top: 6px;
+  }
+}
