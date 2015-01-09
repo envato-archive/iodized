@@ -1,5 +1,6 @@
 /ebin
 /deps
+/.exenv-version
 erl_crash.dump
 *.ez
 dump.rdb
