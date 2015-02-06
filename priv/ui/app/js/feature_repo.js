@@ -1,20 +1,20 @@
 var jquery = require('jquery');
-var FeatureModel = require("./feature_model");
+var Feature = require("./models/feature");
 
-var FeatureRepo = function(url){
-  this.url = url;
-};
+var URL = "admin/api/features";
 
-FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
+var FeatureRepo = {};
+
+FeatureRepo.fetchFeatures = function(onSuccess, onError){
   var featureModelBuilder = function(featureData){
     var featureModelData = featureData.map(function(feature){
-      return new FeatureModel(feature);
+      return new Feature(feature);
     });
     onSuccess(featureModelData);
   };
 
   jquery.ajax({
-    url: this.url,
+    url: URL,
     dataType: 'json',
     success: featureModelBuilder,
     error: onError || function(xhr, status, err) {
@@ -23,35 +23,23 @@ FeatureRepo.prototype.fetchFeatures = function(onSuccess, onError){
   });
 };
 
-FeatureRepo.prototype.createFeature = function(feature, onSuccess, onError){
+FeatureRepo.saveFeature = function(feature, onSuccess, onError){
   jquery.ajax({
-    url: this.url,
-    contentType: 'application/json',
-    type: 'POST',
-    data: JSON.stringify(feature),
-    success: onSuccess,
-    error: onError || function(xhr, status, err) {
-      console.error(status, err);
-    }
-  });
-}
-
-FeatureRepo.prototype.updateFeature = function(feature, onSuccess, onError){
-  jquery.ajax({
-    url: this.url + "/" + feature.id,
+    url: URL + "/" + feature.id,
     contentType: 'application/json',
     type: 'PUT',
     data: JSON.stringify(feature),
+    dataType: "text", // because JQuery doesn't like 201 response with empty body (it tries to JSON parse it). "text" stops it blowing up
     success: onSuccess,
     error: onError || function(xhr, status, err) {
-      console.error(status, err);
+      console.error("something barfed saving feature", xhr, status, err);
     }
   });
 }
 
-FeatureRepo.prototype.deleteFeature = function(feature, onSuccess, onError){
+FeatureRepo.deleteFeature = function(feature, onSuccess, onError){
   jquery.ajax({
-    url: this.url + "/" + feature.id,
+    url: URL + "/" + feature.id,
     type: 'DELETE',
     success: onSuccess,
     error: onError || function(xhr, status, err) {

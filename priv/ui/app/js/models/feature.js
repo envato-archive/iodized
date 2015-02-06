@@ -1,22 +1,22 @@
-var FeatureModel = function(attrs){
-  this.id            = (attrs && attrs.id) || null;
-  this.title         = (attrs && attrs.title) || null;
-  this.description   = (attrs && attrs.description) || null;
-  this.master_state  = (attrs && attrs.master_state) || null;
-  this.dynamic_state = (attrs && attrs.dynamic_state) || null;
-  this.definition    = (attrs && attrs.definition) || null;
-};
+var Immutable = require("immutable");
+var UUID = require("uuid-js");
 
-FeatureModel.prototype.toggle = function(toggleState) {
+var Feature = Immutable.Record( {
+  id: UUID.create(),
+  title: "",
+  description: "",
+  master_state: false,
+  dynamic_state: true,
+  definition: null,
+  isNew: true
+}, "Feature");
+
+Feature.prototype.toggle = function(toggleState) {
   if (toggleState) {
-    this.master_state = true;
+    return this.set("master_state", true);
   } else {
-    this.master_state = false;
+    return this.set("master_state", false);
   }
 }
 
-FeatureModel.prototype.isNew = function() {
-  return this.id === null;
-}
-
-module.exports = FeatureModel;
+module.exports = Feature;

@@ -3,9 +3,8 @@ var FeatureRepo = require("./feature_repo");
 var FeatureBox = require("./components/feature_box.jsx");
 
 document.addEventListener("DOMContentLoaded", function () {
-    var featureRepo = new FeatureRepo("admin/api/features");
-    React.renderComponent(
-        <FeatureBox featureRepo={featureRepo}/>, document.getElementById("iodized")
-    );
+  React.renderComponent(
+    <FeatureBox/>, document.getElementById("iodized")
+  );
 });
 

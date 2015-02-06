@@ -1,23 +1,23 @@
-var IodizedDispatcher = require("../dispatcher/iodized_dispatcher.js");
-var EventEmitter = require("events").EventEmitter;
-var FeatureConstants = require("../constants/feature_constants");
-var merge = require("react/lib/merge");
+var IodizedDispatcher = require('../dispatcher/iodized_dispatcher.js');
+var EventEmitter = require('events').EventEmitter;
+var FeatureConstants = require('../constants/feature_constants');
+var merge = require('react/lib/merge');
+var Immutable = require("immutable");
 
-var Feature = require("../models/feature.js");
+var CHANGE_EVENT = 'change';
 
-var CHANGE_EVENT = "change";
+var _newFeature = null;
 
-var _newFeature = new Feature();
-
-function edit(feature) {
+function pushEdit(feature) {
   _newFeature = feature;
 }
 
-function stopEditing(feature) {
-  _newFeature = new Feature();
+function cancel() {
+  _newFeature = null;
 }
 
 var NewFeatureStore = merge(EventEmitter.prototype, {
+
   getNewFeature: function() {
     return _newFeature;
   },
@@ -39,12 +39,26 @@ IodizedDispatcher.register(function(payload) {
   var action = payload.action;
 
   switch(action.actionType) {
-    case FeatureConstants.FEATURE_NEW_EDIT:
-      edit(action.feature);
+    case FeatureConstants.NEW:
+      pushEdit(action.feature);
       break;
 
-    case FeatureConstants.FEATURE_NEW_EDIT_CANCEL:
-      stopEditing(action.feature);
+    case FeatureConstants.EDIT:
+      var feature = action.feature;
+      if (feature.isNew) {
+        pushEdit(feature);
+      }
+      break;
+
+    case FeatureConstants.CANCEL_EDIT:
+      var feature = action.feature;
+      if (feature.isNew) {
+        cancel();
+      }
+      break;
+
+    case FeatureConstants.CREATE:
+      cancel();
       break;
 
     default:

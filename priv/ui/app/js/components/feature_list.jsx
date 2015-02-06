@@ -8,10 +8,9 @@ var FeatureList = React.createClass({
   },
 
   render: function() {
-    var featureNodes = this.props.features.map(function (feature, index) {
-      if // TODO YOU GOT TO HERE!!!
+    var featureNodes = this.props.features.map(function (feature) {
       return (
-        <Feature key={feature.id} feature={feature} updateFeature={this.props.updateFeature} toggleFeature={this.props.toggleFeature} deleteFeature={this.props.deleteFeature} />
+        <Feature key={feature.id} feature={feature} />
       )
     }.bind(this));
     return (

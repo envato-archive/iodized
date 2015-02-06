@@ -1,67 +1,39 @@
 var React = require("react/addons");
 var FeatureSettings = require("./settings.jsx");
-
+var FeatureViewActions = require("../../actions/feature_view_actions.js");
 
 var FeatureForm = React.createClass({
   propTypes: {
-    deleteButtonVisible: React.PropTypes.bool,
-    feature: React.PropTypes.object.isRequired,
-    onFeatureEdited: React.PropTypes.func,
-    saveFeature: React.PropTypes.func.isRequired,
-    deleteFeature: React.PropTypes.func
+    feature: React.PropTypes.object.isRequired
   },
 
-  getDefaultProps: function(){
-    return {
-      deleteButtonVisible: true,
-      onFeatureEdited: function(){}
-    }
-  },
-
-  getInitialState: function(){
-    return {editingFeature: this.props.feature};
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-    if (nextProps.feature !== this.props.feature) {
-      this.setState({editingFeature: this.props.feature});
-    }
-  },
-
-  handleChange: function() {
-    var editingFeature = React.addons.update(this.state.editingFeature, {
-      $merge: {
-        title: this.refs.title.getDOMNode().value,
-        description: this.refs.description.getDOMNode().value,
-        master_state: true,
-        dynamic_state: this.refs.dynamic_state.getDOMNode().checked,
-        definition: null
+  changeHandler: function(fieldName, accessor) {
+    return function(e) {
+      if (accessor === undefined) {
+        accessor = 'value'
       }
-    });
-    this.setState({editingFeature: editingFeature});
-    this.props.onFeatureEdited();
-    return false;
+      var feature = this.props.feature;
+      var value = this.refs[fieldName].getDOMNode()[accessor]
+      feature = feature.set(fieldName, value);
+      FeatureViewActions.editFeature(feature, false);
+    }.bind(this);
+  },
+
+  handleSaveFeature: function(e) {
+    e.preventDefault();
+    FeatureViewActions.saveFeature(this.props.feature);
   },
 
   submitButtonTitle: function() {
-    if (this.state.editingFeature.isNew()) {
+    if (this.props.feature.isNew) {
       return "Add new feature";
     } else {
       return "Update feature";
     }
   },
 
-  handleSaveFeature: function() {
-    this.props.saveFeature(this.state.editingFeature);
-    return false;
-  },
-
-  handleDelete: function() {
-    this.props.deleteFeature(this.state.editingFeature);
-  },
-
   render: function() {
-    var feature = this.state.editingFeature;
+    var feature = this.props.feature;
 
     var definition = {
       "operand": "any",
@@ -83,16 +55,16 @@ var FeatureForm = React.createClass({
       <form ref="form" role="form">
         <div className="form-group">
           <label className="control-label" htmlFor="featureTitleInput">Feature Name</label>
-          <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" value={feature.title || ""} onChange={this.handleChange} />
+          <input type="text" className="form-control input-lg" ref="title" id="featureTitleInput" value={feature.title || ""} onChange={this.changeHandler("title")} />
           <small>Lower case and underscores only, no spaces</small>
         </div>
         <div className="form-group">
           <label className="control-label" htmlFor="featureDescriptionInput">Description</label>
-          <textarea className="form-control input-lg" ref="description" rows="3" id="featureDescriptionInput" value={feature.description || ""} onChange={this.handleChange}></textarea>
+          <textarea className="form-control input-lg" ref="description" rows="3" id="featureDescriptionInput" value={feature.description || ""} onChange={this.changeHandler("description")}></textarea>
           <small>A word or two on what the feature does so it can be easily identified if there are many active feature toggles on the page</small>
         </div>
         <div className="form-inline feature-settings__switch pull-right">
-          <input type="checkbox" id="featureDynamicStateInput" checked={feature.dynamic_state || false} className="form-control" ref="dynamic_state" onChange={this.handleChange} />
+          <input type="checkbox" id="featureDynamicStateInput" checked={feature.dynamic_state} className="form-control" ref="dynamic_state" onChange={this.changeHandler("dynamic_state", "checked")} />
           <label htmlFor="featureDynamicStateInput">Dynamic On/Off</label>
         </div>
         <div className="feature-settings">

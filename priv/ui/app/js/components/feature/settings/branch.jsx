@@ -38,7 +38,6 @@ var SettingsBranch = React.createClass({
 
   handleRemoveChild: function (i, key) {
     var definitions = this.state.definitions;
-    console.log("remove at index", i, key);
 
     definitions.splice(i, 1);
     this.forceUpdate();
