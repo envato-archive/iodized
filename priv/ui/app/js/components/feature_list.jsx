@@ -3,8 +3,7 @@ var Feature = require("./feature/feature.jsx");
 
 var FeatureList = React.createClass({
   propTypes: {
-    features:         React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    editingFeatures:  React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    features: React.PropTypes.shape({map: React.PropTypes.func}).isRequired
   },
 
   render: function() {
@@ -12,9 +11,9 @@ var FeatureList = React.createClass({
       return (
         <Feature key={feature.id} feature={feature} />
       )
-    }.bind(this));
+    });
     return (
-      <div>{featureNodes}</div>
+      <div>{featureNodes.toArray()}</div>
     );
   }
 });

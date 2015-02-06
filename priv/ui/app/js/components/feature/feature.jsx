@@ -1,14 +1,10 @@
 var React = require("react");
-var jquery = require("jquery");
 var FeatureForm = require("./form.jsx");
 var FeatureToggle = require("./feature_toggle.jsx");
 
 var Feature = React.createClass({
   propTypes: {
     feature: React.PropTypes.object.isRequired,
-    updateFeature: React.PropTypes.func.isRequired,
-    toggleFeature: React.PropTypes.func.isRequired,
-    deleteFeature: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {

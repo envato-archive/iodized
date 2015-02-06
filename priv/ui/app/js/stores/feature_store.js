@@ -28,7 +28,7 @@ function receiveFeatures(features) {
 var FeatureStore = merge(EventEmitter.prototype, {
 
   getAll: function() {
-    return _features.toKeyedSeq().
+    return _features.toList().
       map(function(featureStack){
         return featureStack.peek();
       }).

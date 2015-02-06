@@ -2,7 +2,7 @@ var Immutable = require("immutable");
 var UUID = require("uuid-js");
 
 var Feature = Immutable.Record( {
-  id: UUID.create(),
+  id: UUID.create().toString(),
   title: "",
   description: "",
   master_state: false,
