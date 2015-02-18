@@ -30,8 +30,11 @@ module.exports = {
                             function(){ FeatureServerActions.savedOK(feature); },
                             function(){ FeatureServerActions.savedError(feature); });
 
+    var isNew = feature.isNew;
+    feature = feature.set("isNew", false);
+
     var actionType;
-    if (feature.isNew) {
+    if (isNew) {
       actionType = FeatureConstants.CREATE
     } else {
       actionType = FeatureConstants.UPDATE

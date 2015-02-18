@@ -18,6 +18,7 @@ FeatureServerActions.fetchFeatures = function() {
 }
 
 FeatureServerActions.savedOK = function(feature) {
+  feature = feature.set("isNew", false);
   IodizedDispatcher.handleServerAction({
     actionType: FeatureConstants.SAVED_OK,
     feature: feature

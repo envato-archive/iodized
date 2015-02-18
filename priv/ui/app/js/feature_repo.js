@@ -8,6 +8,7 @@ var FeatureRepo = {};
 FeatureRepo.fetchFeatures = function(onSuccess, onError){
   var featureModelBuilder = function(featureData){
     var featureModelData = featureData.map(function(feature){
+      feature.isNew = false;
       return new Feature(feature);
     });
     onSuccess(featureModelData);
