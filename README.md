@@ -7,6 +7,8 @@ by [envato](http://www.envato.com/). Lack of iodine can lead to development dela
 
 ## Development status:
 
+[![Join the chat at https://gitter.im/envato/iodized](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/envato/iodized?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is still very alpha quality, and not fully feature complete yet. It is undergoing heavy, regular development though, and is very close to being used in production at Envato.
 
 If you're thinking about using Iodized, we would **LOVE** for you to tell us about it. Real users outside of Envato help enormously with deciding direction for Iodized. We're building this to solve our problems initially, but want it to solve common feature toggling problems across many organizations.
